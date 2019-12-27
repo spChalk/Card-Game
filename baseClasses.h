@@ -1,8 +1,30 @@
+/* baseClasses.h */
+
 // I love camelCase // :|
+/* Declarations */ // also works as an index :)
+class Game;
+class Player;
+class Card;
+class GreenCard;
+class BlackCard;
+
+class Personality;
+class Holding;
+class Mine;
+class GoldMine;
+class CrystalMine;
+class StrongHold;
+
+class Follower;
+class Item;
+
 
 #include <cstddef> // size_t
 #include <queue>
 #include <vector>
+
+using std::vector;
+using std::queue;
 
 //==========================================|| C A R D ||==========================================
 
@@ -148,9 +170,8 @@ public:
 class StrongHold : public Holding
 {
   const size_t initHonor;
-  const size_t initMoney;
   const size_t initDefence;
-
+/*  const size_t initMoney; == harvest apo base class */
 public:
     
   StrongHold(/* args */);
@@ -181,26 +202,55 @@ typedef Personality Shogun;
 typedef Holding Plain;
 typedef Holding Farmland;
 typedef Holding Gift_n_Favour;
-typedef Holding Stronghold;
 
 //==========================================|| P L A Y E R ||==========================================
 
 class Player
 {
+  const std::string name;
+
   const size_t honor;
+
+  StrongHold *strongHold;
 
   queue <GreenCard *> * fateDeck;
   queue <BlackCard *> * dynastyDeck;
 
-  vector <GreenCard *> * hand;
-  vector <Holding *> * holdings;
+  vector <GreenCard *>   * hand;
+  vector <Holding *>     * holdings;
   vector <Personality *> * army;
-  vector <BlackCard *> * provinces;
+  vector <BlackCard *>   * provinces;
 
 public:
 
   Player(/* args */);
   ~Player();
+
+  const std::string& getName() const { return name; }
+};
+
+//==========================================|| G A M E ||==========================================
+
+class Game
+{
+  vector <Player *> * players;
+
+  size_t checkWinningCondition(void);
+
+  void startingPhase (Player *);
+  void equipmentPhase(Player *);
+  void battlePhase   (Player *);
+  void economyPhase  (Player *);
+  void finalPhase    (Player *);
+
+public:
+
+  Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/);
+  ~Game();
+
+  void initGameBoard(/* args */);
+  void printGameStats(void);
+  void gameplay(void);
 };
 
 //==========================================|| E N D  O F  F I L E ||==========================================
