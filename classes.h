@@ -1,30 +1,25 @@
 // Feel free to rename the file ;)
-// I love camelCase
+// I love camelCase // :|
 
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 
 //==========================================|| C A R D ||==========================================
 
 class Card
 {
-    const std::string name;
+  const std::string name;
     
-    const unsigned int cost;
+  const size_t cost;
     
-    bool isTapped;
+  bool isTapped;
 
 public:
 
-    Card(/* args */);
-
-    ~Card();
+  Card(/* args */);
+  ~Card();
 };
-
-Card::Card(/* args */) {}
-
-Card::~Card() {}
 
 // Kalutera na mhn valoume ta panta ola const gt mporei na exoume 8emata meta 
 
@@ -32,195 +27,136 @@ Card::~Card() {}
 
 class GreenCard : public Card
 {
-    float attackBonus;              /* I think bonuses are e.g  0,2 x attack . That's why they're floats */
+  const size_t attackBonus;              /* I think bonuses are e.g  0,2 x attack . That's why they're floats */
+  const size_t defenceBonus;
+  const size_t minHonor;
 
-    float defenceBonus;
+  const std::string cardText;           /* Dunno if its const or not. We'll see */
 
-    const unsigned int minHonor;
-
-    std::string cardText;           /* Dunno if its const or not. We'll see */
-
-    float effectBonus;
-
-    const unsigned int effectCost;
+  const size_t effectBonus;
+  const size_t effectCost;
 
 public:
     
-    GreenCard(/* args */);
-    
-    ~GreenCard();
+  GreenCard(/* args */);
+  ~GreenCard();
 };
-
-GreenCard::GreenCard(/* args */) {}
-
-GreenCard::~GreenCard() {}
 
 //==========================================|| B L A C K  C A R D ||==========================================
 
 class BlackCard : public Card
 {
-    bool isRevealed;
+  bool isRevealed;
 
 public:
     
-    BlackCard(/* args */);
-    
-    ~BlackCard();
+  BlackCard(/* args */); 
+  ~BlackCard();
 };
-
-BlackCard::BlackCard(/* args */) {}
-
-BlackCard::~BlackCard() {}
 
 //==========================================|| F O L L O W E R ||==========================================
 
 class Follower : public GreenCard
 {
-
 public:
     
-    Follower(/* args */);
-    
-    ~Follower();
+  Follower(/* args */);
+  ~Follower();
 };
-
-Follower::Follower(/* args */) {}
-
-Follower::~Follower() {}
 
 //==========================================|| I T E M ||==========================================
 
 class Item : public GreenCard
 {
-    unsigned int durability;
+  const size_t durability;
 
 public:
     
-    Item(/* args */);
-    
-    ~Item();
+  Item(/* args */);
+  ~Item();
 };
-
-Item::Item(/* args */) {}
-
-Item::~Item() {}
 
 //==========================================|| P E R S O N A L I T Y ||==========================================
 
 class Personality : public BlackCard
 {
-    unsigned int attack;
+  const size_t attack;
+  const size_t defence;
+  const size_t honor;
 
-    unsigned int defence;
-
-    unsigned int honor;
-
-    bool isDead;
-
-    vector <Follower *> * followers;
-
-    vector <Item *> * items;
+  bool isDead;
+  
+  vector <Follower *> * followers;
+  vector <Item *>     * items;
 
 public:
     
-    Personality(/* args */);
-    
-    ~Personality();
+  Personality(/* args */);
+  ~Personality();
 };
-
-Personality::Personality(/* args */) {}
-
-Personality::~Personality() {}
 
 //==========================================|| H O L D I N G ||==========================================
 
 class Holding : public BlackCard
 {
-    float harvestValue;     
+  const size_t harvestValue;     
 
 public:
     
-    Holding(/* args */);
-    
-    ~Holding();
+  Holding(/* args */);
+  ~Holding();
 };
-
-Holding::Holding(/* args */) {}
-
-Holding::~Holding() {}
 
 //==========================================|| M I N E ||==========================================
 
 class Mine : public Holding
 {
-    Holding * upperHolding;
+  Holding * upperHolding;
 
 public:
     
-    Mine(/* args */);
-    
-    ~Mine();
+  Mine(/* args */);
+  ~Mine();
 };
-
-Mine::Mine(/* args */) {}
-
-Mine::~Mine() {}
 
 //==========================================|| C R Y S T A L  M I N E ||==========================================
 // ligo malakia pou exw mia oloidia class me allo onoma enos member alla nta3 ugeia
 class CrystalMine : public Holding
 {
-    Holding * subHolding;
+  Holding * subHolding;
 
 public:
     
-    CrystalMine(/* args */);
-    
-    ~CrystalMine();
+  CrystalMine(/* args */);
+  ~CrystalMine();
 };
-
-CrystalMine::CrystalMine(/* args */) {}
-
-CrystalMine::~CrystalMine() {}
 
 //==========================================|| G O L D  M I N E ||==========================================
 
 class GoldMine : public Holding
 {
-    Holding * upperHolding;
-    Holding * subHolding;
+  Holding * upperHolding;
+  Holding * subHolding;
 
 public:
     
-    GoldMine(/* args */);
-    
-    ~GoldMine();
+  GoldMine(/* args */);  
+  ~GoldMine();
 };
-
-GoldMine::GoldMine(/* args */) {}
-
-GoldMine::~GoldMine() {}
 
 //==========================================|| S T R O N G H O L D ||==========================================
 
 class StrongHold : public Holding
 {
-    unsigned int initHonor;
-
-    unsigned int initMoney;
-
-    unsigned int initDefence;
+  const size_t initHonor;
+  const size_t initMoney;
+  const size_t initDefence;
 
 public:
     
-    StrongHold(/* args */);
-    
-    ~StrongHold();
+  StrongHold(/* args */);
+  ~StrongHold();
 };
-
-StrongHold::StrongHold(/* args */) {}
-
-StrongHold::~StrongHold() {}
 
 //==========================================|| T Y P E D E F S ||==========================================
 
@@ -251,27 +187,20 @@ typedef Holding Gift_n_Favour;
 
 class Player
 {
-    queue <GreenCard *> * fateDeck;
+  const size_t honor;
 
-    queue <BlackCard *> * dynastyDeck;
+  queue <GreenCard *> * fateDeck;
+  queue <BlackCard *> * dynastyDeck;
 
-    vector <GreenCard *> * hand;
-
-    vector <Holding *> * holdings;
-
-    vector <Personality *> * army;
-
-    vector <BlackCard *> * provinces;
+  vector <GreenCard *> * hand;
+  vector <Holding *> * holdings;
+  vector <Personality *> * army;
+  vector <BlackCard *> * provinces;
 
 public:
 
-    Player(/* args */);
-
-    ~Player();
+  Player(/* args */);
+  ~Player();
 };
-
-Player::Player(/* args */) {}
-
-Player::~Player() {}
 
 //==========================================|| E N D  O F  F I L E ||==========================================
