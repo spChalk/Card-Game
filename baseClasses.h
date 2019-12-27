@@ -207,7 +207,7 @@ typedef Holding Gift_n_Favour;
 
 class Player
 {
-  const std::string name;
+  const std::string userName;
 
   const size_t honor;
 
@@ -226,7 +226,8 @@ public:
   Player(/* args */);
   ~Player();
 
-  const std::string& getName() const { return name; }
+  const std::string& getUserName() const { return userName; }
+  vector <BlackCard *> * getProvinces() { return provinces; }
 };
 
 //==========================================|| G A M E ||==========================================
