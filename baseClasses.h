@@ -31,8 +31,8 @@ class GreenCard : public Card
   const size_t defenceBonus;
   const size_t minHonor;
 
-  const std::string cardText;           /* Dunno if its const or not. We'll see */
-
+  const std::string cardText;
+  
   const size_t effectBonus;
   const size_t effectCost;
 
