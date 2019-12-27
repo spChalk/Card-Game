@@ -9,6 +9,8 @@
 
 #define NO_WINNER 0
 
+/* ========================================================================= */
+
 /* Plays the game. Terminates only when there's a winner *
  * TODO: Maybe add some violent termination feature ?    */
 void Game::gameplay(void)
@@ -36,6 +38,8 @@ void Game::gameplay(void)
             << "\' just won the game!" << std::endl;
 }
 
+/* ========================================================================= */
+
 /* Checks whether we have a winner                  *
  * Returns his place in the vector counting from 1  *
  * If no winner is found, returns 0                 */
@@ -62,3 +66,5 @@ size_t Game::checkWinningCondition(void)
   }
   return pos;
 }
+
+/* ========================================================================= */
