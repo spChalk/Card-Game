@@ -1,4 +1,3 @@
-// Feel free to rename the file ;)
 // I love camelCase // :|
 
 #include <cstddef> // size_t
@@ -182,6 +181,7 @@ typedef Personality Shogun;
 typedef Holding Plain;
 typedef Holding Farmland;
 typedef Holding Gift_n_Favour;
+typedef Holding Stronghold;
 
 //==========================================|| P L A Y E R ||==========================================
 
