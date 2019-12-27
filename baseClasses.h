@@ -1,7 +1,7 @@
 // Feel free to rename the file ;)
 // I love camelCase // :|
 
-#include <iostream>
+#include <cstddef> // size_t
 #include <queue>
 #include <vector>
 
