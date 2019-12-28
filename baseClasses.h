@@ -263,7 +263,10 @@ public:
   Player(/* args */);
   ~Player();
 
+  size_t getHonor() const { return honor; }
+  
   const std::string& getUserName() const { return userName; }
+  
   queue <GreenCard *>    * getFateDeck() { return fateDeck; }
   vector <GreenCard *>   * getHand() { return hand; }
   vector <BlackCard *>   * getProvinces() { return provinces; }
