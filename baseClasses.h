@@ -215,6 +215,24 @@ public:
   void print();
 };
 
+//==========================================|| P R O V I N C E ||==========================================
+class Province
+{
+  bool isBroken; // init as false
+
+  BlackCard *card;
+
+public:
+
+  Province();
+  ~Province();
+
+  bool checkBroken() const { return isBroken; }
+  void setBroken() { isBroken = true; }
+
+  BlackCard * getCard() { return card; }
+};
+
 //==========================================|| T Y P E D E F S ||==========================================
 
 typedef Item Katana;
@@ -247,6 +265,8 @@ class Player
   const std::string userName;
 
   const size_t honor;
+  
+  size_t activeProvinces;
 
   StrongHold *strongHold;
 
@@ -256,7 +276,7 @@ class Player
   vector <GreenCard *>   * hand;
   vector <Holding *>     * holdings;
   vector <Personality *> * army;
-  vector <BlackCard *>   * provinces;
+  vector <Province *>    * provinces;
 
 public:
 
@@ -264,12 +284,13 @@ public:
   ~Player();
 
   size_t getHonor() const { return honor; }
-  
+  size_t getProvincesNum() const { return activeProvinces; }
+
   const std::string& getUserName() const { return userName; }
-  
+
   queue <GreenCard *>    * getFateDeck() { return fateDeck; }
   vector <GreenCard *>   * getHand() { return hand; }
-  vector <BlackCard *>   * getProvinces() { return provinces; }
+  vector <Province *>    * getProvinces() { return provinces; }
   vector <Personality *> * getArmy() { return army; }
   vector <Holding *>     * getHoldings() { return holdings; }
   StrongHold * getStrongHold() { return strongHold; }
