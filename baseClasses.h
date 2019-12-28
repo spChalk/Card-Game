@@ -1,13 +1,39 @@
+/* baseClasses.h */
+
 // I love camelCase // :|
+/* Declarations */ // also works as an index :)
+class Game;
+class Player;
+class Card;
+class GreenCard;
+class BlackCard;
+
+class Personality;
+class Holding;
+class Mine;
+class GoldMine;
+class CrystalMine;
+class StrongHold;
+
+class Follower;
+class Item;
+
 
 #include <cstddef> // size_t
 #include <queue>
+#include <string>
 #include <vector>
+#include <unordered_map>
+
+using std::vector;
+using std::queue;
 
 //==========================================|| C A R D ||==========================================
 
 class Card
 {
+protected:
+
   const std::string name;
     
   const size_t cost;
@@ -18,6 +44,11 @@ public:
 
   Card(/* args */);
   ~Card();
+
+  void setTapped()   { isTapped = true;  }
+  void setUnTapped() { isTapped = false; }
+
+  void print();
 };
 
 // Kalutera na mhn valoume ta panta ola const gt mporei na exoume 8emata meta 
@@ -26,6 +57,8 @@ public:
 
 class GreenCard : public Card
 {
+protected:
+
   const size_t attackBonus;              /* I think bonuses are e.g  0,2 x attack . That's why they're floats */
   const size_t defenceBonus;
   const size_t minHonor;
@@ -39,18 +72,27 @@ public:
     
   GreenCard(/* args */);
   ~GreenCard();
+
+  void print();
 };
 
 //==========================================|| B L A C K  C A R D ||==========================================
 
 class BlackCard : public Card
 {
+protected:
+
   bool isRevealed;
 
 public:
     
   BlackCard(/* args */); 
   ~BlackCard();
+
+  void setRevealed() { isRevealed = true;  }
+  void setHidden()   { isRevealed = false; }
+
+  void print();
 };
 
 //==========================================|| F O L L O W E R ||==========================================
@@ -58,9 +100,11 @@ public:
 class Follower : public GreenCard
 {
 public:
-    
+
   Follower(/* args */);
   ~Follower();
+
+  void print();
 };
 
 //==========================================|| I T E M ||==========================================
@@ -73,6 +117,8 @@ public:
     
   Item(/* args */);
   ~Item();
+
+  void print();
 };
 
 //==========================================|| P E R S O N A L I T Y ||==========================================
@@ -92,18 +138,24 @@ public:
     
   Personality(/* args */);
   ~Personality();
+
+  void print();
 };
 
 //==========================================|| H O L D I N G ||==========================================
 
 class Holding : public BlackCard
 {
+protected:
+
   const size_t harvestValue;     
 
 public:
     
   Holding(/* args */);
   ~Holding();
+
+  virtual void print(); // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
 };
 
 //==========================================|| M I N E ||==========================================
@@ -116,6 +168,8 @@ public:
     
   Mine(/* args */);
   ~Mine();
+
+  void print();
 };
 
 //==========================================|| C R Y S T A L  M I N E ||==========================================
@@ -128,6 +182,8 @@ public:
     
   CrystalMine(/* args */);
   ~CrystalMine();
+
+  void print();
 };
 
 //==========================================|| G O L D  M I N E ||==========================================
@@ -141,6 +197,8 @@ public:
     
   GoldMine(/* args */);  
   ~GoldMine();
+
+  void print();
 };
 
 //==========================================|| S T R O N G H O L D ||==========================================
@@ -148,13 +206,14 @@ public:
 class StrongHold : public Holding
 {
   const size_t initHonor;
-  const size_t initMoney;
   const size_t initDefence;
-
+/*  const size_t initMoney; == harvest apo base class */
 public:
     
   StrongHold(/* args */);
   ~StrongHold();
+
+  void print();
 };
 
 //==========================================|| T Y P E D E F S ||==========================================
@@ -181,26 +240,72 @@ typedef Personality Shogun;
 typedef Holding Plain;
 typedef Holding Farmland;
 typedef Holding Gift_n_Favour;
-typedef Holding Stronghold;
 
 //==========================================|| P L A Y E R ||==========================================
 
 class Player
 {
+  const std::string userName;
+
+  StrongHold *strongHold;
+
   const size_t honor;
 
   queue <GreenCard *> * fateDeck;
   queue <BlackCard *> * dynastyDeck;
 
-  vector <GreenCard *> * hand;
-  vector <Holding *> * holdings;
+  vector <GreenCard *>   * hand;
+  vector <Holding *>     * holdings;
   vector <Personality *> * army;
-  vector <BlackCard *> * provinces;
+  vector <Province *>   * provinces;
 
 public:
 
-  Player(/* args */);
+  Player(const std::string & userName , StrongHold * stronghold , vector<Province *> * provinces );
   ~Player();
+
+  size_t getHonor() const { return honor; }
+  
+  const std::string& getUserName() const { return userName; }
+  
+  queue <GreenCard *>    * getFateDeck() { return fateDeck; }
+  vector <GreenCard *>   * getHand() { return hand; }
+  vector <BlackCard *>   * getProvinces() { return provinces; }
+  vector <Personality *> * getArmy() { return army; }
+  vector <Holding *>     * getHoldings() { return holdings; }
+
+  void setFateDeck(queue<GreenCard *> * fDeck) { fateDeck = fDeck; }
+  void setDynastyDeck(queue<BlackCard *> * dDeck) { dynastyDeck = dDeck; }
+
+  StrongHold * getStrongHold() { return strongHold; }
+
+};
+
+//==========================================|| G A M E ||==========================================
+
+class Game
+{
+  vector <Player *> * players;
+
+  size_t checkWinningCondition(void);
+
+  void startingPhase (Player *);
+  void equipmentPhase(Player *);
+  void battlePhase   (Player *);
+  void economyPhase  (Player *);
+  void finalPhase    (Player *);
+
+public:
+
+  Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/);
+  ~Game();
+
+  void initGameBoard(vector<Player *> * players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards);
+  void printGameStats(void);
+  void gameplay(void);
 };
 
 //==========================================|| E N D  O F  F I L E ||==========================================
+// Mporoume na exoume kai ena 3exwro header gia ta utility functions 
+std::unordered_map<std::string , size_t> * readAndMap (const std::string & fileName );
+
