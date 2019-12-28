@@ -21,6 +21,7 @@ class Item;
 
 #include <cstddef> // size_t
 #include <queue>
+#include <string>
 #include <vector>
 
 using std::vector;
@@ -40,6 +41,9 @@ public:
 
   Card(/* args */);
   ~Card();
+
+  void setTapped()   { isTapped = true;  }
+  void setUnTapped() { isTapped = false; }
 };
 
 // Kalutera na mhn valoume ta panta ola const gt mporei na exoume 8emata meta 
@@ -73,6 +77,9 @@ public:
     
   BlackCard(/* args */); 
   ~BlackCard();
+
+  void setRevealed() { isRevealed = true;  }
+  void setHidden()   { isRevealed = false; }
 };
 
 //==========================================|| F O L L O W E R ||==========================================
@@ -227,7 +234,13 @@ public:
   ~Player();
 
   const std::string& getUserName() const { return userName; }
-  vector <BlackCard *> * getProvinces() { return provinces; }
+  queue <GreenCard *>    * getFateDeck() { return fateDeck; }
+  vector <GreenCard *>   * getHand() { return hand; }
+  vector <BlackCard *>   * getProvinces() { return provinces; }
+  vector <Personality *> * getArmy() { return army; }
+  vector <Holding *>     * getHoldings() { return holdings; }
+  StrongHold * getStrongHold() { return strongHold; }
+
 };
 
 //==========================================|| G A M E ||==========================================
