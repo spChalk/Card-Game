@@ -7,6 +7,9 @@
 
 #include "baseClasses.h"
 
+using std::cout;  // an se enoxloun mporoume na ta vgaloume
+using std::endl;
+
 #define NO_WINNER 0
 
 /* ========================================================================= */
@@ -19,8 +22,10 @@ void Game::gameplay(void)
 
   while(gameStatus == NO_WINNER)
   {
-    for (auto i : *players) // c-like != python...
+    for (auto *i : *players) // c-like != python...
     {
+      cout << "Player's \'" << i->getUserName() << "\' turn!" << endl;
+
       startingPhase(i);
       equipmentPhase(i);
       battlePhase(i);
@@ -49,9 +54,9 @@ size_t Game::checkWinningCondition(void)
   size_t pos;
   size_t ctr = 1;
 
-  for (auto i : *players) // if it doesn't work, it's this cr p
-  {                       // cuz idk what i'm doing, auto is lazy af
-    auto provinces = i->getProvinces();
+  for (auto *i : *players) // if it doesn't work, it's this cr p
+  {                         // cuz idk what i'm doing, auto is lazy af
+    auto * provinces = i->getProvinces();
     if (provinces->size() != 0)     /* If the player still has prov */
     { 
       if (playersWithProvinces == 1)  
