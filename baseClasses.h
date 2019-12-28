@@ -31,6 +31,8 @@ using std::queue;
 
 class Card
 {
+protected:
+
   const std::string name;
     
   const size_t cost;
@@ -44,6 +46,8 @@ public:
 
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
+
+  void print();
 };
 
 // Kalutera na mhn valoume ta panta ola const gt mporei na exoume 8emata meta 
@@ -52,6 +56,8 @@ public:
 
 class GreenCard : public Card
 {
+protected:
+
   const size_t attackBonus;              /* I think bonuses are e.g  0,2 x attack . That's why they're floats */
   const size_t defenceBonus;
   const size_t minHonor;
@@ -65,12 +71,16 @@ public:
     
   GreenCard(/* args */);
   ~GreenCard();
+
+  void print();
 };
 
 //==========================================|| B L A C K  C A R D ||==========================================
 
 class BlackCard : public Card
 {
+protected:
+
   bool isRevealed;
 
 public:
@@ -80,6 +90,8 @@ public:
 
   void setRevealed() { isRevealed = true;  }
   void setHidden()   { isRevealed = false; }
+
+  void print();
 };
 
 //==========================================|| F O L L O W E R ||==========================================
@@ -87,9 +99,11 @@ public:
 class Follower : public GreenCard
 {
 public:
-    
+
   Follower(/* args */);
   ~Follower();
+
+  void print();
 };
 
 //==========================================|| I T E M ||==========================================
@@ -102,6 +116,8 @@ public:
     
   Item(/* args */);
   ~Item();
+
+  void print();
 };
 
 //==========================================|| P E R S O N A L I T Y ||==========================================
@@ -121,18 +137,24 @@ public:
     
   Personality(/* args */);
   ~Personality();
+
+  void print();
 };
 
 //==========================================|| H O L D I N G ||==========================================
 
 class Holding : public BlackCard
 {
+protected:
+
   const size_t harvestValue;     
 
 public:
     
   Holding(/* args */);
   ~Holding();
+
+  virtual void print(); // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
 };
 
 //==========================================|| M I N E ||==========================================
@@ -145,6 +167,8 @@ public:
     
   Mine(/* args */);
   ~Mine();
+
+  void print();
 };
 
 //==========================================|| C R Y S T A L  M I N E ||==========================================
@@ -157,6 +181,8 @@ public:
     
   CrystalMine(/* args */);
   ~CrystalMine();
+
+  void print();
 };
 
 //==========================================|| G O L D  M I N E ||==========================================
@@ -170,6 +196,8 @@ public:
     
   GoldMine(/* args */);  
   ~GoldMine();
+
+  void print();
 };
 
 //==========================================|| S T R O N G H O L D ||==========================================
@@ -183,6 +211,8 @@ public:
     
   StrongHold(/* args */);
   ~StrongHold();
+
+  void print();
 };
 
 //==========================================|| T Y P E D E F S ||==========================================
