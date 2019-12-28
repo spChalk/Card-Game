@@ -1,63 +1,43 @@
-Personalities
-================
-ATTACKER:
-Cost   : 5
-Attack : 3
-Defense: 2
-Honor  : 2
-
-DEFENDER:
-Cost   : 5
-Attack : 2
-Defense: 3
-Honor  : 2
-
-SHOGUN:
-Cost   : 15
-Attack : 10
-Defense: 5
-Honor  : 8
-
-CHANCELLOR:
-Cost   : 15
-Attack : 5
-Defense: 10
-Honor  : 8
-
-CHAMPION:
-Cost   : 30
-Attack : 20
-Defense: 20
-Honor  : 12
-
-Holdings
-===========
-SOLO:
-Cost    : 2
-Ξarvest : 2
-
-PLAIN:
-Cost    : 2
-Ξarvest : 2
-
-FARMS:
-Cost    : 3
-Ξarvest : 4
-
-MINE:
-Cost    : 5
-Ξarvest : 3
-
-GOLD_MINE:
-Cost    : 7
-Ξarvest : 5
-
-CRYSTAL_MINE:
-Cost    : 12
-Ξarvest : 6
-
-STRONGHOLD:
-Starting Honour: 5
-InitialDefense : 5
-Ξarvest : 5
-
+ATTACKER
+5
+3
+2
+2
+DEFENDER
+5
+2
+3
+2
+SHOGUN
+15
+10
+5
+8
+CHANCELLOR
+15
+5
+10
+8
+CHAMPION
+30
+20
+20
+12
+SOLO
+2
+2
+PLAIN
+2
+2
+FARMS
+3
+4
+MINE
+5
+3
+GOLD_MINE
+7
+5
+CRYSTAL_MINE
+12
+6

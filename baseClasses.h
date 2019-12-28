@@ -42,8 +42,7 @@ protected:
 
 public:
 
-  Card(/* args */);
-  ~Card();
+  Card(const std::string & name , const size_t & cost );
 
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
@@ -70,8 +69,7 @@ protected:
 
 public:
     
-  GreenCard(/* args */);
-  ~GreenCard();
+  GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
   void print();
 };
@@ -86,8 +84,7 @@ protected:
 
 public:
     
-  BlackCard(/* args */); 
-  ~BlackCard();
+  BlackCard(const std::string & name , const size_t & cost); 
 
   void setRevealed() { isRevealed = true;  }
   void setHidden()   { isRevealed = false; }
@@ -101,8 +98,7 @@ class Follower : public GreenCard
 {
 public:
 
-  Follower(/* args */);
-  ~Follower();
+  Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
   void print();
 };
@@ -115,8 +111,7 @@ class Item : public GreenCard
 
 public:
     
-  Item(/* args */);
-  ~Item();
+  Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
   void print();
 };
@@ -136,7 +131,7 @@ class Personality : public BlackCard
 
 public:
     
-  Personality(/* args */);
+  Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor);
   ~Personality();
 
   void print();
@@ -152,8 +147,7 @@ protected:
 
 public:
     
-  Holding(/* args */);
-  ~Holding();
+  Holding(const std::string & name , const size_t & cost , const size_t & harvestValue);
 
   virtual void print(); // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
 };
@@ -166,7 +160,7 @@ class Mine : public Holding
 
 public:
     
-  Mine(/* args */);
+  Mine(const std::string & name = "Mine", const size_t & cost = 5 , const size_t & harvestValue = 3);
   ~Mine();
 
   void print();
@@ -180,7 +174,7 @@ class CrystalMine : public Holding
 
 public:
     
-  CrystalMine(/* args */);
+  CrystalMine(const std::string & name , const size_t & cost , const size_t & harvestValue);
   ~CrystalMine();
 
   void print();
@@ -195,7 +189,7 @@ class GoldMine : public Holding
 
 public:
     
-  GoldMine(/* args */);  
+  GoldMine(const std::string & name , const size_t & cost , const size_t & harvestValue);  
   ~GoldMine();
 
   void print();
@@ -210,8 +204,9 @@ class StrongHold : public Holding
 /*  const size_t initMoney; == harvest apo base class */
 public:
     
-  StrongHold(/* args */);
-  ~StrongHold();
+  StrongHold();
+
+  const size_t & getInitHonor() { return initHonor; }
 
   void print();
 };
@@ -225,7 +220,7 @@ class Province
 
 public:
 
-  Province();
+  Province(BlackCard *);
   ~Province();
 
   bool checkBroken() const { return isBroken; }
@@ -272,8 +267,6 @@ class Player
   
   size_t activeProvinces;
 
-  StrongHold *strongHold;
-
   queue <GreenCard *> * fateDeck;
   queue <BlackCard *> * dynastyDeck;
 
@@ -285,7 +278,7 @@ class Player
 
 public:
 
-  Player(const std::string & userName , StrongHold * stronghold , vector<Province *> * provinces );
+  Player(const std::string & userName , StrongHold * stronghold );
   ~Player();
 
   size_t getHonor() const { return honor; }
@@ -295,8 +288,9 @@ public:
   const std::string& getUserName() const { return userName; }
   
   queue <GreenCard *>    * getFateDeck() { return fateDeck; }
+  queue <BlackCard *>    * getDynastyDeck() { return dynastyDeck; }
   vector <GreenCard *>   * getHand() { return hand; }
-  vector <BlackCard *>   * getProvinces() { return provinces; }
+  vector <Province *>    * getProvinces() { return provinces; }
   vector <Personality *> * getArmy() { return army; }
   vector <Holding *>     * getHoldings() { return holdings; }
 
@@ -333,5 +327,5 @@ public:
 
 //==========================================|| E N D  O F  F I L E ||==========================================
 // Mporoume na exoume kai ena 3exwro header gia ta utility functions 
-std::unordered_map<std::string , size_t> * readAndMap (const std::string & fileName );
+std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::string & fileName );
 

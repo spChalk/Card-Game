@@ -23,39 +23,37 @@ static bool playerCompare(Player *p1, Player *p2) {
 
 
 static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
-  std::unordered_map<std::string , size_t > * gMap = readAndMap("Personalities_and_Holdings.txt");
-  std::unordered_map<std::string , size_t > * bMap = readAndMap("Followers_and_Weapons.txt");
+  std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Personalities_and_Holdings.txt");
+  std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Followers_and_Weapons.txt");
   
   queue<GreenCard *> * fateDeck = new queue<GreenCard *>;
   queue<BlackCard *> * dynastyDeck = new queue<BlackCard *>;
 
   for (size_t i = 0; i < maxGreenCards; i++) {
     
-    for (size_t j = 0 ; j < gMap->bucket_count() ; j++) {
-      
-      if (gMap->bucket_size(j) == 6) {
-        Follower * newFollower = new Follower(/* args */);
+    for (auto j = gMap->begin() ; j != gMap->end() ; j++ , i++) {
+        
+      if (gMap->bucket_size(i % gMap->bucket_count()) == 6) {
+        Follower * newFollower = new Follower(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
         fateDeck->push(newFollower);
       } else {
-        Item * newItem = new Item(/* args */);
+        Item * newItem = new Item(j->second.at(6) , j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
         fateDeck->push(newItem);
       }
-      i++;
     }
   }
   
   for (size_t i = 0; i < maxBlackCards; i++) {
     
-    for (size_t j = 0 ; j < bMap->bucket_count() ; j++) {
+    for (auto j = bMap->begin() ; j != bMap->end() ; j++ , i++) {
       
-      if (bMap->bucket_size(j) == 4) {
-        Personality * newPers = new Personality(/* args */);
+      if (bMap->bucket_size(i % bMap->bucket_count()) == 4) {
+        Personality * newPers = new Personality(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) );
         dynastyDeck->push(newPers);
       } else {
-        Holding * newHolding = new Holding(/* args */);
+        Holding * newHolding = new Holding(j->first , j->second.at(0) , j->second.at(1));
         dynastyDeck->push(newHolding);
       }
-      i++;
     }
   }
 
@@ -68,8 +66,16 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
 
 /* ========================================================================= */
 
-std::unordered_map<std::string , size_t> * readAndMap (const std::string & fileName ) {
-  std::unordered_map<std::string , size_t > * uMap = new std::unordered_map<std::string , size_t>;
+static BlackCard * & drawBlackCard(Player * pl) { // TODO : assert if empty
+  BlackCard * tmp = pl->getDynastyDeck()->front();
+  pl->getDynastyDeck()->pop();
+  return tmp;
+}
+
+/* ========================================================================= */
+
+std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::string & fileName ) {
+  std::unordered_map<std::string , vector<size_t> > * uMap = new std::unordered_map<std::string , vector<size_t> >;
   std::ifstream newFile (fileName);
   std::string name , num;
 
@@ -81,7 +87,7 @@ std::unordered_map<std::string , size_t> * readAndMap (const std::string & fileN
         name = num;
         continue;
       }
-      (*uMap)[name] = std::stoi(num);  
+      (*uMap)[name].push_back(std::stoi(num));  
     }
     newFile.close();
   } else {
@@ -102,19 +108,30 @@ Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t
 
 }
 
+/* ========================================================================= */
+
 Game::~Game() { delete players; }
 
 void Game::initGameBoard(vector<Player *> * players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
-    StrongHold * newStrH = new StrongHold(/* args */);
-    // Make Provinces
-    Player * newPl = new Player("Player" + std::to_string(i) , newStrH , /* provinces*/);
+
+    StrongHold * newStrH = new StrongHold();  // Make StrongHold
+          // Make player (assign name , StrongHold and honor(via StrongHold))
+    Player * newPl = new Player("Player" + std::to_string(i) , newStrH );
+          // Make fateDeck and dynastyDeck
     deckBuilder(newPl , maxGreenCards , maxBlackCards);
+          // Make provinces
+    vector<Province *> * provinces = new vector<Province *>;
+    
+    for (size_t i = 0; i < 4; i++) {
+      Province * newPr = new Province(drawBlackCard(newPl));
+      provinces->push_back(newPr);
+    }
+    
     players->push_back(newPl);
   }
-} 
-
-
+}
+/* ========================================================================= */
 
 
 /* Plays the game. Terminates only when there's a winner *
