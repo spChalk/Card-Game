@@ -62,8 +62,7 @@ size_t Game::checkWinningCondition(void)
 
   for (auto *i : *players) // if it doesn't work, it's this cr p
   {                         // cuz idk what i'm doing, auto is lazy af
-    auto * provinces = i->getProvinces();
-    if (provinces->size() != 0)     /* If the player still has prov */
+    if (i->getProvincesNum() != 0)     /* If the player still has prov */
     { 
       if (playersWithProvinces == 1)  
         return NO_WINNER;    /* We already found another player with prov */
