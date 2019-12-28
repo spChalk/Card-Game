@@ -39,7 +39,10 @@ static void revealProvinces(Player *player)
   auto * provinces = player->getProvinces();
 
   for (auto *i : *provinces)
-    i->setRevealed();
+  {
+    if (i->checkBroken() == false)
+      i->getCard()->setRevealed();
+  }
 
   std::cout << "Provinces revealed!" << std::endl;
 }
