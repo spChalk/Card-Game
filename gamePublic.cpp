@@ -8,6 +8,7 @@
 #include <fstream>
 #include <unordered_map>
 
+
 #include "baseClasses.h"
 
 using std::cout;  // an se enoxloun mporoume na ta vgaloume
@@ -19,6 +20,7 @@ using std::endl;
 static bool playerCompare(Player *p1, Player *p2) {
   return (p1->getHonor() > p1->getHonor());
 }
+
 
 static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
   std::unordered_map<std::string , size_t > * gMap = readAndMap("Personalities_and_Holdings.txt");
@@ -114,6 +116,7 @@ void Game::initGameBoard(vector<Player *> * players , size_t numPlayers ,size_t 
 
 
 
+
 /* Plays the game. Terminates only when there's a winner *
  * TODO: Maybe add some violent termination feature ?    */
 void Game::gameplay(void)
@@ -158,8 +161,8 @@ size_t Game::checkWinningCondition(void)
 
   for (auto *i : *players) // if it doesn't work, it's this cr p
   {                         // cuz idk what i'm doing, auto is lazy af
-    auto * provinces = i->getProvinces();
-    if (provinces->size() != 0)     /* If the player still has prov */
+
+    if (i->getProvincesNum() != 0)     /* If the player still has prov */
     { 
       if (playersWithProvinces == 1)  
         return NO_WINNER;    /* We already found another player with prov */
@@ -175,4 +178,3 @@ size_t Game::checkWinningCondition(void)
 }
 
 /* ========================================================================= */
-
