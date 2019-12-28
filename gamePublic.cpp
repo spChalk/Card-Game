@@ -2,7 +2,8 @@
 // [Χάρης] Note: σου προτείνω να γράψεις εδώ τα public functions
 // της κλάσης Game και ξεχωριστά τα phases σου αλλά ό,τι 
 // θες γενικά
-#include <cstddef> //size_t
+#include <algorithm>  // sort
+#include <cstddef>    // size_t
 #include <iostream>
 
 #include "baseClasses.h"
@@ -13,11 +14,16 @@ using std::endl;
 #define NO_WINNER 0
 
 /* ========================================================================= */
+static bool playerCompare(Player *p1, Player *p2) {
+  return (p1->getHonor() > p1->getHonor());
+}
 
 /* Plays the game. Terminates only when there's a winner *
  * TODO: Maybe add some violent termination feature ?    */
 void Game::gameplay(void)
 {
+  std::sort(players->begin(), players->end(), playerCompare); // sort by honor // too lazy to PQ it
+
   size_t gameStatus = NO_WINNER;
 
   while(gameStatus == NO_WINNER)
