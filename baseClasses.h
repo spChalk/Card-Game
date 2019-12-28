@@ -28,9 +28,6 @@ class Item;
 using std::vector;
 using std::queue;
 
-using std::vector;
-using std::queue;
-
 //==========================================|| C A R D ||==========================================
 
 class Card
