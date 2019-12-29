@@ -94,8 +94,8 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
 
 /* ========================================================================= */
 
-static BlackCard * & drawBlackCard(Player * pl) { // TODO : assert if empty
-  BlackCard * & tmp = pl->getDynastyDeck()->front();
+static BlackCard * drawBlackCard(Player * pl) { // TODO : assert if empty
+  BlackCard * tmp = pl->getDynastyDeck()->front();
   pl->getDynastyDeck()->pop();
   return tmp;
 }
