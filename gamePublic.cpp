@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <cassert>
 
 
 #include "baseClasses.h"
@@ -21,60 +22,9 @@ static bool playerCompare(Player *p1, Player *p2) {
   return (p1->getHonor() > p1->getHonor());
 }
 
-
-static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
-  std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Personalities_and_Holdings.txt");
-  std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Followers_and_Weapons.txt");
-  
-  queue<GreenCard *> * fateDeck = new queue<GreenCard *>;
-  queue<BlackCard *> * dynastyDeck = new queue<BlackCard *>;
-
-  for (size_t i = 0; i < maxGreenCards; i++) {
-    
-    for (auto j = gMap->begin() ; j != gMap->end() ; j++ , i++) {
-        
-      if (gMap->bucket_size(i % gMap->bucket_count()) == 6) {
-        Follower * newFollower = new Follower(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
-        fateDeck->push(newFollower);
-      } else {
-        Item * newItem = new Item(j->second.at(6) , j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
-        fateDeck->push(newItem);
-      }
-    }
-  }
-  
-  for (size_t i = 0; i < maxBlackCards; i++) {
-    
-    for (auto j = bMap->begin() ; j != bMap->end() ; j++ , i++) {
-      
-      if (bMap->bucket_size(i % bMap->bucket_count()) == 4) {
-        Personality * newPers = new Personality(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) );
-        dynastyDeck->push(newPers);
-      } else {
-        Holding * newHolding = new Holding(j->first , j->second.at(0) , j->second.at(1));
-        dynastyDeck->push(newHolding);
-      }
-    }
-  }
-
-  pl->setFateDeck(fateDeck);
-  pl->setDynastyDeck(dynastyDeck);
-
-  delete gMap;
-  delete bMap;
-}
-
 /* ========================================================================= */
 
-static BlackCard * & drawBlackCard(Player * pl) { // TODO : assert if empty
-  BlackCard * tmp = pl->getDynastyDeck()->front();
-  pl->getDynastyDeck()->pop();
-  return tmp;
-}
-
-/* ========================================================================= */
-
-std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::string & fileName ) {
+static std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::string & fileName ) {
   std::unordered_map<std::string , vector<size_t> > * uMap = new std::unordered_map<std::string , vector<size_t> >;
   std::ifstream newFile (fileName);
   std::string name , num;
@@ -95,6 +45,59 @@ std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::strin
     exit(EXIT_FAILURE);
   }  
   return uMap;
+}
+
+/* ========================================================================= */
+
+static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
+  std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Personalities_and_Holdings.txt");
+  std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Followers_and_Weapons.txt");
+  
+  queue<GreenCard *> * fateDeck = new queue<GreenCard *>;
+  queue<BlackCard *> * dynastyDeck = new queue<BlackCard *>;
+
+  for (size_t i = 0; i < maxGreenCards; i++) {
+    
+    for (auto j = gMap->begin() ; j != gMap->end() ; j++ , i++) {
+        
+      if (j->second.size() == 6) {
+        Follower * newFollower = new Follower(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
+        fateDeck->push(newFollower);
+      } else {
+        Item * newItem = new Item(j->second.at(6) , j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
+        fateDeck->push(newItem);
+      }
+    }
+  }
+  
+  delete gMap;
+
+  for (size_t i = 0; i < maxBlackCards; i++) {
+    
+    for (auto j = bMap->begin() ; j != bMap->end() ; j++ , i++) {
+      
+      if (j->second.size() == 4) {
+        Personality * newPers = new Personality(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) );
+        dynastyDeck->push(newPers);
+      } else {
+        Holding * newHolding = new Holding(j->first , j->second.at(0) , j->second.at(1));
+        dynastyDeck->push(newHolding);
+      }
+    }
+  }
+
+  delete bMap;
+
+  pl->setFateDeck(fateDeck);
+  pl->setDynastyDeck(dynastyDeck);
+}
+
+/* ========================================================================= */
+
+static BlackCard * & drawBlackCard(Player * pl) { // TODO : assert if empty
+  BlackCard * & tmp = pl->getDynastyDeck()->front();
+  pl->getDynastyDeck()->pop();
+  return tmp;
 }
 
 /* ========================================================================= */

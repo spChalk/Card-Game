@@ -25,6 +25,9 @@ class Item;
 #include <vector>
 #include <unordered_map>
 
+#define MAX_HAND_CARDS 7
+
+ 
 using std::vector;
 using std::queue;
 
@@ -43,6 +46,7 @@ protected:
 public:
 
   Card(const std::string & name , const size_t & cost );
+  virtual ~Card();
 
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
@@ -326,6 +330,3 @@ public:
 };
 
 //==========================================|| E N D  O F  F I L E ||==========================================
-// Mporoume na exoume kai ena 3exwro header gia ta utility functions 
-std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::string & fileName );
-
