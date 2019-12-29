@@ -93,6 +93,8 @@ public:
   void setRevealed() { isRevealed = true;  }
   void setHidden()   { isRevealed = false; }
 
+  bool checkRevealed() { return isRevealed; }
+
   virtual void print() const = 0;
 };
 
