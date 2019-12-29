@@ -24,6 +24,7 @@ class Item;
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 #define MAX_HAND_CARDS 7
 
@@ -318,8 +319,8 @@ public:
 
 class Game
 {
-  vector <Player *> * players;
-
+  std::unique_ptr< vector <Player *> > players;
+ 
   size_t checkWinningCondition(void);
 
   void startingPhase (Player *);
@@ -331,9 +332,8 @@ class Game
 public:
 
   Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/);
-  ~Game();
 
-  void initGameBoard(vector<Player *> * players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards);
+  void initGameBoard(vector <Player *> * players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards);
   void printGameStats(void);
   void gameplay(void);
 };

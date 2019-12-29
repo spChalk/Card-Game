@@ -8,6 +8,7 @@
 #include <fstream>
 #include <unordered_map>
 #include <cassert>
+#include <memory>
 
 
 #include "baseClasses.h"
@@ -104,18 +105,16 @@ static BlackCard * drawBlackCard(Player * pl) { // TODO : assert if empty
 
 Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/) {  
   
-  players = new vector <Player *>;  // Create a new vector 
+  players = std::make_unique< vector<Player *> >();  // Create a new vector 
   
-  initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards);
+  initGameBoard(players.get() , numPlayers , maxGreenCards , maxBlackCards);
 
 
 }
 
 /* ========================================================================= */
 
-Game::~Game() { delete players; }
-
-void Game::initGameBoard(vector<Player *> * players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards) {
+void Game::initGameBoard(vector <Player *> * players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
 
     StrongHold * newStrH = new StrongHold();  // Make StrongHold
