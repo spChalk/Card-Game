@@ -306,7 +306,10 @@ public:
   StrongHold * getStrongHold() { return strongHold; }
 
   void print() const;
-
+  void printHoldings() const;
+  void printArmy() const;
+  void printHand() const;
+  void printProvinces() const;
 };
 
 //==========================================|| G A M E ||==========================================
