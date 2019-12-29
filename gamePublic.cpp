@@ -8,7 +8,6 @@
 #include <fstream>
 #include <unordered_map>
 #include <cassert>
-#include <memory>
 
 
 #include "baseClasses.h"
@@ -105,9 +104,9 @@ static BlackCard * drawBlackCard(Player * pl) { // TODO : assert if empty
 
 Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/) {  
   
-  players = std::make_unique< vector<Player *> >();  // Create a new vector 
+  players = new vector<Player *>;  // Create a new vector 
   
-  initGameBoard(players.get() , numPlayers , maxGreenCards , maxBlackCards);
+  initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards);
 
 
 }
