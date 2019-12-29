@@ -51,7 +51,7 @@ public:
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
 
-  void print();
+  virtual void print() const = 0;
 };
 
 // Kalutera na mhn valoume ta panta ola const gt mporei na exoume 8emata meta 
@@ -75,7 +75,7 @@ public:
     
   GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
-  void print();
+  virtual void print() const = 0;
 };
 
 //==========================================|| B L A C K  C A R D ||==========================================
@@ -93,7 +93,7 @@ public:
   void setRevealed() { isRevealed = true;  }
   void setHidden()   { isRevealed = false; }
 
-  void print();
+  virtual void print() const = 0;
 };
 
 //==========================================|| F O L L O W E R ||==========================================
@@ -104,7 +104,7 @@ public:
 
   Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
-  void print();
+  void print() const;
 };
 
 //==========================================|| I T E M ||==========================================
@@ -117,7 +117,7 @@ public:
     
   Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
-  void print();
+  void print() const;
 };
 
 //==========================================|| P E R S O N A L I T Y ||==========================================
@@ -138,7 +138,7 @@ public:
   Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor);
   ~Personality();
 
-  void print();
+  void print() const;
 };
 
 //==========================================|| H O L D I N G ||==========================================
@@ -153,7 +153,7 @@ public:
     
   Holding(const std::string & name , const size_t & cost , const size_t & harvestValue);
 
-  virtual void print(); // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
+  virtual void print() const; // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
 };
 
 //==========================================|| M I N E ||==========================================
@@ -167,7 +167,7 @@ public:
   Mine(const std::string & name = "Mine", const size_t & cost = 5 , const size_t & harvestValue = 3);
   ~Mine();
 
-  void print();
+  void print() const;
 };
 
 //==========================================|| C R Y S T A L  M I N E ||==========================================
@@ -181,7 +181,7 @@ public:
   CrystalMine(const std::string & name , const size_t & cost , const size_t & harvestValue);
   ~CrystalMine();
 
-  void print();
+  void print() const; 
 };
 
 //==========================================|| G O L D  M I N E ||==========================================
@@ -196,7 +196,7 @@ public:
   GoldMine(const std::string & name , const size_t & cost , const size_t & harvestValue);  
   ~GoldMine();
 
-  void print();
+  void print() const;
 };
 
 //==========================================|| S T R O N G H O L D ||==========================================
@@ -212,7 +212,7 @@ public:
 
   const size_t & getInitHonor() { return initHonor; }
 
-  void print();
+  void print() const;
 };
 
 //==========================================|| P R O V I N C E ||==========================================
@@ -231,6 +231,8 @@ public:
   void setBroken() { isBroken = true; }
 
   BlackCard * getCard() { return card; }
+ 
+  void print() const;
 
 };
 
@@ -302,6 +304,8 @@ public:
   void setDynastyDeck(queue<BlackCard *> * dDeck) { dynastyDeck = dDeck; }
 
   StrongHold * getStrongHold() { return strongHold; }
+
+  void print() const;
 
 };
 
