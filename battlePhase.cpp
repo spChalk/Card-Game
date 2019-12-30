@@ -11,9 +11,13 @@ using std::endl;
 
 #define WRONG_INPUT   0
 #define CORRECT_INPUT 1
+
 #define ATTACK 0
 #define DEFEND 1
 
+size_t ptsDiff;
+
+static void battle(Player *player, std::vector<Personality *> * attArmy, Player *enemy, Province *prov, std::vector<Personality *> * defArmy);
 /* ========================================================================= */
 
 static Player * chooseEnemy(std::vector<Player *> * players)
@@ -108,7 +112,7 @@ Your input should be an integer in range [1," << player->getProvincesNum()
     if (i->checkBroken() == true) continue;
     if (++counter == prov) return i;
   }
-  return nullptr; // hopefully, control never reaches here :_)
+  return nullptr; // control is not supposed to reach here, ever :_)
 }
 
 /* ========================================================================= */
@@ -194,18 +198,197 @@ this round!" << endl;
   // action == ATTACK
   Player *enemy = chooseEnemy(players);
 
+  // std::string attName = player->getUserName();
+  // std::string defName = enemy ->getUserName();
+
   Province *prov = chooseProvince(enemy);
 
   std::vector<Personality *> * attArmy = new (std::vector<Personality *>); //TODO: delete this
   chooseArmy(player, attArmy);
 
-  cout << "Player \"" << enemy->getUserName() 
-       << "\" shall pick their DEFENSE!" << endl;
+  cout << "Player \'" << enemy->getUserName() 
+       << "\' shall pick their DEFENSE!" << endl;
 
   std::vector<Personality *> * defArmy = new (std::vector<Personality *>); //TODO: delete this
   chooseArmy(enemy, defArmy);
 
   /* Battle */
-  size_t attackPoints  = calcTotalATK(attArmy);
-  size_t defencePoints = calcTotalDEF(defArmy) + enemy->getStrongHold()->getInitDEF(); // todo: verify @lists
+  battle(player, attArmy, enemy, prov, defArmy);
 }
+
+/* ========================================================================= */
+
+static void provinceDestroyed(Player *player, std::vector<Personality *> * attArmy, Player *enemy, Province *prov, std::vector<Personality *> * defArmy)
+{
+  const std::string& attName = player->getUserName();
+  const std::string& defName = enemy ->getUserName();
+
+  cout << "Attacker " << attName << " demolishes " << defName 
+       << " \'s defence!" << endl;
+
+  for (auto *i : *defArmy) i->die(); // todo: cleanup dead from their vectors
+  cout << "Defender's army is destroyed." << endl;
+
+  prov->setBroken();
+  enemy->decreaseProvinceNum();
+  cout << "Province destroyed. Remaining provinces for player \'" 
+       << defName << "\' : " << enemy->getProvincesNum() << endl;
+
+  if (enemy->getProvincesNum() == 0)
+  {
+    cout << ">Player \'" << defName 
+         << "\' is out of the game! Better luck next time. =) " << endl;
+  }
+
+  for (auto *i : *attArmy) i->setTapped(); // Tap attackers so they can't be used again for the round
+}
+/* ========================================================================= */
+
+static void draw(Player *player, std::vector<Personality *> * attArmy, Player *enemy, std::vector<Personality *> * defArmy)
+{
+  cout << "Battle between \'" << player->getUserName() << "\' and \'" 
+       << enemy->getUserName() << " ends as a draw! Both armies are destroyed!" 
+       << endl;
+
+  for (auto *i : *attArmy) i->die();
+  for (auto *i : *defArmy) i->die();  
+}
+/* ========================================================================= */
+
+static void verifyCasualties(std::vector<Personality *> * battleArmy, int side)
+{
+  for (auto *i : * battleArmy)
+  {
+    if (i->getATK() >= ptsDiff) 
+      i->die();
+    else
+    {
+      std::vector <Follower *> *followers = i->getFollowers();
+      for (auto *j : *followers)
+        if (j->getATK() >= ptsDiff) // delete followers
+          j->detach(); // should do that
+    }
+  }
+
+  for (auto *i : * battleArmy) i->setTapped(); // Tap defenders so they can't be used again for the round
+    
+  for (auto *i : * battleArmy) // decrease Item durability
+  {
+    std::vector <Item *> *items = i->getItems();
+    
+    for (auto *j : *items) 
+    {
+      j->decreaseDurability(); // todo: cleanup if 0
+      if (j->getDurability() == 0) j->detach(); // should enable that
+    }
+  }
+
+  if (side == ATTACK)
+  {
+    for (auto *i : *battleArmy) //decrease personalities honor
+    {   
+      i->decreaseHonor();
+      if (i->getHonor() == 0) i->kys(); // just kys
+    }
+  }
+}
+/* ========================================================================= */
+
+static void attackerWins(Player *player, std::vector<Personality *> * attArmy, Player *enemy, std::vector<Personality *> * defArmy)
+{
+  const std::string& attName = player->getUserName();
+  const std::string& defName = enemy ->getUserName();
+
+  cout << "Attacker " << attName << " destroys " << defName 
+       << " \'s army, but is unable to break the province!" << endl;
+
+  for (auto *i : *defArmy) i->die(); // todo: cleanup dead from their vectors
+  cout << "Defender's army is destroyed." << endl;
+
+  //size_t ptsDiff = attPoints - defPoints;
+
+  cout << "Attacker's army has experienced heavy casualties." << endl; 
+  verifyCasualties(attArmy, ATTACK);
+}
+/* ========================================================================= */
+
+static void defenderWins(Player *player, std::vector<Personality *> * attArmy, Player *enemy, std::vector<Personality *> * defArmy)
+{
+  const std::string& attName = player->getUserName();
+  const std::string& defName = enemy ->getUserName();
+
+  cout << "Defender " << defName << "holds his ground against " << attName 
+       << " \'s army!" << endl;
+
+  for (auto *i : *attArmy) i->die(); // todo: cleanup dead from their vectors
+  cout << "Attacker's army is destroyed." << endl;
+
+  // size_t ptsDiff = attPoints - defPoints;
+
+  cout << "Defender's army has experienced heavy casualties." << endl; 
+  verifyCasualties(attArmy, DEFEND);
+}
+/* ========================================================================= */
+
+static void battle(Player *player, std::vector<Personality *> * attArmy, Player *enemy, Province *prov, std::vector<Personality *> * defArmy)
+{
+  size_t attPoints = calcTotalATK(attArmy);
+  size_t defPoints = calcTotalDEF(defArmy);// + enemy->getStrongHold()->getInitDEF(); // todo: verify @lists
+
+  cout << "Attacker's ARMY strength is: " << attPoints << endl;
+  cout << "Defender's ARMY strength is: " << defPoints << endl;
+
+  ptsDiff = attPoints - defPoints;
+
+  if (attPoints > defPoints + enemy->getStrongHold()->getInitDEF()) //ATK wins / DEF gets destroyed
+    provinceDestroyed(player, attArmy, enemy, prov, defArmy);
+  
+  else if (attPoints == defPoints) // draw
+    draw(player, attArmy, enemy, defArmy);
+
+  else if (attPoints > defPoints)
+    attackerWins(player, attArmy, enemy, defArmy);
+
+  else if (attPoints < defPoints)
+    defenderWins(player, attArmy, enemy, defArmy);
+
+  player->cleanup();
+  enemy ->cleanup();
+}
+
+/* ========================================================================= */
+
+void Personality::cleanup()
+{
+  for (auto it = followers->begin(); it != followers->end(); /* NOTHING */)
+  {
+    if ((*it)->isAttached() == false)
+      it = followers->erase(it);
+    else
+      ++it;
+  }
+
+  for (auto it = items->begin(); it != items->end(); /* NOTHING */)
+  {
+    if ((*it)->isAttached() == false)
+      it = items->erase(it);
+    else
+      ++it;
+  }
+}
+/* ========================================================================= */
+
+void Player::cleanup()
+{
+  for (auto it = army->begin(); it != army->end(); /* NOTHING */)
+  {
+    if ((*it)->checkIfDead() == true)
+      it = army->erase(it);
+    else
+    {
+      (*it)->cleanup(); // erase detached greenCards
+      ++it;
+    }
+  }
+}
+/* ========================================================================= */
