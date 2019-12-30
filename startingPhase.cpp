@@ -1,18 +1,22 @@
 /* startingPhase.cpp */
-// TODO: drawFateCard : empty deck ?
+// TODO: disguss whether drawFateCard / revealProvinces 
+// should be of class Player
 #include <iostream>
 #include <queue>
 #include <vector>
 
 #include "baseClasses.h"
 
-static void untapEverything(Player *);
-static void drawFateCard(Player *);
-static void revealProvinces(Player *);
+namespace // namespace_begin
+{
+
+void untapEverything(Player *);
+void drawFateCard(Player *);
+void revealProvinces(Player *);
 
 /* ========================================================================= */
 
-static void untapEverything(Player *player)
+void untapEverything(Player *player)
 {
   auto * holdings = player->getHoldings();
   auto * army     = player->getArmy();
@@ -30,7 +34,7 @@ static void untapEverything(Player *player)
 
 /* ========================================================================= */
 
-static void revealProvinces(Player *player)
+void revealProvinces(Player *player)
 {
   auto * provinces = player->getProvinces();
 
@@ -44,18 +48,28 @@ static void revealProvinces(Player *player)
 }
 
 /* ========================================================================= */
-static void drawFateCard(Player *player) // TODO: take care if empty fate deck!
+void drawFateCard(Player *player) // take care if empty fate deck!
 {
   auto * fate = player->getFateDeck();
-  auto * hand = player->getHand();
 
-  hand->push_back(fate->front());
-  fate->pop();
+  if (fate->size() > 0)
+  {
+    auto * hand = player->getHand();
 
-  std::cout << "Player \'" << player->getUserName() 
-            << "\' just drew a fate card!" << std::endl;
+    hand->push_back(fate->front());
+    fate->pop();
+
+    std::cout << "Player \'" << player->getUserName() 
+              << "\' just drew a fate card!" << std::endl;
+  }
+  else
+  {
+    std::cout << "Fate deck is empty! No more Green Cards for player \'" 
+              << player->getUserName() << "\' !" << std::endl;
+  }
 }
 
+}; // namespace_end
 /* ========================================================================= */
 
 void Game::startingPhase (Player *player)
