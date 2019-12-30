@@ -9,6 +9,9 @@
 using std::cout;
 using std::endl;
 
+namespace // namespace_start
+{
+
 #define WRONG_INPUT   0
 #define CORRECT_INPUT 1
 
@@ -16,11 +19,35 @@ using std::endl;
 #define DEFEND 1
 
 size_t ptsDiff;
+  
+Player *player;
+Player *enemy;
+  
+std::vector<Personality *> * attArmy;
+std::vector<Personality *> * defArmy;
 
-static void battle(Player *player, std::vector<Personality *> * attArmy, Player *enemy, Province *prov, std::vector<Personality *> * defArmy);
+const std::string *attName;
+const std::string *defName;
+
+Player   * chooseEnemy(std::vector<Player *> * players);
+Province * chooseProvince(Player *player);
+
+int chooseAction(void);
+
+size_t calcTotalATK(std::vector<Personality *> * battleArmy);
+size_t calcTotalDEF(std::vector<Personality *> * battleArmy);
+
+void chooseArmy(Player *player, std::vector<Personality *> * battleArmy);
+void provinceDestroyed(Province *prov);
+void draw();
+void verifyCasualties(std::vector<Personality *> * battleArmy, int side);
+void attackerWins();
+void defenderWins();
+void battle(Province *);
+
 /* ========================================================================= */
 
-static Player * chooseEnemy(std::vector<Player *> * players)
+Player * chooseEnemy(std::vector<Player *> * players)
 {
   cout << "Choose an enemy! Available enemies are:" << endl;
 
@@ -60,7 +87,7 @@ static Player * chooseEnemy(std::vector<Player *> * players)
 
 /* ========================================================================= */
 
-static int chooseAction(void)
+int chooseAction(void)
 {
   cout << "Do you want to Attack (ATK) or Defend (DEF)?" << endl;
   cout << "> Your answer: " << endl;
@@ -83,7 +110,7 @@ Input given: " << answer << ". Please, try again.\n>Your answer:";
 }
 /* ========================================================================= */
 
-static Province * chooseProvince(Player *player)
+Province * chooseProvince(Player *player)
 {
   cout << "Choose a province to attack! Available provinces are:" << endl;
   player->printProvinces();
@@ -117,7 +144,7 @@ Your input should be an integer in range [1," << player->getProvincesNum()
 
 /* ========================================================================= */
 
-static void chooseArmy(Player *player, std::vector<Personality *> * battleArmy)
+void chooseArmy(Player *player, std::vector<Personality *> * battleArmy)
 { // todo: maybe add some better printing if player has no army
   cout << "Choose Personalities from your army to Battle!" << endl;
   
@@ -143,7 +170,7 @@ appearance, to recruit the Personality for the Battle!" << endl;
 
 /* ========================================================================= */
 
-static size_t calcTotalATK(std::vector<Personality *> * battleArmy)
+size_t calcTotalATK(std::vector<Personality *> * battleArmy)
 {
   size_t totalATK = 0;
 
@@ -163,7 +190,7 @@ static size_t calcTotalATK(std::vector<Personality *> * battleArmy)
 
 /* ========================================================================= */
 
-static size_t calcTotalDEF(std::vector<Personality *> * battleArmy)
+size_t calcTotalDEF(std::vector<Personality *> * battleArmy)
 {
   size_t totalDEF = 0;
 
@@ -180,50 +207,12 @@ static size_t calcTotalDEF(std::vector<Personality *> * battleArmy)
 
   return totalDEF;
 }
-/* ========================================================================= */
-
-void Game::battlePhase(Player *player)
-{
-  cout << "Battle phase begins!" << endl;
-
-  int action = chooseAction();
-
-  if (action == DEFEND)
-  {
-    cout << "Player \"" << player->getUserName() << "\" chose to DEFEND \
-this round!" << endl;
-    return;
-  }
-
-  // action == ATTACK
-  Player *enemy = chooseEnemy(players);
-
-  // std::string attName = player->getUserName();
-  // std::string defName = enemy ->getUserName();
-
-  Province *prov = chooseProvince(enemy);
-
-  std::vector<Personality *> * attArmy = new (std::vector<Personality *>); //TODO: delete this
-  chooseArmy(player, attArmy);
-
-  cout << "Player \'" << enemy->getUserName() 
-       << "\' shall pick their DEFENSE!" << endl;
-
-  std::vector<Personality *> * defArmy = new (std::vector<Personality *>); //TODO: delete this
-  chooseArmy(enemy, defArmy);
-
-  /* Battle */
-  battle(player, attArmy, enemy, prov, defArmy);
-}
 
 /* ========================================================================= */
 
-static void provinceDestroyed(Player *player, std::vector<Personality *> * attArmy, Player *enemy, Province *prov, std::vector<Personality *> * defArmy)
+void provinceDestroyed(Province *prov)
 {
-  const std::string& attName = player->getUserName();
-  const std::string& defName = enemy ->getUserName();
-
-  cout << "Attacker " << attName << " demolishes " << defName 
+  cout << "Attacker " << *attName << " demolishes " << *defName 
        << " \'s defence!" << endl;
 
   for (auto *i : *defArmy) i->die(); // todo: cleanup dead from their vectors
@@ -232,11 +221,11 @@ static void provinceDestroyed(Player *player, std::vector<Personality *> * attAr
   prov->setBroken();
   enemy->decreaseProvinceNum();
   cout << "Province destroyed. Remaining provinces for player \'" 
-       << defName << "\' : " << enemy->getProvincesNum() << endl;
+       << *defName << "\' : " << enemy->getProvincesNum() << endl;
 
   if (enemy->getProvincesNum() == 0)
   {
-    cout << ">Player \'" << defName 
+    cout << ">Player \'" << *defName 
          << "\' is out of the game! Better luck next time. =) " << endl;
   }
 
@@ -244,18 +233,17 @@ static void provinceDestroyed(Player *player, std::vector<Personality *> * attAr
 }
 /* ========================================================================= */
 
-static void draw(Player *player, std::vector<Personality *> * attArmy, Player *enemy, std::vector<Personality *> * defArmy)
+void draw()
 {
-  cout << "Battle between \'" << player->getUserName() << "\' and \'" 
-       << enemy->getUserName() << " ends as a draw! Both armies are destroyed!" 
-       << endl;
+  cout << "Battle between \'" << *attName << "\' and \'" 
+       << *defName << " ends as a draw! Both armies are destroyed!" << endl;
 
   for (auto *i : *attArmy) i->die();
   for (auto *i : *defArmy) i->die();  
 }
 /* ========================================================================= */
 
-static void verifyCasualties(std::vector<Personality *> * battleArmy, int side)
+void verifyCasualties(std::vector<Personality *> * battleArmy, int side)
 {
   for (auto *i : * battleArmy)
   {
@@ -294,12 +282,9 @@ static void verifyCasualties(std::vector<Personality *> * battleArmy, int side)
 }
 /* ========================================================================= */
 
-static void attackerWins(Player *player, std::vector<Personality *> * attArmy, Player *enemy, std::vector<Personality *> * defArmy)
+void attackerWins()
 {
-  const std::string& attName = player->getUserName();
-  const std::string& defName = enemy ->getUserName();
-
-  cout << "Attacker " << attName << " destroys " << defName 
+  cout << "Attacker " << *attName << " destroys " << *defName 
        << " \'s army, but is unable to break the province!" << endl;
 
   for (auto *i : *defArmy) i->die(); // todo: cleanup dead from their vectors
@@ -312,12 +297,9 @@ static void attackerWins(Player *player, std::vector<Personality *> * attArmy, P
 }
 /* ========================================================================= */
 
-static void defenderWins(Player *player, std::vector<Personality *> * attArmy, Player *enemy, std::vector<Personality *> * defArmy)
+void defenderWins()
 {
-  const std::string& attName = player->getUserName();
-  const std::string& defName = enemy ->getUserName();
-
-  cout << "Defender " << defName << "holds his ground against " << attName 
+  cout << "Defender " << *defName << "holds his ground against " << *attName 
        << " \'s army!" << endl;
 
   for (auto *i : *attArmy) i->die(); // todo: cleanup dead from their vectors
@@ -330,7 +312,7 @@ static void defenderWins(Player *player, std::vector<Personality *> * attArmy, P
 }
 /* ========================================================================= */
 
-static void battle(Player *player, std::vector<Personality *> * attArmy, Player *enemy, Province *prov, std::vector<Personality *> * defArmy)
+void battle(Province *prov)
 {
   size_t attPoints = calcTotalATK(attArmy);
   size_t defPoints = calcTotalDEF(defArmy);// + enemy->getStrongHold()->getInitDEF(); // todo: verify @lists
@@ -341,21 +323,22 @@ static void battle(Player *player, std::vector<Personality *> * attArmy, Player 
   ptsDiff = attPoints - defPoints;
 
   if (attPoints > defPoints + enemy->getStrongHold()->getInitDEF()) //ATK wins / DEF gets destroyed
-    provinceDestroyed(player, attArmy, enemy, prov, defArmy);
+    provinceDestroyed(prov);
   
-  else if (attPoints == defPoints) // draw
-    draw(player, attArmy, enemy, defArmy);
+  else if (attPoints == defPoints)
+    draw();
 
   else if (attPoints > defPoints)
-    attackerWins(player, attArmy, enemy, defArmy);
+    attackerWins();
 
   else if (attPoints < defPoints)
-    defenderWins(player, attArmy, enemy, defArmy);
+    defenderWins();
 
   player->cleanup();
   enemy ->cleanup();
 }
 
+}; // namespace_end
 /* ========================================================================= */
 
 void Personality::cleanup()
@@ -390,5 +373,42 @@ void Player::cleanup()
       ++it;
     }
   }
+}
+/* ========================================================================= */
+
+void Game::battlePhase(Player *player)
+{
+  cout << "Battle phase begins!" << endl;
+
+  int action = chooseAction();
+
+  if (action == DEFEND)
+  {
+    cout << "Player \"" << player->getUserName() 
+         << "\" chose to DEFEND this round!" << endl;
+    return;
+  }
+  // action == ATTACK
+  enemy = chooseEnemy(players);
+
+  attName = &player->getUserName();
+  defName = &enemy ->getUserName();
+
+  Province *prov = chooseProvince(enemy);
+
+  attArmy = new (std::vector<Personality *>); //TODO: delete this
+  chooseArmy(player, attArmy);
+
+  cout << "Player \'" << *defName 
+       << "\' shall pick their DEFENSE!" << endl;
+
+  defArmy = new (std::vector<Personality *>); //TODO: delete this
+  chooseArmy(enemy, defArmy);
+
+  /* Battle */
+  battle(prov);
+
+  delete attArmy;
+  delete defArmy;
 }
 /* ========================================================================= */
