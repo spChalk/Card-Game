@@ -71,14 +71,45 @@ protected:
 
   const std::string cardText;
   
-  const size_t effectBonus;
-  const size_t effectCost;
+  const size_t effectBonus; // [Harry] auta a8roizontai sto antistoixo bonus field sto equipment phase (an ginei upgrade)
+  const size_t effectCost;  // meta den exoun KAMIA xrhsimothta
 
 public:
     
   GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
+  size_t getATK() const { return attackBonus;  }
+  size_t getDEF() const { return defenceBonus; }
+
   virtual void print() const = 0;
+};
+
+//==========================================|| F O L L O W E R ||==========================================
+
+class Follower : public GreenCard
+{
+public:
+
+  Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
+
+  void print() const;
+};
+
+//==========================================|| I T E M ||==========================================
+
+class Item : public GreenCard
+{
+  size_t durability; // not const because it can be decreased till 0 
+
+public:
+    
+  Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
+
+  size_t getDurability() const { return durability; }
+  
+  void decreaseDurability() { --durability; }
+  
+  void print() const;
 };
 
 //==========================================|| B L A C K  C A R D ||==========================================
@@ -102,30 +133,6 @@ public:
   virtual void attachToPlayer(Player *) = 0;
 };
 
-//==========================================|| F O L L O W E R ||==========================================
-
-class Follower : public GreenCard
-{
-public:
-
-  Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
-
-  void print() const;
-};
-
-//==========================================|| I T E M ||==========================================
-
-class Item : public GreenCard
-{
-  const size_t durability;
-
-public:
-    
-  Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
-
-  void print() const;
-};
-
 //==========================================|| P E R S O N A L I T Y ||==========================================
 
 class Personality : public BlackCard
@@ -143,6 +150,15 @@ public:
     
   Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor);
   ~Personality();
+
+  size_t getATK() const { return attack;  }
+  size_t getDEF() const { return defence; }
+  size_t getHonor() const { return honor; }
+
+  bool checkIfDead() const { return isDead; }
+
+  vector <Follower *> * getFollowers() { return followers; }
+  vector <Item *>     * getItems() { return items; }
 
   void print() const;
   void attachToPlayer(Player *);
@@ -219,6 +235,8 @@ public:
   StrongHold();
 
   const size_t & getInitHonor() { return initHonor; }
+
+  size_t getInitDEF() const { return initDefence; }
 
   void print() const;
 };
