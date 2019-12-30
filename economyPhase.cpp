@@ -1,7 +1,11 @@
 //======|| GAME :: ECONOMY PHASE ||======
+
 // TODO : Na kanw mia currentMoney ston Player pou na deixnei ka8e fora ta lefta tou
 // etsi wste sto makePurchase na exw mono ena check anti gia to 1o parse
+
 // TODO : sto economyPhase , an agorasw Holding na au3anw apeu8eias ta lefta tou Player
+
+// TODO : na dw ti ginetai me ta Mine , Gold. .... . peri attachments & sub/upper holdings 
 #include <iostream>
 #include <queue>
 #include <vector>
