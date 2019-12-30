@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "baseClasses.h"
 
@@ -125,7 +126,7 @@ appearance, to recruit the Personality for the Battle!" << endl;
   for (auto *i : *(player->getArmy()))
   {
     if (i->checkTapped() == true) continue;
-    
+
     i->print();
     cout << "\nRecruit?\n >Your answer: ";
     std::string answer;
@@ -136,6 +137,45 @@ appearance, to recruit the Personality for the Battle!" << endl;
   }
 }
 
+/* ========================================================================= */
+
+static size_t calcTotalATK(std::vector<Personality *> * battleArmy)
+{
+  size_t totalATK = 0;
+
+  for (auto *i : *battleArmy) // sum ATK of all personalities -> sum ATK of all their flollowers + items
+  {
+    std::vector <Follower *> * followers = i->getFollowers();
+    std::vector <Item *>     * items = i->getItems();
+
+    totalATK += i->getATK(); // base personality ATK
+
+    for (auto *j : *followers) totalATK += j->getATK(); // get followers ATK
+    for (auto *j : *items)     totalATK += j->getATK(); // get items ATK
+  }
+
+  return totalATK;
+}
+
+/* ========================================================================= */
+
+static size_t calcTotalDEF(std::vector<Personality *> * battleArmy)
+{
+  size_t totalDEF = 0;
+
+  for (auto *i : *battleArmy) // sum DEF of all personalities -> sum DEF of all their flollowers + items
+  {
+    std::vector <Follower *> * followers = i->getFollowers();
+    std::vector <Item *>     * items = i->getItems();
+
+    totalDEF += i->getDEF(); // base personality DEF
+
+    for (auto *j : *followers) totalDEF += j->getDEF(); // get followers DEF
+    for (auto *j : *items)     totalDEF += j->getDEF(); // get items DEF
+  }
+
+  return totalDEF;
+}
 /* ========================================================================= */
 
 void Game::battlePhase(Player *player)
@@ -166,4 +206,6 @@ this round!" << endl;
   chooseArmy(enemy, defArmy);
 
   /* Battle */
+  size_t attackPoints  = calcTotalATK(attArmy);
+  size_t defencePoints = calcTotalDEF(defArmy) + enemy->getStrongHold()->getInitDEF(); // todo: verify @lists
 }
