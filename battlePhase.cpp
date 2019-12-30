@@ -124,6 +124,8 @@ appearance, to recruit the Personality for the Battle!" << endl;
 
   for (auto *i : *(player->getArmy()))
   {
+    if (i->checkTapped() == true) continue;
+    
     i->print();
     cout << "\nRecruit?\n >Your answer: ";
     std::string answer;
