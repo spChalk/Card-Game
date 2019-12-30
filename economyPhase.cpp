@@ -53,7 +53,7 @@ void Game::economyPhase(Player * pl) {
   // Buy Provinces
   for (auto i = pl->getProvinces()->begin() ;  i != pl->getProvinces()->end() ; i++) {
 
-      if ((*i)->checkBroken() == false && (*i)->getCard()->checkTapped() == false)
+      if ((*i)->checkBroken() == false && (*i)->getCard()->checkRevealed() == true)
 
         if (pl->makePurchase((*i)->getCard()->getCost()) == true) {
             
