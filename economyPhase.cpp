@@ -46,7 +46,7 @@ void Game::economyPhase(Player * pl) {
   std::cout << "Economy Phase Started !" << std::endl;
   // Reveal Provinces
   for (auto i = pl->getProvinces()->begin() ; i != pl->getProvinces()->end() ; i++) 
-    if ((*i)->getCard()->checkRevealed() == false)
+    if ((*i)->checkBroken == false && (*i)->getCard()->checkRevealed() == false)
       (*i)->getCard()->setRevealed();
   // Print Provinces
   pl->printProvinces();
