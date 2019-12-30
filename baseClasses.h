@@ -87,6 +87,7 @@ public:
   void detach() { attached = false; }
 
   bool isAttached() const { return attached; }
+  virtual void attachToPersonality(Personality *) = 0;
 
   virtual void print() const = 0;
 };
@@ -100,6 +101,7 @@ public:
   Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
   void print() const;
+  void attachToPersonality(Personality *);
 };
 
 //==========================================|| I T E M ||==========================================
@@ -115,6 +117,8 @@ public:
   size_t getDurability() const { return durability; }
   
   void decreaseDurability() { --durability; }
+
+  void attachToPersonality(Personality *);
   
   void print() const;
 };
