@@ -194,7 +194,7 @@ void Player::print() const
   cout << MAG << "=====  ARMY  =====" << RST << endl;
   printArmy();
   cout << MAG << "===== !ARMY! =====" << RST << endl;
-  
+
   cout << BLU << "======= !PLAYER! =======" << RST << endl;
 }
 /* ========================================================================= */
@@ -213,6 +213,19 @@ void Player::printArmy() const
     cout << "No army!" << endl;
   else
     for (auto *i : *army) i->print();
+}
+/* ========================================================================= */
+
+void Player::printAvailableArmy() const
+{
+  if (army->size() == 0) 
+    cout << "No army!" << endl;
+  else
+    for (auto *i : *army)
+    {  
+      if (i->checkTapped() == false) // if untapped
+        i->print();
+    }
 }
 
 /* ========================================================================= */
