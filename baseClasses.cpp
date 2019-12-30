@@ -12,8 +12,7 @@ Card::Card (const std::string & name , const size_t & cost )
 : name(name) , cost(cost) , isTapped(true) {}
 
 GreenCard::GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost ) 
-: Card(name , cost) , attackBonus(attackBonus) , defenceBonus(defenceBonus) , minHonor(minHonor) , cardText(cardText) , effectBonus(effectBonus) , effectCost(effectCost) {}
-
+: Card(name , cost) , attackBonus(attackBonus) , defenceBonus(defenceBonus) , minHonor(minHonor) , cardText(cardText) , effectBonus(effectBonus) , effectCost(effectCost) , attached(false) {}
 
 BlackCard::BlackCard(const std::string & name , const size_t & cost)
 : Card(name , cost) , isRevealed(false) {}
