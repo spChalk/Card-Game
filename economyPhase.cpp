@@ -44,23 +44,41 @@ void Holding::attachToPlayer (Player * pl) {
 void Game::economyPhase(Player * pl) {
 
   std::cout << "Economy Phase Started !" << std::endl;
-  // Reveal Provinces
-  for (auto i = pl->getProvinces()->begin() ; i != pl->getProvinces()->end() ; i++) 
+  // Reveal Provinces ** if needed **
+
+  /* for (auto i = pl->getProvinces()->begin() ; i != pl->getProvinces()->end() ; i++) 
     if ((*i)->checkBroken == false && (*i)->getCard()->checkRevealed() == false)
-      (*i)->getCard()->setRevealed();
-  // Print Provinces
-  pl->printProvinces();
-  // Buy Provinces
-  for (auto i = pl->getProvinces()->begin() ;  i != pl->getProvinces()->end() ; i++) {
-
-      if ((*i)->checkBroken() == false && (*i)->getCard()->checkRevealed() == true)
-
-        if (pl->makePurchase((*i)->getCard()->getCost()) == true) {
-            
-            (*i)->getCard()->attachToPlayer(pl);
-            (*i)->setCard( pl->drawBlackCard() );
-        }
-  }
+      (*i)->getCard()->setRevealed(); */
   
+  std::cout << "Player : " << pl->getUserName() << " has the option to buy Provinces." << std::endl ;
+
+  // Print Provinces
+  std::cout << "All Provinces : " << std::endl;
+  pl->printProvinces();
+  
+  std::cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
+  appearance, to proceed to purchase. " << std::endl;
+
+  // Buy Provinces
+  for (auto * i : *(pl->getProvinces())) {
+
+    if (i->checkBroken() == false && i->getCard()->checkRevealed() == true) {
+      
+      i->print();
+      std::cout << std::endl <<"Proceed to purchase ?" << std::endl << "> Your answer: " ;
+      std::string answer;
+      std::getline(std::cin, answer);
+      std::cout << answer << std::endl;
+
+      if (answer == "Y") {
+        if (pl->makePurchase(i->getCard()->getCost()) == true) {
+          std::cout << "Purchase Completed ! " << std::endl;
+          i->getCard()->attachToPlayer(pl);
+          i->setCard( pl->drawBlackCard() );
+        } 
+        else std::cout << "You do not have enough money to buy this province . . ." << std::endl;
+      }
+    }
+  }
   std::cout << "Economy Phase Ended !" << std::endl;
 }
