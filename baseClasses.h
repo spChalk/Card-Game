@@ -51,6 +51,8 @@ public:
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
 
+  bool checkTapped() const { return isTapped; }
+
   virtual void print() const = 0;
 };
 
@@ -310,6 +312,7 @@ public:
   void print() const;
   void printHoldings() const;
   void printArmy() const;
+  void printAvailableArmy() const;
   void printHand() const;
   void printProvinces() const;
 };
