@@ -51,6 +51,7 @@ public:
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
 
+  size_t getCost(void) const { return cost; }
   bool checkTapped() const { return isTapped; }
 
   virtual void print() const = 0;
@@ -98,6 +99,7 @@ public:
   bool checkRevealed() { return isRevealed; }
 
   virtual void print() const = 0;
+  virtual void attachToPlayer(Player *) = 0;
 };
 
 //==========================================|| F O L L O W E R ||==========================================
@@ -143,6 +145,7 @@ public:
   ~Personality();
 
   void print() const;
+  void attachToPlayer(Player *);
 };
 
 //==========================================|| H O L D I N G ||==========================================
@@ -158,6 +161,7 @@ public:
   Holding(const std::string & name , const size_t & cost , const size_t & harvestValue);
 
   virtual void print() const; // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
+  void attachToPlayer(Player *);
 };
 
 //==========================================|| M I N E ||==========================================
@@ -235,6 +239,7 @@ public:
   void setBroken() { isBroken = true; }
 
   BlackCard * getCard() { return card; }
+  void setCard(BlackCard * bc) { card = bc ; }
  
   void print() const;
 
@@ -315,7 +320,13 @@ public:
   void printAvailableArmy() const;
   void printHand() const;
   void printProvinces() const;
-};
+
+  BlackCard * drawBlackCard (void);
+  GreenCard * drawFateCard (void);
+
+  bool makePurchase (size_t cost ); // Tap Holdings until you cover the needed cost
+  // Returns true if the purchase is successfull
+};  
 
 //==========================================|| G A M E ||==========================================
 

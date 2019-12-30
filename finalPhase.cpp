@@ -11,12 +11,17 @@ static void discardSurplusFateCards (Player * pl , size_t numOfCards) {
 
 void Game::finalPhase(Player * pl) {
 
+    std::cout << "Final Phase Started !" << std::endl;
+
   if (pl->getHand()->size() > MAX_HAND_CARDS)
     discardSurplusFateCards(pl , pl->getHand()->size() - MAX_HAND_CARDS);
 
   // printGameStatistics
-  // printHand
-  // printProvinces
+  pl->printHand();
+  pl->printProvinces();
   // printArena
-  // printHoldings
+  pl->printHoldings();
+
+  std::cout << "Final Phase Ended !" << std::endl;
+
 }

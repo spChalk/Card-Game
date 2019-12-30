@@ -94,9 +94,9 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
 
 /* ========================================================================= */
 
-static BlackCard * drawBlackCard(Player * pl) { // TODO : assert if empty
-  BlackCard * tmp = pl->getDynastyDeck()->front();
-  pl->getDynastyDeck()->pop();
+BlackCard * Player::drawBlackCard(void) { // TODO : assert if empty
+  BlackCard * tmp = dynastyDeck->front();
+  dynastyDeck->pop();
   return tmp;
 }
 
@@ -125,7 +125,7 @@ void Game::initGameBoard(vector <Player *> * players , size_t numPlayers ,size_t
     vector<Province *> * provinces = new vector<Province *>;
     
     for (size_t i = 0; i < 4; i++) {
-      Province * newPr = new Province(drawBlackCard(newPl));
+      Province * newPr = new Province(newPl->drawBlackCard());
       provinces->push_back(newPr);
     }
     
