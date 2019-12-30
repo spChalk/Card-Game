@@ -74,12 +74,19 @@ protected:
   const size_t effectBonus; // [Harry] auta a8roizontai sto antistoixo bonus field sto equipment phase (an ginei upgrade)
   const size_t effectCost;  // meta den exoun KAMIA xrhsimothta
 
+  bool attached; // antistoixo ths isDead tou blackCard < Personality
+
 public:
     
   GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
   size_t getATK() const { return attackBonus;  }
   size_t getDEF() const { return defenceBonus; }
+
+  void attach() { attached = true;  }
+  void detach() { attached = false; }
+
+  bool isAttached() const { return attached; }
 
   virtual void print() const = 0;
 };
@@ -139,7 +146,8 @@ class Personality : public BlackCard
 {
   const size_t attack;
   const size_t defence;
-  const size_t honor;
+  
+  size_t honor; // honor can be decreased till 0
 
   bool isDead;
   
@@ -155,6 +163,10 @@ public:
   size_t getDEF() const { return defence; }
   size_t getHonor() const { return honor; }
 
+  void die() { isDead = true; } // this is nice
+  void kys() { isDead = true; } // this is nicer
+  void decreaseHonor() { --honor; }
+
   bool checkIfDead() const { return isDead; }
 
   vector <Follower *> * getFollowers() { return followers; }
@@ -162,6 +174,8 @@ public:
 
   void print() const;
   void attachToPlayer(Player *);
+
+  void cleanup(); // removes detached items + followers
 };
 
 //==========================================|| H O L D I N G ||==========================================
@@ -315,8 +329,9 @@ public:
   ~Player();
 
   size_t getHonor() const { return honor; }
-
   size_t getProvincesNum() const { return activeProvinces; }
+
+  void decreaseProvinceNum() { --activeProvinces; }
 
   const std::string& getUserName() const { return userName; }
   
@@ -338,6 +353,8 @@ public:
   void printAvailableArmy() const;
   void printHand() const;
   void printProvinces() const;
+
+  void cleanup(); // Removes 1) dead personalities from army 2) detached GreenCards
 
   BlackCard * drawBlackCard (void);
   GreenCard * drawFateCard (void);
