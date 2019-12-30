@@ -1,5 +1,4 @@
 /* startingPhase.cpp */
-// TODO: printing functions
 // TODO: drawFateCard : empty deck ?
 #include <iostream>
 #include <queue>
@@ -10,9 +9,6 @@
 static void untapEverything(Player *);
 static void drawFateCard(Player *);
 static void revealProvinces(Player *);
-
-static void printHand(Player *) {}  // T O D O
-static void printProvinces(Player *) {} // T O D O
 
 /* ========================================================================= */
 
@@ -67,7 +63,7 @@ void Game::startingPhase (Player *player)
   untapEverything(player);
   drawFateCard(player);
   revealProvinces(player);
-  printHand(player);
-  printProvinces(player);
+  player->printHand();
+  player->printProvinces();
 }
 /* ========================================================================= */
