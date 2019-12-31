@@ -25,25 +25,30 @@ bool Player::makePurchase (size_t cost) {
   
   // First , check if you can collect the required money from holdings
   // Do not tap anything
-  for (auto it = holdings->begin() ; it != holdings->end() ; it++) { 
+  if (getStrongHold()->checkTapped() == false)
+    tempCost -= getStrongHold()->getHarvestValue();
+
+// [Harry] added tempCost > 0 @ the for loop cond cuz of the strongHold check
+  for (auto it = holdings->begin() ; tempCost > 0 && it != holdings->end() ; it++) { 
     if ((*it)->checkTapped() == false)  // If it is untapped
-      tempCost -= (*it)->getCost();   // Subtract its cost 
-    
-    if (tempCost <= 0) break;         // We can proceed to the main part
+      tempCost -= (*it)->getHarvestValue();   // Subtract its harvest value 
+    //if (tempCost <= 0) break;         // We can proceed to the main part
   }
   
   if (tempCost > 0) return false;     // If the required cost is still positive , exit 
     
-  // Main part 
-  for (auto it = holdings->begin() ; it != holdings->end() ; it++) {
+  // Main part
+  if (getStrongHold()->checkTapped() == false)
+    cost -= getStrongHold()->getHarvestValue();
+
+  for (auto it = holdings->begin() ; cost > 0 && it != holdings->end() ; it++) {
 
     if ((*it)->checkTapped() == false) {
-      cost -= (*it)->getCost();
+      cost -= (*it)->getHarvestValue();
       (*it)->setTapped();            
     }
-            
-    if (cost <= 0) return true;
   }
+  return true;
 }
 
 void Personality::attachToPlayer (Player * pl) {
