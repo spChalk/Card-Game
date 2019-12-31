@@ -81,6 +81,7 @@ public:
   size_t getATK() const { return attackBonus;  }
   size_t getDEF() const { return defenceBonus; }
   size_t getMinHonor() const { return minHonor; }
+  size_t getEffectCost() const { return effectCost; }
 
   void attach() { attached = true;  }
   void detach() { attached = false; }
