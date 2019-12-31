@@ -11,6 +11,15 @@
 #include <vector>
 #include "baseClasses.h"
 
+static size_t checkForFullChain (CrystalMine * crM) {                           // Check if 
+  return (crM->getSubHolding() != nullptr                                       // CrystalMine -> GoldMine exists
+      && crM->getSubHolding()->getUpperHolding() != nullptr                     // CrystalMine -> GoldMine -> CrystalMine exists
+      && crM->getSubHolding()->getSubHolding() != nullptr                       // CrystalMine -> GoldMine -> Mine exists
+      && crM->getSubHolding()->getSubHolding()->getUpperHolding() != nullptr)   // CrystalMine -> GoldMine -> Mine -> GoldMine exists
+      ? 3*crM->getHarvestValue()                                                // If Fully Linked , return SUPER BONUS
+      : crM->getharvestValue();                                                 // Else return standard Bonus
+}
+
 bool Player::makePurchase (size_t cost) {
   size_t tempCost = cost;
   
@@ -43,6 +52,62 @@ void Personality::attachToPlayer (Player * pl) {
 
 void Holding::attachToPlayer (Player * pl) {
   pl->getHoldings()->push_back(this);  
+}
+
+void Mine::attachToPlayer(Player * pl) {
+  
+  for (auto * i : *(pl->getHoldings())) {
+    
+    if (i->getName() == "GOLD_MINE") {
+      
+      upperHolding = i;
+      harvestValue +=2;
+      break;
+    }
+  }
+  pl->getHoldings()->push_back(this);
+}
+
+void GoldMine::attachToPlayer(Player * pl) {
+  
+  for (auto * i : *(pl->getHoldings())) {  // Check for Mines
+    if (i->getName() == "MINE") {
+      
+      subHolding = i;
+      harvestValue +=4;
+      break;
+    }
+  }
+  for (auto * i : *(pl->getHoldings())) {  // Check for Crystal Mines
+    if (i->getName() == "CRYSTAL_MINE") {
+      
+      upperHolding = i;
+
+      if (subHolding == nullptr)  // If there's no link with a Mine
+        harvestValue +=5;         // Add the bonus
+      else {
+        harvestValue -=4;         // If there's also a link with a Mine
+        harvestValue += 2*harvestValue ;  // Double the INITIAL harvest Value
+      }
+      
+      break;
+    }
+  }
+  pl->getHoldings()->push_back(this);
+}
+
+void CrystalMine::attachToPlayer(Player * pl) {
+
+  for (auto * i : *(pl->getHoldings())) {
+    
+    if (i->getName() == "GOLD_MINE") {
+      
+      subHolding = i;
+      harvestValue += checkForFullChain(this);
+      break;
+    }
+  }
+  pl->getHoldings()->push_back(this);
 }
 
 void Game::economyPhase(Player * pl) {
