@@ -1,8 +1,5 @@
 //======|| GAME :: ECONOMY PHASE ||======
 
-// TODO : Na kanw mia currentMoney ston Player pou na deixnei ka8e fora ta lefta tou
-// etsi wste sto makePurchase na exw mono ena check anti gia to 1o parse
-
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -40,21 +37,9 @@ namespace {
 }
 
 bool Player::makePurchase (size_t cost) {
-  size_t tempCost = cost;
   
-  // First , check if you can collect the required money from holdings
-  // Do not tap anything
-  if (getStrongHold()->checkTapped() == false)
-    tempCost -= getStrongHold()->getHarvestValue();
-
-// [Harry] added tempCost > 0 @ the for loop cond cuz of the strongHold check
-  for (auto it = holdings->begin() ; tempCost > 0 && it != holdings->end() ; it++) { 
-    if ((*it)->checkTapped() == false)  // If it is untapped
-      tempCost -= (*it)->getHarvestValue();   // Subtract its harvest value 
-    //if (tempCost <= 0) break;         // We can proceed to the main part
-  }
-  
-  if (tempCost > 0) return false;     // If the required cost is still positive , exit 
+  if (getCurrMoney() < cost)
+    return false;     // If the required cost is more than player's budget , exit 
     
   // Main part
   if (getStrongHold()->checkTapped() == false)
