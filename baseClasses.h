@@ -88,6 +88,8 @@ public:
   bool isAttached() const { return attached; }
   virtual void attachToPersonality(Personality *) = 0;
 
+  void upgrade(); 
+
   virtual void print() const = 0;
 };
 
@@ -204,7 +206,7 @@ public:
 
 class Mine : public Holding
 {
-  Holding * upperHolding;
+  GoldMine * upperHolding;
 
 public:
     
@@ -214,13 +216,15 @@ public:
   void print() const;
 
   void attachToPlayer(Player *);
+
+  GoldMine * getUpperHolding (void) const { return upperHolding ; }
 };
 
 //==========================================|| C R Y S T A L  M I N E ||==========================================
 // ligo malakia pou exw mia oloidia class me allo onoma enos member alla nta3 ugeia
 class CrystalMine : public Holding
 {
-  Holding * subHolding;
+  GoldMine * subHolding;
 
 public:
     
@@ -230,14 +234,16 @@ public:
   void print() const; 
 
   void attachToPlayer(Player *);
+
+  GoldMine * getSubHolding (void) const { return subHolding ; }
 };
 
 //==========================================|| G O L D  M I N E ||==========================================
 
 class GoldMine : public Holding
 {
-  Holding * upperHolding;
-  Holding * subHolding;
+  CrystalMine * upperHolding;
+  Mine * subHolding;
 
 public:
     
@@ -247,6 +253,9 @@ public:
   void print() const;
 
   void attachToPlayer(Player *);
+
+  CrystalMine * getUpperHolding (void) const { return upperHolding ; }
+  Mine * getSubHolding (void) const { return subHolding ; }
 };
 
 //==========================================|| S T R O N G H O L D ||==========================================
