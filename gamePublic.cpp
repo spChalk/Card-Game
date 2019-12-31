@@ -59,12 +59,20 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
     
     for (auto j = gMap->begin() ; j != gMap->end() ; j++ , i++) {
         
-      if (j->second.size() == 6) {
+      if (j->second[j->second.size() - 1] == 0) {    // Last element of vector in bucket has the MAX number
+          i--;
+          continue;
+        }
+
+      if (j->second.size() == 7) {
+
         Follower * newFollower = new Follower(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
         fateDeck->push(newFollower);
+        j->second[6]--;
       } else {
         Item * newItem = new Item(j->second.at(6) , j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
         fateDeck->push(newItem);
+        j->second[7]--;
       }
     }
   }
@@ -74,13 +82,20 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
   for (size_t i = 0; i < maxBlackCards; i++) {
     
     for (auto j = bMap->begin() ; j != bMap->end() ; j++ , i++) {
+
+      if (j->second[j->second.size() - 1] == 0) {    // Last element of vector in bucket has the MAX number
+          i--;
+          continue;
+        }
       
-      if (j->second.size() == 4) {
+      if (j->second.size() == 5) {
         Personality * newPers = new Personality(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) );
         dynastyDeck->push(newPers);
+        j->second[4]--;
       } else {
         Holding * newHolding = new Holding(j->first , j->second.at(0) , j->second.at(1));
         dynastyDeck->push(newHolding);
+        j->second[2]--;
       }
     }
   }
