@@ -2,10 +2,23 @@
 
 // TODO : Na valw oles tis proupo8eseis agoras kartas 
 // TODO : Upgrade Cards
+// [Harry]: TODO: na valw orismata sta tou namespace + accessors sto baseClasses.h
 
 #include <iostream>
 #include <vector>
 #include "baseClasses.h"
+
+using std::cout;
+using std::endl;
+
+namespace // namespace_start
+{
+
+bool hasEnoughMoney();
+bool hasEnoughHonor();
+bool hasntReachedLimit();
+
+}; // namespace_end
 
 void Follower::attachToPersonality (Personality * pers) {
   pers->getFollowers()->push_back(this);
@@ -14,62 +27,58 @@ void Follower::attachToPersonality (Personality * pers) {
 void Item::attachToPersonality (Personality * pers) {
   pers->getItems()->push_back(this);
 }
+/* ========================================================================= */
 
 void Game::equipmentPhase (Player * pl) {
-  std::cout << "Equipment Phase Started !" <<std::endl;
+  cout << "Equipment Phase Started !" << endl;
 
-  // Print army
-  std::cout << "Army : " << std::endl ;
+  cout << "Printing Army!" << endl;
   pl->printArmy();
   
-  // Print hand 
-  std::cout << "Hand : " << std::endl ;
+  cout << "Printing Hand!" << endl;
   pl->printHand();
 
-  std::cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's appearance." << std::endl;
+  cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
+appearance if you want to enhance the card's attributes!" << endl;
 
-  for (auto * pers : *(pl->getArmy())) {
-    if (pers->checkIfDead() == false) {
+  for (auto * pers : *(pl->getArmy())) 
+  {
+    pers->print();
+    cout << "Equip this Personality ?\n> Your answer : ";
+    std::string answer;
+    std::getline(std::cin, answer);
+    cout << answer << endl;
 
-      pers->print();
-      std::cout << "Equip this Personality ?" << std::endl << "> Your answer : " ;
-      std::string answer;
-      std::getline(std::cin, answer);
-      std::cout << answer << std::endl;
+    if (answer != "Y") continue;
 
-      if (answer == "Y") {
-        std::cout << "Cards in Hand :" << std::endl;
-        for (auto * it : *(pl->getHand())) {
-        
-          it->print();
-          std::cout << std::endl <<"Proceed to purchase ?" << std::endl << "> Your answer: " ;
-          std::getline(std::cin , answer);
-          std::cout << answer << std::endl;
+    cout << "Cards in Hand :" << endl;
+    for (auto * card : *(pl->getHand()))
+    {
+      card->print();
+      cout << endl <<"Proceed to purchase ?\n> Your answer: ";
+      std::getline(std::cin , answer);
+      cout << answer << endl;
 
-          if (answer == "Y") {
-            if (pl->makePurchase(it->getCost()) == true && /*minHonor*/ && /* < MAX_CARDS_PER_PERS */) {
-              std::cout << "Purchase Completed ! " << std::endl;
-              it->attachToPersonality(pers);
+      if (answer != "Y") continue;
+
+      //if (pl->makePurchase(it->getCost()) == true && /*minHonor*/ && /* < MAX_CARDS_PER_PERS */)
+      if (hasEnoughMoney() && hasEnoughHonor() && hasntReachedLimit())
+      {
+        cout << "Purchase Completed ! " << endl;
+        card->attachToPersonality(pers);
     
-              std::cout << std::endl <<"Do you also want to upgrade this card ?" << std::endl << "> Your answer: " ;
-              std::getline(std::cin , answer);
-              std::cout << answer << std::endl;
+        cout << "Do you also want to upgrade this card ?\n> Your answer: ";
+        std::getline(std::cin , answer);
+        cout << answer << endl;
 
-              if (answer == "Y") {
-                //TODO : upgrade card
-              }
-
-              
-            } else  std::cout << "You do not have enough money for purchase . . ." << std::endl;
-          }  
+        if (answer == "Y") {
+          //TODO : upgrade card
         }
-
-
       }
-    }
+      //else 
+      //  cout << "You do not have enough money for purchase . . ." << endl;
+    }  
   }
 
-
-
-  std::cout << "Equipment Phase Ended !" <<std::endl;
+  cout << "Equipment Phase Ended !" << endl;
 }
