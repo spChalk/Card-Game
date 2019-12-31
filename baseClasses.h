@@ -80,6 +80,7 @@ public:
 
   size_t getATK() const { return attackBonus;  }
   size_t getDEF() const { return defenceBonus; }
+  size_t getMinHonor() const { return minHonor; }
 
   void attach() { attached = true;  }
   void detach() { attached = false; }
@@ -192,8 +193,10 @@ public:
     
   Holding(const std::string & name , const size_t & cost , const size_t & harvestValue);
 
+  size_t getHarvestValue() const { return harvestValue; }
+
   virtual void print() const; // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
-  
+
   void attachToPlayer(Player *);
 };
 
@@ -339,6 +342,8 @@ public:
 
   size_t getHonor() const { return honor; }
   size_t getProvincesNum() const { return activeProvinces; }
+
+  size_t getCurrMoney();
 
   void decreaseProvinceNum() { --activeProvinces; }
 
