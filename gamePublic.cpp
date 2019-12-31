@@ -9,8 +9,8 @@
 #include <unordered_map>
 #include <cassert>
 
-
 #include "baseClasses.h"
+#include "rules.hpp"
 
 using std::cout;  // an se enoxloun mporoume na ta vgaloume
 using std::endl;
@@ -30,7 +30,6 @@ static std::unordered_map<std::string , vector<size_t> > * readAndMap (const std
   std::string name , num;
 
   if (newFile.is_open()) {
-    getline (newFile , name); // Maybe add assertion for safety checking
     
     while ( getline (newFile , num) ) {
       if (num.length() > 1) {
