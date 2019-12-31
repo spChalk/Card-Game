@@ -49,6 +49,7 @@ public:
   void setUnTapped() { isTapped = false; }
 
   size_t getCost(void) const { return cost; }
+  const std::string getName (void) const { return name; }
   bool checkTapped() const { return isTapped; }
 
   virtual void print() const = 0;
@@ -185,13 +186,14 @@ class Holding : public BlackCard
 {
 protected:
 
-  const size_t harvestValue;     
-
+  size_t harvestValue; // Not const , because during Mine linkage it grows 
+                      
 public:
     
   Holding(const std::string & name , const size_t & cost , const size_t & harvestValue);
 
   virtual void print() const; // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
+  
   void attachToPlayer(Player *);
 };
 
@@ -207,6 +209,8 @@ public:
   ~Mine();
 
   void print() const;
+
+  void attachToPlayer(Player *);
 };
 
 //==========================================|| C R Y S T A L  M I N E ||==========================================
@@ -221,6 +225,8 @@ public:
   ~CrystalMine();
 
   void print() const; 
+
+  void attachToPlayer(Player *);
 };
 
 //==========================================|| G O L D  M I N E ||==========================================
@@ -236,6 +242,8 @@ public:
   ~GoldMine();
 
   void print() const;
+
+  void attachToPlayer(Player *);
 };
 
 //==========================================|| S T R O N G H O L D ||==========================================
