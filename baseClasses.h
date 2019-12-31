@@ -24,9 +24,6 @@ class Item;
 #include <string>
 #include <vector>
 #include <unordered_map>
-
-#define MAX_HAND_CARDS 7
-
  
 using std::vector;
 using std::queue;
