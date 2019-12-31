@@ -219,6 +219,9 @@ public:
   void attachToPlayer(Player *);
 
   GoldMine * getUpperHolding (void) const { return upperHolding ; }
+
+  void setUpperHolding (GoldMine * glM) { upperHolding = glM ; }
+
 };
 
 //==========================================|| C R Y S T A L  M I N E ||==========================================
@@ -237,6 +240,9 @@ public:
   void attachToPlayer(Player *);
 
   GoldMine * getSubHolding (void) const { return subHolding ; }
+
+  void setSubHolding (GoldMine * glM) { subHolding = glM ; }
+
 };
 
 //==========================================|| G O L D  M I N E ||==========================================
@@ -257,6 +263,9 @@ public:
 
   CrystalMine * getUpperHolding (void) const { return upperHolding ; }
   Mine * getSubHolding (void) const { return subHolding ; }
+
+  void setUpperHolding (CrystalMine * crM) { upperHolding = crM ; }
+  void setSubHolding (Mine * M) { subHolding = M ; }
 };
 
 //==========================================|| S T R O N G H O L D ||==========================================
