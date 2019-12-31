@@ -63,66 +63,73 @@ void Holding::attachToPlayer (Player * pl) {
   pl->getHoldings()->push_back(this);  
 }
 
-void Mine::attachToPlayer(Player * pl) {
+// void Mine::attachToPlayer(Player * pl) {
   
-  for (auto * i : *(pl->getHoldings())) {
+//   for (auto * i : *(pl->getHoldings())) {
     
-    if (i->getName() == "GOLD_MINE") {
+//     if (i->getName() == "GOLD_MINE") {
       
-      upperHolding = (GoldMine *)i;
-      harvestValue += checkForFullChain(this);
-      break;
-    }
-  }
-  pl->getHoldings()->push_back(this);
-}
+//       upperHolding = (GoldMine *)i;
+//       ((GoldMine *)i)->setSubHolding(this);
 
-void GoldMine::attachToPlayer(Player * pl) {
+//       harvestValue += checkForFullChain(this);
+//       break;
+//     }
+//   }
+//   pl->getHoldings()->push_back(this);
+// }
+
+// void GoldMine::attachToPlayer(Player * pl) {
   
-  for (auto * i : *(pl->getHoldings())) {  // Check for Mines
-    if (i->getName() == "MINE") {
+//   for (auto * i : *(pl->getHoldings())) {  // Check for Mines
+//     if (i->getName() == "MINE") {
       
-      subHolding = (Mine *)i;
-      harvestValue +=4 ;
-      break;
-    }
-  }
-  for (auto * i : *(pl->getHoldings())) {  // Check for Crystal Mines
-    if (i->getName() == "CRYSTAL_MINE") {
-      
-      upperHolding = (CrystalMine *)i;
+//       subHolding = (Mine *)i;
+//       ((Mine *)i)->setUpperHolding(this);
 
-      if (subHolding == nullptr)  // If there's no link with a Mine
-        harvestValue +=5;         // Add the bonus
-      else {
-        size_t temp = checkForFullChain(this);
-        harvestValue -=4;         // If there's also a link with a Mine
+//       harvestValue +=4 ;
+//       break;
+//     }
+//   }
+//   for (auto * i : *(pl->getHoldings())) {  // Check for Crystal Mines
+//     if (i->getName() == "CRYSTAL_MINE") {
+      
+//       upperHolding = (CrystalMine *)i;
+//       ((CrystalMine *)i)->setSubHolding(this);
+
+//       if (subHolding == nullptr)  // If there's no link with a Mine
+//         harvestValue +=5;         // Add the bonus
+//       else {
+//         size_t temp = checkForFullChain(this);
+//         harvestValue -=4;         // If there's also a link with a Mine
         
-        (temp == 0) ?      
-        harvestValue += 2*harvestValue :  // Double the INITIAL harvest Value
-        harvestValue += temp;
+//         (temp == 0) ?      
+//         harvestValue += 2*harvestValue :  // Double the INITIAL harvest Value
+//         harvestValue += temp;
         
-      }
+//       }
       
-      break;
-    }
-  }
-  pl->getHoldings()->push_back(this);
-}
+//       break;
+//     }
+//   }
+//   pl->getHoldings()->push_back(this);
+// }
 
-void CrystalMine::attachToPlayer(Player * pl) {
+// void CrystalMine::attachToPlayer(Player * pl) {
 
-  for (auto * i : *(pl->getHoldings())) {
+//   for (auto * i : *(pl->getHoldings())) {
     
-    if (i->getName() == "GOLD_MINE") {
+//     if (i->getName() == "GOLD_MINE") {
       
-      subHolding = (GoldMine *)i;
-      harvestValue += checkForFullChain(this);
-      break;
-    }
-  }
-  pl->getHoldings()->push_back(this);
-}
+//       subHolding = (GoldMine *)i;
+//       ((GoldMine *)i)->setUpperHolding(this);
+
+//       harvestValue += checkForFullChain(this);
+//       break;
+//     }
+//   }
+//   pl->getHoldings()->push_back(this);
+// }
 
 void Game::economyPhase(Player * pl) {
 
@@ -156,6 +163,7 @@ void Game::economyPhase(Player * pl) {
       if (answer == "Y") {
         if (pl->makePurchase(i->getCard()->getCost()) == true) {
           std::cout << "Purchase Completed ! " << std::endl;
+          i->getCard()->setTapped();
           i->getCard()->attachToPlayer(pl);
           i->setCard( pl->drawBlackCard() );
         } 
