@@ -48,7 +48,7 @@ static std::unordered_map<std::string , vector<size_t> > * readAndMap (const std
 }
 
 /* ========================================================================= */
-
+// TODO : use general header
 static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
   std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Personalities_and_Holdings.txt");
   std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Followers_and_Weapons.txt");

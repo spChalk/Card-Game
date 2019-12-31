@@ -65,8 +65,8 @@ class GreenCard : public Card
 {
 protected:
 
-  const size_t attackBonus;              /* I think bonuses are e.g  0,2 x attack . That's why they're floats */
-  const size_t defenceBonus;
+  size_t attackBonus;              /* I think bonuses are e.g  0,2 x attack . That's why they're floats */
+  size_t defenceBonus;
   const size_t minHonor;
 
   const std::string cardText;
