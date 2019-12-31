@@ -66,11 +66,11 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
 
       if (j->second.size() == 7) {
 
-        Follower * newFollower = new Follower(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
+        Follower * newFollower = new Follower(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5]);
         fateDeck->push(newFollower);
         j->second[6]--;
       } else {
-        Item * newItem = new Item(j->second.at(6) , j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) , "Random Text" , j->second.at(4) , j->second.at(5));
+        Item * newItem = new Item(j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5]);
         fateDeck->push(newItem);
         j->second[7]--;
       }
@@ -89,11 +89,11 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
         }
       
       if (j->second.size() == 5) {
-        Personality * newPers = new Personality(j->first , j->second.at(0) , j->second.at(1) , j->second.at(2) , j->second.at(3) );
+        Personality * newPers = new Personality(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] );
         dynastyDeck->push(newPers);
         j->second[4]--;
       } else {
-        Holding * newHolding = new Holding(j->first , j->second.at(0) , j->second.at(1));
+        Holding * newHolding = new Holding(j->first , j->second[0] , j->second[1]);
         dynastyDeck->push(newHolding);
         j->second[2]--;
       }
