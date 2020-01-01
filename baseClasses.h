@@ -28,6 +28,11 @@ class Item;
 using std::vector;
 using std::queue;
 
+enum GreenCardType
+{
+  FOLLOWER, ITEM
+};
+
 enum FollowerType 
 {
   FOOTSOLDIER, ARCHER, CAVALRY, BUSHIDO, SIEGER, ATAKEBUNE
@@ -38,6 +43,11 @@ enum ItemType
   KATANA, SPEAR, BOW, NINJATO, WAKIZASHI
 };
 
+enum BlackCardType
+{
+  PERSONALITY, HOLDING
+};
+
 enum PersonalityType
 {
   ATTACKER, DEFENDER, CHAMPION, CHANCELLOR, SHOGUN
@@ -45,7 +55,7 @@ enum PersonalityType
 
 enum HoldingType
 {
-  MINE, GOLD_MINE, CRYSTAL_MINE, PLAIN, FARMLAND, GIFT_N_FAVOUR
+  MINE, GOLD_MINE, CRYSTAL_MINE, PLAIN, FARMLAND, GIFT_N_FAVOUR, STRONGHOLD 
 };
 //==========================================|| C A R D ||==========================================
 
@@ -93,9 +103,13 @@ protected:
 
   bool attached; // antistoixo ths isDead tou blackCard < Personality
 
+  const enum GreenCardType type;
+
 public:
     
   GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
+
+  enum GreenCardType getGreenCardType() const { return type; }
 
   size_t getATK() const { return attackBonus;  }
   size_t getDEF() const { return defenceBonus; }
@@ -111,6 +125,10 @@ public:
   void upgrade(); 
 
   virtual void print() const = 0;
+  /* Not defined for this class */
+  virtual size_t getMaxPerPersonality() const = 0;
+  virtual enum FollowerType getFollowerType() const = 0;
+  virtual enum ItemType getItemType() const = 0;
 };
 
 //==========================================|| F O L L O W E R ||==========================================
@@ -164,9 +182,13 @@ protected:
 
   bool isRevealed;
 
+  const enum BlackCardType type;
+
 public:
     
   BlackCard(const std::string & name , const size_t & cost); 
+
+  enum BlackCardType getBlackCardType() const { return type; }
 
   void setRevealed() { isRevealed = true;  }
   void setHidden()   { isRevealed = false; }
