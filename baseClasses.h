@@ -444,9 +444,11 @@ public:
   void print() const;
   void printHoldings() const;
   void printArmy() const;
+  void printArena() const;
   void printAvailableArmy() const;
   void printHand() const;
   void printProvinces() const;
+  void printStatistics() const;
 
   void cleanup(); // Removes 1) dead personalities from army 2) detached GreenCards
 
@@ -463,7 +465,7 @@ class Game
 {
   vector <Player *> * players;
  
-  size_t checkWinningCondition(void);
+  size_t checkWinningCondition();
 
   void startingPhase (Player *);
   void equipmentPhase(Player *);
@@ -477,8 +479,8 @@ public:
   ~Game();
 
   void initGameBoard(vector <Player *> * players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards);
-  void printGameStats(void);
-  void gameplay(void);
+  void printGameStatistics() const;
+  void gameplay();
 };
 
 //==========================================|| E N D  O F  F I L E ||==========================================
