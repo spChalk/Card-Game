@@ -230,8 +230,12 @@ void Player::printAvailableArmy() const
 
 /* ========================================================================= */
 
-void Player::printHand() const {
-  for (auto *i : *hand) i->print();
+void Player::printHand() const 
+{
+  if (hand->size() == 0) 
+    cout << "Empty hand!" << endl;
+  else
+    for (auto *i : *hand) i->print();
 }
 
 /* ========================================================================= */
