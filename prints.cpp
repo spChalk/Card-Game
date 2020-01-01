@@ -240,3 +240,47 @@ void Player::printProvinces() const {
   for (auto *i : *provinces) i->print();
 }
 /* ========================================================================= */
+
+void Player::printArena() const { this->printArmy(); }
+
+/* ========================================================================= */
+
+void Player::printStatistics() const
+{
+  cout << "\nPrinting statistics for player: " << getUserName() << endl;
+  cout << "=======   BEGINNING OF STATS  =======" << endl;
+  cout << "\nActive provinces: " << activeProvinces << endl;
+
+  if (activeProvinces == 0)
+  {
+    cout << "======= !END OF STATS! =======" << endl;
+    cout << "\nPlayer: " << getUserName() << " is out of the game!" << endl;
+  }
+
+  cout << "\nCards remaining on Fate deck (Greencards): " 
+       << fateDeck->size() << endl;
+  cout << "\nCards remaining on Dynasty deck (Blackcards): " 
+       << dynastyDeck->size() << endl;
+  cout << "\nPrinting hand: " << endl;
+  printHand();
+  cout << "\nPrinting provinces: " << endl;
+  printProvinces();
+  cout << "\nPrinting army: " << endl;
+  printArmy();
+  cout << "\nPrinting holdings: " << endl;
+  printHoldings();
+  cout << "======= !END OF STATS! =======" << endl;
+}
+
+/* ========================================================================= */
+
+void Game::printGameStatistics() const
+{
+  cout << " Printing global game statistics!" << endl;
+  cout << "=========  BEGINNING OF GLOBAL STATS  =========" << endl;
+  // could also print the current round
+  for (auto *i : *players)
+    i->printStatistics();
+
+  cout << "========= !END OF GLOBAL STATS! =========" << endl;
+}
