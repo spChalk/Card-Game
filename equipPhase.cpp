@@ -1,9 +1,8 @@
 //======|| EQUIPMENT PHASE IMPL ||======
 
-// TODO : Na valw oles tis proupo8eseis agoras kartas 
-// [HARRY] : TODO: Limitations on personalities holding GreenCards
 #include <iostream>
 #include <vector>
+
 #include "baseClasses.h"
 
 using std::cout;
@@ -12,10 +11,11 @@ using std::endl;
 namespace // namespace_start
 {
 
-bool hasEnoughMoney(Player *, GreenCard *);
-bool hasEnoughHonor(Personality *, GreenCard *);
-bool hasntReachedLimit(Personality *) { return true; } // T O D O
-void upgradeGreenCard(Player *, GreenCard *);
+void upgradeGreenCard (Player *,      GreenCard *);
+bool hasEnoughMoney   (Player *,      GreenCard *);
+bool hasEnoughHonor   (Personality *, GreenCard *);
+bool hasntReachedLimit(Personality *, GreenCard *);
+/* ========================================================================= */
 
 void upgradeGreenCard(Player * player, GreenCard *card)
 {
@@ -32,6 +32,7 @@ void upgradeGreenCard(Player * player, GreenCard *card)
     cout << "Not enough money to make the purchase.\nCurrent money: "
          << currMoney << "\nEffect cost: " << card->getEffectCost() << endl;
 }
+/* ========================================================================= */
 
 bool hasEnoughMoney(Player *player, GreenCard *card)
 { 
@@ -43,6 +44,7 @@ bool hasEnoughMoney(Player *player, GreenCard *card)
        << currMoney << "\nCard Cost: " << card->getCost() << endl;
   return false;
 }
+/* ========================================================================= */
 
 bool hasEnoughHonor(Personality *person, GreenCard *card)
 { 
@@ -54,6 +56,47 @@ bool hasEnoughHonor(Personality *person, GreenCard *card)
        << endl;
   return false;
 }
+/* ========================================================================= */
+
+bool hasntReachedLimit(Personality *person, GreenCard *card)
+{
+  enum GreenCardType cardType = card->getGreenCardType();
+  size_t maxCardPerPers = card->getMaxPerPersonality();
+
+  if (cardType == FOLLOWER)
+  {
+    std::vector<Follower *> * followers = person->getFollowers();
+    for (auto *i : *followers)
+    {
+      if (i->getFollowerType() == card->getFollowerType())
+        --maxCardPerPers;
+      
+      if (maxCardPerPers == 0) break;
+    }
+  }
+  else // cardType == ITEM
+  {
+    std::vector<Item *> * items = person->getItems();
+    for (auto *i : *items)
+    {
+      if (i->getItemType() == card->getItemType())
+        --maxCardPerPers;
+      
+      if (maxCardPerPers == 0) break;
+    }
+  }
+
+  if (maxCardPerPers == 0)
+  {
+    cout << "Personality is already fully equipped! \
+Can't carry more equipment of this type!\nMax equipment \
+of this type: " << card->getMaxPerPersonality() << endl;
+    return false;  
+  }
+
+  return true;
+}
+
 
 }; // namespace_end
 
@@ -85,7 +128,8 @@ size_t Player::getCurrMoney()
 }
 /* ========================================================================= */
 
-void Game::equipmentPhase (Player * player) {
+void Game::equipmentPhase (Player * player)
+{
   cout << "Equipment Phase Started !" << endl;
 
   cout << "Printing Army!" << endl;
@@ -120,7 +164,7 @@ appearance if you want to enhance the card's attributes!" << endl;
       //if (player->makePurchase(it->getCost()) == true && /*minHonor*/ && /* < MAX_CARDS_PER_PERS */)
       if ( hasEnoughMoney(player, card) 
         && hasEnoughHonor(pers, card) 
-        && hasntReachedLimit(pers))
+        && hasntReachedLimit(pers, card))
       {
         player->makePurchase(card->getCost());
 
@@ -132,6 +176,8 @@ appearance if you want to enhance the card's attributes!" << endl;
         cout << answer << endl;
 
         if (answer == "Y") upgradeGreenCard(player, card);
+
+        cout << "Remaining money: " << player->getCurrMoney() << endl;
       }
     }
   }
