@@ -118,12 +118,15 @@ public:
 class Follower : public GreenCard
 {
   const enum FollowerType type;
+  const size_t maxPerPerson; // MAX_<GREENCARD>_PER_PERSON gia na mhn xrhsimopoioume tis define'd times pantou sta .cpp
 
 public:
 
   Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
   enum FollowerType getFollowerType() const { return type; }
+
+  size_t getMaxPerPersonality() const { return maxPerPerson; }
 
   void print() const;
   void attachToPersonality(Personality *);
@@ -136,6 +139,7 @@ class Item : public GreenCard
   size_t durability; // not const because it can be decreased till 0 
 
   const enum ItemType type;
+  const size_t maxPerPerson;
 
 public:
     
@@ -144,6 +148,7 @@ public:
   enum ItemType getItemType() const { return type; }
 
   size_t getDurability() const { return durability; }
+  size_t getMaxPerPersonality() const { return maxPerPerson; }
   
   void decreaseDurability() { --durability; }
   void attachToPersonality(Personality *);
