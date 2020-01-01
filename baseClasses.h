@@ -28,6 +28,25 @@ class Item;
 using std::vector;
 using std::queue;
 
+enum FollowerType 
+{
+  FOOTSOLDIER, ARCHER, CAVALRY, BUSHIDO, SIEGER, ATAKEBUNE
+};
+
+enum ItemType
+{
+  KATANA, SPEAR, BOW, NINJATO, WAKIZASHI
+};
+
+enum PersonalityType
+{
+  ATTACKER, DEFENDER, CHAMPION, CHANCELLOR, SHOGUN
+};
+
+enum HoldingType
+{
+  MINE, GOLD_MINE, CRYSTAL_MINE, PLAIN, FARMLAND, GIFT_N_FAVOUR
+};
 //==========================================|| C A R D ||==========================================
 
 class Card
@@ -98,9 +117,13 @@ public:
 
 class Follower : public GreenCard
 {
+  const enum FollowerType type;
+
 public:
 
   Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
+
+  enum FollowerType getFollowerType() const { return type; }
 
   void print() const;
   void attachToPersonality(Personality *);
@@ -112,14 +135,17 @@ class Item : public GreenCard
 {
   size_t durability; // not const because it can be decreased till 0 
 
+  const enum ItemType type;
+
 public:
     
   Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
 
+  enum ItemType getItemType() const { return type; }
+
   size_t getDurability() const { return durability; }
   
   void decreaseDurability() { --durability; }
-
   void attachToPersonality(Personality *);
   
   void print() const;
@@ -160,10 +186,14 @@ class Personality : public BlackCard
   vector <Follower *> * followers;
   vector <Item *>     * items;
 
+  const enum PersonalityType type;
+
 public:
     
   Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor);
   ~Personality();
+
+  enum PersonalityType getPersonalityType() const { return type; }
 
   size_t getATK() const { return attack;  }
   size_t getDEF() const { return defence; }
@@ -191,10 +221,14 @@ class Holding : public BlackCard
 protected:
 
   size_t harvestValue; // Not const , because during Mine linkage it grows 
-                      
+
+  const enum HoldingType type;
+
 public:
     
   Holding(const std::string & name , const size_t & cost , const size_t & harvestValue);
+
+  enum HoldingType getHoldingType() const { return type; }
 
   size_t getHarvestValue() const { return harvestValue; }
 
