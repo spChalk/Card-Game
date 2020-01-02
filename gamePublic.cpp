@@ -60,7 +60,7 @@ std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::strin
   if (newFile.is_open()) {
     
     while ( getline (newFile , num) ) {
-      if (num.length() > 1) {
+      if (num.length() > 2) {
         name = num;
         continue;
       }
