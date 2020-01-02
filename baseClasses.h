@@ -73,6 +73,7 @@ protected:
 public:
 
   Card(const std::string & name , const size_t & cost );
+  virtual ~Card();
 
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
@@ -418,7 +419,7 @@ class Player
 
 public:
 
-  Player(const std::string & userName , StrongHold * stronghold );
+  Player(const std::string & userName );
   ~Player();
 
   size_t getHonor() const { return honor; }
@@ -479,7 +480,7 @@ public:
   Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/);
   ~Game();
 
-  void initGameBoard(vector <Player *> * players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards);
+  void initGameBoard(vector <Player *> * players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards , size_t maxHand);
   void printGameStatistics() const;
   void gameplay();
 };

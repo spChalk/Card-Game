@@ -24,11 +24,11 @@ Item::Item(const size_t & dur , const std::string & name , const size_t & cost ,
 : GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost) , durability(dur) , type(type) , maxPerPerson(maxPerPerson) {}
 
 Personality::Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor , const enum PersonalityType type)
-: BlackCard(name , cost) , attack(attack) , defence(defence) , honor(honor) , isDead(false) , followers(nullptr) , items(nullptr) , type(type) {}
+: BlackCard(name , cost) , attack(attack) , defence(defence) , honor(honor) , isDead(false) , followers(new std::vector<Follower *>) , items(new std::vector<Item *>) , type(type) {}
 
 Personality::~Personality() {
-    if (followers != nullptr) delete followers;
-    if (items != nullptr) delete items;
+    delete followers;
+    delete items;
 }
 
 Holding::Holding(const std::string & name , const size_t & cost , const size_t & harvestValue , const enum HoldingType type)
@@ -59,16 +59,15 @@ Province::Province(BlackCard * blC) : isBroken(false) , card(blC) {}
 
 Province::~Province() { delete card; }  // tou pousth pia den vazw elegxo gia null kai edw
 
-Player::Player(const std::string & userName , StrongHold * stronghold)
-: userName(userName) , strongHold(stronghold) , honor(stronghold->getInitHonor()) , activeProvinces(0) , fateDeck(nullptr) , dynastyDeck(nullptr) , hand(nullptr) , holdings(nullptr) , army(nullptr) , provinces(nullptr) {}
+Player::Player(const std::string & userName )
+: userName(userName) , strongHold(new StrongHold()) , honor(strongHold->getInitHonor()) , activeProvinces(0) , fateDeck(new queue<GreenCard *>) , dynastyDeck(new queue<BlackCard *>) , hand(new vector<GreenCard *>) , holdings(new vector<Holding *>) , army(new vector<Personality*>) , provinces(new vector<Province *>) {}
 
 Player::~Player() {
-    // einai anagkaioi oloi oi elegxoi gia null ?
-    if (strongHold != nullptr)delete strongHold;
-    if (fateDeck != nullptr)delete fateDeck;
-    if (dynastyDeck != nullptr)delete dynastyDeck;
-    if (hand != nullptr) delete hand;
-    if (holdings != nullptr) delete holdings;
-    if (army != nullptr) delete army;
-    if (provinces != nullptr) delete provinces;
+    delete strongHold;
+    delete fateDeck;
+    delete dynastyDeck;
+    delete hand;
+    delete holdings;
+    delete army;
+    delete provinces;
 }

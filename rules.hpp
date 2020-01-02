@@ -5,6 +5,7 @@
 #define DECK_SIZE         40
 #define MAX_DECK_SIZE     60
 #define MAX_HAND_CARDS    7
+#define INIT_HAND_CARDS   2
 
 #define NO_PERSONALITIES  25
 

@@ -73,35 +73,32 @@ void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
   std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Personalities_and_Holdings.txt");
   std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Followers_and_Weapons.txt");
   
-  queue<GreenCard *> * fateDeck = new queue<GreenCard *>;
-  queue<BlackCard *> * dynastyDeck = new queue<BlackCard *>;
-
   for (size_t i = 0; i < maxGreenCards; i++) {
     
     for (auto j = gMap->begin() ; j != gMap->end() ; j++ ) {
 
       if (j->first == "FOOTSOLDIER")
-        pushNtimes(fateDeck , j , FOOTSOLDIER , NO_FOOTSOLDIER , &i );
+        pushNtimes(pl->getFateDeck() , j , FOOTSOLDIER , NO_FOOTSOLDIER , &i );
       else if (j->first == "ARCHER")
-        pushNtimes(fateDeck , j , ARCHER , NO_ARCHER , &i );
+        pushNtimes(pl->getFateDeck() , j , ARCHER , NO_ARCHER , &i );
       else if (j->first == "SIEGER")
-        pushNtimes(fateDeck , j , SIEGER , NO_SIEGER , &i );
+        pushNtimes(pl->getFateDeck() , j , SIEGER , NO_SIEGER , &i );
       else if (j->first == "CAVALRY")
-        pushNtimes(fateDeck , j , CAVALRY , NO_CAVALRY , &i );
+        pushNtimes(pl->getFateDeck() , j , CAVALRY , NO_CAVALRY , &i );
       else if (j->first == "NAVAL")
-        pushNtimes(fateDeck , j , ATAKEBUNE , NO_NAVAL , &i );
+        pushNtimes(pl->getFateDeck() , j , ATAKEBUNE , NO_NAVAL , &i );
       else if (j->first == "BUSHIDO")
-        pushNtimes(fateDeck , j , BUSHIDO , NO_BUSHIDO , &i );
+        pushNtimes(pl->getFateDeck() , j , BUSHIDO , NO_BUSHIDO , &i );
       else if (j->first == "KATANA")
-        pushNtimes(fateDeck , j , KATANA , NO_KATANA , &i );
+        pushNtimes(pl->getFateDeck() , j , KATANA , NO_KATANA , &i );
       else if (j->first == "SPEAR")
-        pushNtimes(fateDeck , j , SPEAR , NO_SPEAR , &i );
+        pushNtimes(pl->getFateDeck() , j , SPEAR , NO_SPEAR , &i );
       else if (j->first == "BOW")
-        pushNtimes(fateDeck , j , BOW , NO_BOW , &i );
+        pushNtimes(pl->getFateDeck() , j , BOW , NO_BOW , &i );
       else if (j->first == "NINJATO")
-        pushNtimes(fateDeck , j , NINJATO , NO_NINJATO , &i );
+        pushNtimes(pl->getFateDeck() , j , NINJATO , NO_NINJATO , &i );
       else if (j->first == "WAKIZASHI")
-        pushNtimes(fateDeck , j , WAKIZASHI , NO_WAKIZASHI , &i );
+        pushNtimes(pl->getFateDeck() , j , WAKIZASHI , NO_WAKIZASHI , &i );
   
     }
   }
@@ -113,35 +110,32 @@ void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
     for (auto j = bMap->begin() ; j != bMap->end() ; j++ ) {
 
       if (j->first == "ATTACKER")
-        pushNtimes(dynastyDeck , j , ATTACKER , NO_ATTACKING , &i );
+        pushNtimes(pl->getDynastyDeck() , j , ATTACKER , NO_ATTACKING , &i );
       else if (j->first == "DEFENDER")
-        pushNtimes(dynastyDeck , j , DEFENDER , NO_DEFENSIVE , &i );
+        pushNtimes(pl->getDynastyDeck() , j , DEFENDER , NO_DEFENSIVE , &i );
       else if (j->first == "SHOGUN")
-        pushNtimes(dynastyDeck , j , SHOGUN , NO_SHOGUN , &i );
+        pushNtimes(pl->getDynastyDeck() , j , SHOGUN , NO_SHOGUN , &i );
       else if (j->first == "CHANCELLOR")
-        pushNtimes(dynastyDeck , j , CHANCELLOR , NO_CHANCELLOR , &i );
+        pushNtimes(pl->getDynastyDeck() , j , CHANCELLOR , NO_CHANCELLOR , &i );
       else if (j->first == "CHAMPION")
-        pushNtimes(dynastyDeck , j , CHAMPION , NO_CHAMPION , &i );
+        pushNtimes(pl->getDynastyDeck() , j , CHAMPION , NO_CHAMPION , &i );
       else if (j->first == "SOLO")
-        pushNtimes(dynastyDeck , j , GIFT_N_FAVOUR , NO_SOLO , &i );
+        pushNtimes(pl->getDynastyDeck() , j , GIFT_N_FAVOUR , NO_SOLO , &i );
       else if (j->first == "PLAIN")
-        pushNtimes(dynastyDeck , j , PLAIN , NO_PLAIN , &i );
+        pushNtimes(pl->getDynastyDeck() , j , PLAIN , NO_PLAIN , &i );
       else if (j->first == "FARMS")
-        pushNtimes(dynastyDeck , j , FARMLAND , NO_FARMS , &i );
+        pushNtimes(pl->getDynastyDeck() , j , FARMLAND , NO_FARMS , &i );
       else if (j->first == "MINE")
-        pushNtimes(dynastyDeck , j , MINE , NO_MINE , &i );
+        pushNtimes(pl->getDynastyDeck() , j , MINE , NO_MINE , &i );
       else if (j->first == "GOLD_MINE")
-        pushNtimes(dynastyDeck , j , GOLD_MINE , NO_GOLD_MINE , &i );
+        pushNtimes(pl->getDynastyDeck() , j , GOLD_MINE , NO_GOLD_MINE , &i );
       else if (j->first == "CRYSTAL_MINE")
-        pushNtimes(dynastyDeck , j , CRYSTAL_MINE , NO_CRYSTAL_MINE , &i );
+        pushNtimes(pl->getDynastyDeck() , j , CRYSTAL_MINE , NO_CRYSTAL_MINE , &i );
 
     }
   }
 
   delete bMap;
-
-  pl->setFateDeck(fateDeck);
-  pl->setDynastyDeck(dynastyDeck);
 }
 
 } // NameSpace End
@@ -156,31 +150,39 @@ BlackCard * Player::drawBlackCard(void) { // TODO : assert if empty
 
 /* ========================================================================= */
 
+GreenCard * Player::drawFateCard(void) { // TODO : assert if empty
+  GreenCard * tmp = fateDeck->front();
+  fateDeck->pop();
+  return tmp;
+}
+
+/* ========================================================================= */
+
 Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/) {  
   
   players = new vector<Player *>;  // Create a new vector 
   
-  initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards);
-
+  initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards , maxHand);
 
 }
 
 /* ========================================================================= */
 
-void Game::initGameBoard(vector <Player *> * players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards) {
+void Game::initGameBoard(vector <Player *> * players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
 
-    StrongHold * newStrH = new StrongHold();  // Make StrongHold
           // Make player (assign name , StrongHold and honor(via StrongHold))
-    Player * newPl = new Player("Player" + std::to_string(i) , newStrH );
+    Player * newPl = new Player("Player" + std::to_string(i) );
           // Make fateDeck and dynastyDeck
     deckBuilder(newPl , maxGreenCards , maxBlackCards);
-          // Make provinces
-    vector<Province *> * provinces = new vector<Province *>;
+    
+    for (size_t i = 0; i < maxHand / 2 ; i++) {           // As einai oi arxikes kartes sto xeri ises me to miso twn MAX , dunno
+      newPl->getHand()->push_back(newPl->drawFateCard());
+    }
     
     for (size_t i = 0; i < 4; i++) {
       Province * newPr = new Province(newPl->drawBlackCard());
-      provinces->push_back(newPr);
+      newPl->getProvinces()->push_back(newPr);
     }
     
     players->push_back(newPl);
