@@ -16,8 +16,6 @@ using std::cout;  // an se enoxloun mporoume na ta vgaloume
 using std::endl;
 
 namespace {  // Namespace Start
-
-#define NO_WINNER 0
 // TODO : Kanonika o kwdikas twn templates paei se .h arxeio
 
 // D stands for Deck's Cards. D can be GreenCard or BlackCard
@@ -43,11 +41,6 @@ void pushNtimes(std::queue< D *> * deck , std::unordered_map<std::string , vecto
     }
     (*times)++;
   }
-}
-
-/* ========================================================================= */
-bool playerCompare(Player *p1, Player *p2) {
-  return (p1->getHonor() > p1->getHonor());
 }
 
 /* ========================================================================= */
@@ -195,6 +188,11 @@ void Game::initGameBoard(vector <Player *> * players , size_t numPlayers ,size_t
 }
 /* ========================================================================= */
 
+static bool playerCompare(Player *p1, Player *p2) { // make sure this is descending order
+  return (p1->getHonor() > p2->getHonor());
+}
+
+/* ========================================================================= */
 
 /* Plays the game. Terminates only when there's a winner *
  * TODO: Maybe add some violent termination feature ?    */
@@ -202,9 +200,9 @@ void Game::gameplay(void)
 {
   std::sort(players->begin(), players->end(), playerCompare); // sort by honor // too lazy to PQ it
 
-  size_t gameStatus = NO_WINNER;
+  size_t winPos;
 
-  while(gameStatus == NO_WINNER)
+  while(true) // while no winner is found
   {
     for (auto *i : *players) // c-like != python...
     {
@@ -214,7 +212,7 @@ void Game::gameplay(void)
       equipmentPhase(i);
       battlePhase(i);
 
-      if (gameStatus = checkWinningCondition())
+      if ((winPos = checkWinningCondition()) != 0) // we have a winner
         break;
 
       economyPhase(i);
@@ -222,7 +220,7 @@ void Game::gameplay(void)
     }
   }
 
-  Player *winner = players->at(gameStatus-1);
+  Player *winner = players->at(winPos-1);
   std::cout << "Player \'" << winner->getUserName() 
             << "\' just won the game!" << std::endl;
 }
@@ -231,7 +229,7 @@ void Game::gameplay(void)
 
 /* Checks whether we have a winner                  *
  * Returns his place in the vector counting from 1  *
- * If no winner is found, returns 0                 */
+ * If no winner is found, returns 0 (NO_WINNER)     */
 size_t Game::checkWinningCondition(void)
 {
   bool playersWithProvinces = 0;
@@ -244,7 +242,7 @@ size_t Game::checkWinningCondition(void)
     if (i->getProvincesNum() != 0)     /* If the player still has prov */
     { 
       if (playersWithProvinces == 1)  
-        return NO_WINNER;    /* We already found another player with prov */
+        return 0;    /* We already found another player with prov */
       else
       {
         playersWithProvinces = 1;
