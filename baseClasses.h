@@ -73,7 +73,7 @@ protected:
 public:
 
   Card(const std::string & name , const size_t & cost );
-  virtual ~Card();
+  virtual ~Card() {} 
 
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
@@ -274,7 +274,7 @@ class Mine : public Holding
 
 public:
     
-  Mine(const std::string & name = "Mine", const size_t & cost = 5 , const size_t & harvestValue = 3);
+  Mine(const std::string & name = "MINE", const size_t & cost = 5 , const size_t & harvestValue = 3);
   ~Mine();
 
   void print() const;
@@ -295,7 +295,7 @@ class CrystalMine : public Holding
 
 public:
     
-  CrystalMine(const std::string & name , const size_t & cost , const size_t & harvestValue);
+  CrystalMine(const std::string & name = "CRYSTAL_MINE" , const size_t & cost = 12 , const size_t & harvestValue = 6);
   ~CrystalMine();
 
   void print() const; 
@@ -317,7 +317,7 @@ class GoldMine : public Holding
 
 public:
     
-  GoldMine(const std::string & name , const size_t & cost , const size_t & harvestValue);  
+  GoldMine(const std::string & name = "GOLD_MINE", const size_t & cost = 7 , const size_t & harvestValue = 5);  
   ~GoldMine();
 
   void print() const;

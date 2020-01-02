@@ -37,7 +37,14 @@ void pushNtimes(std::queue< D *> * deck , std::unordered_map<std::string , vecto
       deck->push ((D *)new Personality (j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , (const enum PersonalityType)type));
     }
     else if (j->second.size() == 2) {  // Holding
-      deck->push ((D *)new Holding (j->first , j->second[0] , j->second[1] , (const enum HoldingType)type));
+        if (j->first == "MINE")
+          deck->push ((D *)new Mine ());  
+        else if (j->first == "GOLD_MINE")
+          deck->push ((D *)new GoldMine ());
+        else if (j->first == "CRYSTAL_MINE")
+          deck->push ((D *)new CrystalMine ());    
+        else 
+          deck->push ((D *)new Holding (j->first , j->second[0] , j->second[1] , (const enum HoldingType)type));
     }
     (*times)++;
   }
