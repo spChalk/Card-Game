@@ -15,7 +15,7 @@
 #define NO_CHANCELLOR     2
 #define NO_CHAMPION       1
 
-#define NO_HOLDINGS       17
+#define NO_HOLDINGS       15
 
 #define NO_PLAIN          3
 #define NO_MINE           3

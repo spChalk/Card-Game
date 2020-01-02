@@ -141,7 +141,7 @@ void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
 
     }
   }
-
+  
   delete bMap;
 }
 
