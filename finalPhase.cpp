@@ -41,7 +41,9 @@ void discardSurplusFateCards (Player * pl , size_t numOfCards)
       }
       else
         ++card;
-    }  
+
+      if (numOfCards == 0) break;
+    }
   }
 }
 
