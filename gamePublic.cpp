@@ -158,16 +158,6 @@ GreenCard * Player::drawFateCard(void) { // TODO : assert if empty
 
 /* ========================================================================= */
 
-Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/) {  
-  
-  players = new vector<Player *>;  // Create a new vector 
-  
-  initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards , maxHand);
-
-}
-
-/* ========================================================================= */
-
 void Game::initGameBoard(vector <Player *> * players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
 
@@ -226,6 +216,21 @@ void Game::gameplay(void)
   std::cout << "Player \'" << winner->getUserName() 
             << "\' just won the game!" << std::endl;
 }
+
+/* ========================================================================= */
+
+Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/) {  
+  
+  players = new vector<Player *>;  // Create a new vector 
+  
+  initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards , maxHand);
+  
+  printGameStatistics();
+  
+  gameplay(); 
+}
+
+Game::~Game () { delete players; }
 
 /* ========================================================================= */
 
