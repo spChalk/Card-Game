@@ -261,6 +261,8 @@ public:
 
   size_t getHarvestValue() const { return harvestValue; }
 
+  void increaseHarvestValueBy (size_t points) { harvestValue += points; }
+
   virtual void print() const; // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
 
   void attachToPlayer(Player *);

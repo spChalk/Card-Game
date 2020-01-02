@@ -7,34 +7,21 @@
 
 namespace {
 
-  size_t checkForFullChain (CrystalMine * crM) {                                  // Check if 
-    return (crM->getSubHolding() != nullptr                                       // CrystalMine -> GoldMine exists
-        && crM->getSubHolding()->getUpperHolding() != nullptr                     // CrystalMine -> GoldMine -> CrystalMine exists
-        && crM->getSubHolding()->getSubHolding() != nullptr                       // CrystalMine -> GoldMine -> Mine exists
-        && crM->getSubHolding()->getSubHolding()->getUpperHolding() != nullptr)   // CrystalMine -> GoldMine -> Mine -> GoldMine exists
-        ? 3*crM->getHarvestValue()                                                // If Fully Linked , return SUPER BONUS
-        : crM->getHarvestValue();                                                 // Else return standard Bonus
+  bool checkForFullChain (CrystalMine * crM) {                                                // Check if 
+    return (crM->getSubHolding() != nullptr                                                   // CrystalMine -> GoldMine exists
+        && crM->getSubHolding()->getUpperHolding() == crM                                     // CrystalMine -> GoldMine -> CrystalMine exists
+        && crM->getSubHolding()->getSubHolding() != nullptr                                   // CrystalMine -> GoldMine -> Mine exists
+        && crM->getSubHolding()->getSubHolding()->getUpperHolding() == crM->getSubHolding()); // CrystalMine -> GoldMine -> Mine -> GoldMine exists
   }
 
-  size_t checkForFullChain (Mine * M) {                                           // Check if 
-    return (M->getUpperHolding() != nullptr                                       // Mine -> GoldMine exists
-        && M->getUpperHolding()->getSubHolding() != nullptr                       // Mine -> GoldMine -> Mine exists
-        && M->getUpperHolding()->getUpperHolding() != nullptr                     // Mine -> GoldMine -> CrystalMine exists
-        && M->getUpperHolding()->getUpperHolding()->getSubHolding() != nullptr)   // Mine -> GoldMine -> CrystalMine -> GoldMine exists
-        ? 3*M->getHarvestValue()                                                  // If Fully Linked , return SUPER BONUS
-        : 2;                                                                      // Else return standard Bonus
+  bool checkForFullChain (Mine * M) {                                                         // Check if 
+    return (M->getUpperHolding() != nullptr                                                   // Mine -> GoldMine exists
+        && M->getUpperHolding()->getSubHolding() == M                                         // Mine -> GoldMine -> Mine exists
+        && M->getUpperHolding()->getUpperHolding() != nullptr                                 // Mine -> GoldMine -> CrystalMine exists
+        && M->getUpperHolding()->getUpperHolding()->getSubHolding() == M->getUpperHolding()); // Mine -> GoldMine -> CrystalMine -> GoldMine exists
   }
 
-  size_t checkForFullChain (GoldMine * glM) {                                     // Check if 
-    return (glM->getSubHolding() != nullptr                                       // GoldMine -> Mine exists
-        && glM->getSubHolding()->getUpperHolding() != nullptr                     // GoldMine -> Mine -> GoldMine exists
-        && glM->getUpperHolding() != nullptr                                      // GoldMine -> CrystalMine exists
-        && glM->getUpperHolding()->getSubHolding() != nullptr)                    // GoldMine -> CrystalMine -> GoldMine exists
-        ? 3*glM->getHarvestValue()                                                // If Fully Linked , return SUPER BONUS
-        : 0;                                                                      // Else return nothing
-  }
-
-}
+}  // Namespace End
 
 bool Player::makePurchase (size_t cost) {
   
@@ -63,73 +50,90 @@ void Holding::attachToPlayer (Player * pl) {
   pl->getHoldings()->push_back(this);  
 }
 
-// void Mine::attachToPlayer(Player * pl) {
+void Mine::attachToPlayer(Player * pl) {
   
-//   for (auto * i : *(pl->getHoldings())) {
+  for (auto * i : *(pl->getHoldings())) {
     
-//     if (i->getName() == "GOLD_MINE") {
-      
-//       upperHolding = (GoldMine *)i;
-//       ((GoldMine *)i)->setSubHolding(this);
+    if (i->getHoldingType() == GOLD_MINE) {
+      if (((GoldMine *)i)->getSubHolding() == nullptr) {
+        upperHolding = (GoldMine *)i;
+        ((GoldMine *)i)->setSubHolding(this);
 
-//       harvestValue += checkForFullChain(this);
-//       break;
-//     }
-//   }
-//   pl->getHoldings()->push_back(this);
-// }
+        if (checkForFullChain(this) == true) {
+          upperHolding->getUpperHolding()->increaseHarvestValueBy(3*(upperHolding->getUpperHolding()->getHarvestValue()));
+          i->increaseHarvestValueBy(2*(i->getHarvestValue()));
+        }
+        else {
+          i->increaseHarvestValueBy(4);
+        }
+        harvestValue += 2;
+        
+        break;
+      }
+    }
+  }
+  pl->getHoldings()->push_back(this);
+}
 
-// void GoldMine::attachToPlayer(Player * pl) {
+void GoldMine::attachToPlayer(Player * pl) {
   
-//   for (auto * i : *(pl->getHoldings())) {  // Check for Mines
-//     if (i->getName() == "MINE") {
+  for (auto * i : *(pl->getHoldings())) {  // Check for Mines
+    if (i->getHoldingType() == MINE) {
+      if (((Mine *)i)->getUpperHolding() == nullptr) {
+        subHolding = (Mine *)i;
+        ((Mine *)i)->setUpperHolding(this);
       
-//       subHolding = (Mine *)i;
-//       ((Mine *)i)->setUpperHolding(this);
+        harvestValue += 4;
+        i->increaseHarvestValueBy(2);
 
-//       harvestValue +=4 ;
-//       break;
-//     }
-//   }
-//   for (auto * i : *(pl->getHoldings())) {  // Check for Crystal Mines
-//     if (i->getName() == "CRYSTAL_MINE") {
-      
-//       upperHolding = (CrystalMine *)i;
-//       ((CrystalMine *)i)->setSubHolding(this);
+        break;
+      }
+    }
+  }
+  for (auto * i : *(pl->getHoldings())) {  // Check for Crystal Mines
+    if (i->getHoldingType() == CRYSTAL_MINE) {
+      if (((CrystalMine *)i)->getSubHolding() == nullptr) {
+        upperHolding = (CrystalMine *)i;
+        ((CrystalMine *)i)->setSubHolding(this);
 
-//       if (subHolding == nullptr)  // If there's no link with a Mine
-//         harvestValue +=5;         // Add the bonus
-//       else {
-//         size_t temp = checkForFullChain(this);
-//         harvestValue -=4;         // If there's also a link with a Mine
-        
-//         (temp == 0) ?      
-//         harvestValue += 2*harvestValue :  // Double the INITIAL harvest Value
-//         harvestValue += temp;
-        
-//       }
-      
-//       break;
-//     }
-//   }
-//   pl->getHoldings()->push_back(this);
-// }
+        if (subHolding == nullptr) {        // If there's no link with a Mine
+          harvestValue +=5;                 // Add the bonus
+          i->increaseHarvestValueBy(i->getHarvestValue());
+        }
+        else {
+          harvestValue += 2*harvestValue;
+          i->increaseHarvestValueBy(3*(i->getHarvestValue()));
+        }
+        break;    
+      }
+    }
+  }
+  pl->getHoldings()->push_back(this);
+}
 
-// void CrystalMine::attachToPlayer(Player * pl) {
+void CrystalMine::attachToPlayer(Player * pl) {
 
-//   for (auto * i : *(pl->getHoldings())) {
+  for (auto * i : *(pl->getHoldings())) {
     
-//     if (i->getName() == "GOLD_MINE") {
-      
-//       subHolding = (GoldMine *)i;
-//       ((GoldMine *)i)->setUpperHolding(this);
+    if (i->getHoldingType() == GOLD_MINE) {
+      if (((GoldMine *)i)->getUpperHolding() == nullptr) {
+        subHolding = (GoldMine *)i;
+        ((GoldMine *)i)->setUpperHolding(this);
 
-//       harvestValue += checkForFullChain(this);
-//       break;
-//     }
-//   }
-//   pl->getHoldings()->push_back(this);
-// }
+        if (checkForFullChain(this) == true) {
+          harvestValue += 3*harvestValue;
+          i->increaseHarvestValueBy(2*(i->getHarvestValue()));
+        }
+        else {
+          harvestValue += harvestValue;
+          i->increaseHarvestValueBy(5);
+        }
+        break;
+      }
+    }
+  }
+  pl->getHoldings()->push_back(this);
+}
 
 void Game::economyPhase(Player * pl) {
 
@@ -163,7 +167,7 @@ void Game::economyPhase(Player * pl) {
       if (answer == "Y") {
         if (pl->makePurchase(i->getCard()->getCost()) == true) {
           std::cout << "Purchase Completed ! " << std::endl;
-          i->getCard()->setTapped();
+          i->getCard()->setTapped();  // TODO : nomizw einai peritto
           i->getCard()->attachToPlayer(pl);
           i->setCard( pl->drawBlackCard() );
         } 
