@@ -61,11 +61,13 @@ void Mine::attachToPlayer(Player * pl) {
 
         if (checkForFullChain(this) == true) {
           upperHolding->getUpperHolding()->increaseHarvestValueBy(3*(upperHolding->getUpperHolding()->getHarvestValue()));
+          i->increaseHarvestValueBy(2*(i->getHarvestValue()));
         }
-
+        else {
+          i->increaseHarvestValueBy(4);
+        }
         harvestValue += 2;
-        i->increaseHarvestValueBy(4);
-
+        
         break;
       }
     }
@@ -96,11 +98,11 @@ void GoldMine::attachToPlayer(Player * pl) {
 
         if (subHolding == nullptr) {        // If there's no link with a Mine
           harvestValue +=5;                 // Add the bonus
-          ((CrystalMine *)i)->increaseHarvestValueBy(((CrystalMine *)i)->getHarvestValue());
+          i->increaseHarvestValueBy(i->getHarvestValue());
         }
         else {
           harvestValue += 2*harvestValue;
-          ((CrystalMine *)i)->increaseHarvestValueBy(3*((CrystalMine *)i)->getHarvestValue());
+          i->increaseHarvestValueBy(3*(i->getHarvestValue()));
         }
         break;    
       }
@@ -120,11 +122,11 @@ void CrystalMine::attachToPlayer(Player * pl) {
 
         if (checkForFullChain(this) == true) {
           harvestValue += 3*harvestValue;
-          ((GoldMine *)i)->increaseHarvestValueBy(2*(((GoldMine *)i)->getHarvestValue()));
+          i->increaseHarvestValueBy(2*(i->getHarvestValue()));
         }
         else {
           harvestValue += harvestValue;
-          ((GoldMine *)i)->increaseHarvestValueBy(5);
+          i->increaseHarvestValueBy(5);
         }
         break;
       }
