@@ -32,8 +32,8 @@ void GreenCard::print() const
   cout << GRN << "======  GREEN CARD  ======" << RST << endl;
   this->Card::print();
   
-  cout << "ATK Bonus: " << name << endl;
-  cout << "DEF Bonus: " << cost << endl;
+  cout << "ATK Bonus: " << attackBonus << endl;
+  cout << "DEF Bonus: " << defenceBonus << endl;
   cout << "Min Honor: " << minHonor << endl;
   cout << "Card Text: " << cardText << endl;
   cout << "Effect Bonus: " << effectBonus << endl;
@@ -260,7 +260,6 @@ void Player::printStatistics() const
   {
     cout << "======= !END OF STATS! =======" << endl;
     cout << "\nPlayer: " << getUserName() << " is out of the game!" << endl;
-    return;
   }
 
   cout << "\nCards remaining on Fate deck (Greencards): " 
