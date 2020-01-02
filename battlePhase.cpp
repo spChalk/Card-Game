@@ -29,7 +29,7 @@ std::vector<Personality *> * defArmy;
 const std::string *attName;
 const std::string *defName;
 
-Player   * chooseEnemy(std::vector<Player *> * players);
+Player   * chooseEnemy(Player *, std::vector<Player *> * players);
 Province * chooseProvince(Player *player);
 
 int chooseAction(void);
@@ -47,7 +47,7 @@ void battle(Province *);
 
 /* ========================================================================= */
 
-Player * chooseEnemy(std::vector<Player *> * players)
+Player * chooseEnemy(Player *current, std::vector<Player *> * players)
 {
   cout << "Choose an enemy! Available enemies are:" << endl;
 
@@ -56,6 +56,8 @@ Player * chooseEnemy(std::vector<Player *> * players)
   {
     for (auto *i : *players)
     {
+      if (i == current) continue;
+      
       if (i->getProvincesNum() != 0)    //if player still in the game
         cout << i->getUserName() << endl;
     }
@@ -67,7 +69,7 @@ Player * chooseEnemy(std::vector<Player *> * players)
 
     for (auto *i : *players)  // kinda retarded, should do faster if I please
     {
-      if (i->getProvincesNum() == 0) continue;
+      if (i->getProvincesNum() == 0 || i == current) continue;
 
       if (i->getUserName() == enemyName)
       {
@@ -389,7 +391,7 @@ void Game::battlePhase(Player *player)
     return;
   }
   // action == ATTACK
-  enemy = chooseEnemy(players);
+  enemy = chooseEnemy(player, players);
 
   attName = &player->getUserName();
   defName = &enemy ->getUserName();
