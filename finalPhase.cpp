@@ -9,9 +9,11 @@
 using std::cout;
 using std::endl;
 
+namespace {  // Namespace start
+
 /* ========================================================================= */
 
-static void discardSurplusFateCards (Player * pl , size_t numOfCards)
+void discardSurplusFateCards (Player * pl , size_t numOfCards)
 { // could be a method of class Player, since MAX_HAND_CARDS *will* also be a field
   while (numOfCards > 0)
   {
@@ -42,6 +44,9 @@ static void discardSurplusFateCards (Player * pl , size_t numOfCards)
     }  
   }
 }
+
+} // Namespace End 
+
 /* ========================================================================= */
 
 void Game::finalPhase(Player * pl)
