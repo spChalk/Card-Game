@@ -73,7 +73,6 @@ protected:
 public:
 
   Card(const std::string & name , const size_t & cost );
-  virtual ~Card();
 
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
