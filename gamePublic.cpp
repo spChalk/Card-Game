@@ -15,16 +15,43 @@
 using std::cout;  // an se enoxloun mporoume na ta vgaloume
 using std::endl;
 
+namespace {  // Namespace Start
+
 #define NO_WINNER 0
 
+// D stands for Deck's Cards. D can be GreenCard or BlackCard
+// E stands for Enum. 
+template <class D , typename E>
+// Pushes <total> times , <D type> objects in the given <deck>
+void pushNtimes(std::queue< D *> * deck , std::unordered_map<std::string , vector<size_t> >::iterator j ,const E type  , size_t total , size_t * times ) {
+
+  size_t temp = total;
+  while (temp--)
+  {
+    if (j->second.size() == 6) {  // Follower
+      deck->push ((D *)new Follower (j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum FollowerType)type , total));
+    }
+    else if (j->second.size() == 7) {  // Item
+      deck->push ((D *)new Item (j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum ItemType)type , total));
+    }
+    else if (j->second.size() == 4) {  // Personality
+      deck->push ((D *)new Personality (j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , (const enum PersonalityType)type));
+    }
+    else if (j->second.size() == 2) {  // Holding
+      deck->push ((D *)new Holding (j->first , j->second[0] , j->second[1] , (const enum HoldingType)type));
+    }
+    (*times)++;
+  }
+}
+
 /* ========================================================================= */
-static bool playerCompare(Player *p1, Player *p2) {
+bool playerCompare(Player *p1, Player *p2) {
   return (p1->getHonor() > p1->getHonor());
 }
 
 /* ========================================================================= */
 
-static std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::string & fileName ) {
+std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::string & fileName ) {
   std::unordered_map<std::string , vector<size_t> > * uMap = new std::unordered_map<std::string , vector<size_t> >;
   std::ifstream newFile (fileName);
   std::string name , num;
@@ -47,8 +74,8 @@ static std::unordered_map<std::string , vector<size_t> > * readAndMap (const std
 }
 
 /* ========================================================================= */
-// TODO : use general header
-static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
+
+void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
   std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Personalities_and_Holdings.txt");
   std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Followers_and_Weapons.txt");
   
@@ -57,23 +84,31 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
 
   for (size_t i = 0; i < maxGreenCards; i++) {
     
-    for (auto j = gMap->begin() ; j != gMap->end() ; j++ , i++) {
-        
-      if (j->second[j->second.size() - 1] == 0) {    // Last element of vector in bucket has the MAX number
-          i--;
-          continue;
-        }
+    for (auto j = gMap->begin() ; j != gMap->end() ; j++ ) {
 
-      if (j->second.size() == 7) {
-
-        Follower * newFollower = new Follower(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5]);
-        fateDeck->push(newFollower);
-        j->second[6]--;
-      } else {
-        Item * newItem = new Item(j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5]);
-        fateDeck->push(newItem);
-        j->second[7]--;
-      }
+      if (j->first == "FOOTSOLDIER")
+        pushNtimes(fateDeck , j , FOOTSOLDIER , NO_FOOTSOLDIER , &i );
+      else if (j->first == "ARCHER")
+        pushNtimes(fateDeck , j , ARCHER , NO_ARCHER , &i );
+      else if (j->first == "SIEGER")
+        pushNtimes(fateDeck , j , SIEGER , NO_SIEGER , &i );
+      else if (j->first == "CAVALRY")
+        pushNtimes(fateDeck , j , CAVALRY , NO_CAVALRY , &i );
+      else if (j->first == "NAVAL")
+        pushNtimes(fateDeck , j , ATAKEBUNE , NO_NAVAL , &i );
+      else if (j->first == "BUSHIDO")
+        pushNtimes(fateDeck , j , BUSHIDO , NO_BUSHIDO , &i );
+      else if (j->first == "KATANA")
+        pushNtimes(fateDeck , j , KATANA , NO_KATANA , &i );
+      else if (j->first == "SPEAR")
+        pushNtimes(fateDeck , j , SPEAR , NO_SPEAR , &i );
+      else if (j->first == "BOW")
+        pushNtimes(fateDeck , j , BOW , NO_BOW , &i );
+      else if (j->first == "NINJATO")
+        pushNtimes(fateDeck , j , NINJATO , NO_NINJATO , &i );
+      else if (j->first == "WAKIZASHI")
+        pushNtimes(fateDeck , j , WAKIZASHI , NO_WAKIZASHI , &i );
+  
     }
   }
   
@@ -81,22 +116,31 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
 
   for (size_t i = 0; i < maxBlackCards; i++) {
     
-    for (auto j = bMap->begin() ; j != bMap->end() ; j++ , i++) {
+    for (auto j = bMap->begin() ; j != bMap->end() ; j++ ) {
 
-      if (j->second[j->second.size() - 1] == 0) {    // Last element of vector in bucket has the MAX number
-          i--;
-          continue;
-        }
-      
-      if (j->second.size() == 5) {
-        Personality * newPers = new Personality(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] );
-        dynastyDeck->push(newPers);
-        j->second[4]--;
-      } else {
-        Holding * newHolding = new Holding(j->first , j->second[0] , j->second[1]);
-        dynastyDeck->push(newHolding);
-        j->second[2]--;
-      }
+      if (j->first == "ATTACKER")
+        pushNtimes(dynastyDeck , j , ATTACKER , NO_ATTACKING , &i );
+      else if (j->first == "DEFENDER")
+        pushNtimes(dynastyDeck , j , DEFENDER , NO_DEFENSIVE , &i );
+      else if (j->first == "SHOGUN")
+        pushNtimes(dynastyDeck , j , SHOGUN , NO_SHOGUN , &i );
+      else if (j->first == "CHANCELLOR")
+        pushNtimes(dynastyDeck , j , CHANCELLOR , NO_CHANCELLOR , &i );
+      else if (j->first == "CHAMPION")
+        pushNtimes(dynastyDeck , j , CHAMPION , NO_CHAMPION , &i );
+      else if (j->first == "SOLO")
+        pushNtimes(dynastyDeck , j , GIFT_N_FAVOUR , NO_SOLO , &i );
+      else if (j->first == "PLAIN")
+        pushNtimes(dynastyDeck , j , PLAIN , NO_PLAIN , &i );
+      else if (j->first == "FARMS")
+        pushNtimes(dynastyDeck , j , FARMLAND , NO_FARMS , &i );
+      else if (j->first == "MINE")
+        pushNtimes(dynastyDeck , j , MINE , NO_MINE , &i );
+      else if (j->first == "GOLD_MINE")
+        pushNtimes(dynastyDeck , j , GOLD_MINE , NO_GOLD_MINE , &i );
+      else if (j->first == "CRYSTAL_MINE")
+        pushNtimes(dynastyDeck , j , CRYSTAL_MINE , NO_CRYSTAL_MINE , &i );
+
     }
   }
 
@@ -105,6 +149,8 @@ static void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCar
   pl->setFateDeck(fateDeck);
   pl->setDynastyDeck(dynastyDeck);
 }
+
+} // NameSpace End
 
 /* ========================================================================= */
 
