@@ -391,6 +391,7 @@ void Game::battlePhase(Player *player)
     return;
   }
   // action == ATTACK
+  ::player = player;
   enemy = chooseEnemy(player, players);
 
   attName = &player->getUserName();
