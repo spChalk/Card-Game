@@ -24,7 +24,8 @@ class Item;
 #include <string>
 #include <vector>
 #include <unordered_map>
- 
+
+
 using std::vector;
 using std::queue;
 
@@ -84,15 +85,13 @@ public:
   virtual void print() const = 0;
 };
 
-// Kalutera na mhn valoume ta panta ola const gt mporei na exoume 8emata meta 
-
 //==========================================|| G R E E N  C A R D ||==========================================
 
 class GreenCard : public Card
 {
 protected:
 
-  size_t attackBonus;              /* I think bonuses are e.g  0,2 x attack . That's why they're floats */
+  size_t attackBonus;          
   size_t defenceBonus;
   const size_t minHonor;
 
@@ -107,7 +106,7 @@ protected:
 
 public:
     
-  GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
+  GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum GreenCardType = FOLLOWER);
 
   enum GreenCardType getGreenCardType() const { return type; }
 
@@ -137,10 +136,10 @@ class Follower : public GreenCard
 {
   const enum FollowerType type;
   const size_t maxPerPerson; // MAX_<GREENCARD>_PER_PERSON gia na mhn xrhsimopoioume tis define'd times pantou sta .cpp
-
+  // [Spiros] Yparxei 8ema an xrhsimopoioume ta defined all the way ? 
 public:
 
-  Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
+  Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum FollowerType , const size_t maxPerPerson);
 
   enum FollowerType getFollowerType() const { return type; }
 
@@ -161,7 +160,7 @@ class Item : public GreenCard
 
 public:
     
-  Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost );
+  Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum ItemType , const size_t maxPerPerson);
 
   enum ItemType getItemType() const { return type; }
 
@@ -186,7 +185,7 @@ protected:
 
 public:
     
-  BlackCard(const std::string & name , const size_t & cost); 
+  BlackCard(const std::string & name , const size_t & cost , const enum BlackCardType = PERSONALITY); 
 
   enum BlackCardType getBlackCardType() const { return type; }
 
@@ -217,7 +216,7 @@ class Personality : public BlackCard
 
 public:
     
-  Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor);
+  Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor , const enum PersonalityType );
   ~Personality();
 
   enum PersonalityType getPersonalityType() const { return type; }
@@ -253,7 +252,7 @@ protected:
 
 public:
     
-  Holding(const std::string & name , const size_t & cost , const size_t & harvestValue);
+  Holding(const std::string & name , const size_t & cost , const size_t & harvestValue , const enum HoldingType type);
 
   enum HoldingType getHoldingType() const { return type; }
 

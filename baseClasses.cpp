@@ -11,41 +11,41 @@
 Card::Card (const std::string & name , const size_t & cost )
 : name(name) , cost(cost) , isTapped(true) {}
 
-GreenCard::GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost ) 
-: Card(name , cost) , attackBonus(attackBonus) , defenceBonus(defenceBonus) , minHonor(minHonor) , cardText(cardText) , effectBonus(effectBonus) , effectCost(effectCost) , attached(false) {}
+GreenCard::GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum GreenCardType type) 
+: Card(name , cost) , attackBonus(attackBonus) , defenceBonus(defenceBonus) , minHonor(minHonor) , cardText(cardText) , effectBonus(effectBonus) , effectCost(effectCost) , attached(false) , type(type) {}
 
-BlackCard::BlackCard(const std::string & name , const size_t & cost)
-: Card(name , cost) , isRevealed(false) {}
+BlackCard::BlackCard(const std::string & name , const size_t & cost , const enum BlackCardType type)
+: Card(name , cost) , isRevealed(false) , type(type) {}
 
-Follower::Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost ) 
-: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost) {}
+Follower::Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum FollowerType type , const size_t maxPerPerson ) 
+: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost) , type(type) , maxPerPerson(maxPerPerson) {}
 
-Item::Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost ) 
-: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost) , durability(dur) {}
+Item::Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum ItemType type, const size_t maxPerPerson) 
+: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost) , durability(dur) , type(type) , maxPerPerson(maxPerPerson) {}
 
-Personality::Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor)
-: BlackCard(name , cost) , attack(attack) , defence(defence) , honor(honor) , isDead(false) , followers(nullptr) , items(nullptr) {}
+Personality::Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor , const enum PersonalityType type)
+: BlackCard(name , cost) , attack(attack) , defence(defence) , honor(honor) , isDead(false) , followers(nullptr) , items(nullptr) , type(type) {}
 
 Personality::~Personality() {
     if (followers != nullptr) delete followers;
     if (items != nullptr) delete items;
 }
 
-Holding::Holding(const std::string & name , const size_t & cost , const size_t & harvestValue)
-: BlackCard(name , cost) , harvestValue(harvestValue) {}
+Holding::Holding(const std::string & name , const size_t & cost , const size_t & harvestValue , const enum HoldingType type)
+: BlackCard(name , cost) , harvestValue(harvestValue) , type(type) {}
 
 Mine::Mine(const std::string & name , const size_t & cost , const size_t & harvestValue) 
-: Holding(name , cost , harvestValue) , upperHolding(nullptr) {} 
+: Holding(name , cost , harvestValue , MINE) , upperHolding(nullptr) {} 
 
 Mine::~Mine() { if (upperHolding != nullptr) delete upperHolding; }
 
 CrystalMine::CrystalMine(const std::string & name , const size_t & cost , const size_t & harvestValue) 
-: Holding(name , cost , harvestValue) , subHolding(nullptr) {} 
+: Holding(name , cost , harvestValue , CRYSTAL_MINE) , subHolding(nullptr) {} 
 
 CrystalMine::~CrystalMine() { if (subHolding != nullptr) delete subHolding; }
 
 GoldMine::GoldMine(const std::string & name , const size_t & cost , const size_t & harvestValue)
-: Holding(name , cost , harvestValue) , upperHolding(nullptr) ,subHolding(nullptr) {} 
+: Holding(name , cost , harvestValue , GOLD_MINE) , upperHolding(nullptr) ,subHolding(nullptr) {} 
 
 GoldMine::~GoldMine() { 
     if (upperHolding != nullptr) delete upperHolding; 
@@ -53,7 +53,7 @@ GoldMine::~GoldMine() {
 }
 
 StrongHold::StrongHold() // TODO : to Stronghold den exei cost ?
-: Holding("StrongHold" , 0 , 5) , initHonor(5) , initDefence(5) {} 
+: Holding("StrongHold" , 0 , 5 , STRONGHOLD) , initHonor(5) , initDefence(5) {} 
 
 Province::Province(BlackCard * blC) : isBroken(false) , card(blC) {}
 
