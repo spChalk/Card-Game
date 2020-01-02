@@ -260,6 +260,7 @@ void Player::printStatistics() const
   {
     cout << "======= !END OF STATS! =======" << endl;
     cout << "\nPlayer: " << getUserName() << " is out of the game!" << endl;
+    return;
   }
 
   cout << "\nCards remaining on Fate deck (Greencards): " 
