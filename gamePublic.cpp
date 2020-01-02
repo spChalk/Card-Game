@@ -180,6 +180,7 @@ void Game::initGameBoard(vector <Player *> * players , size_t numPlayers ,size_t
     for (size_t i = 0; i < 4; i++) {
       Province * newPr = new Province(newPl->drawBlackCard());
       newPl->getProvinces()->push_back(newPr);
+      newPl->increaseProvinceNum();
     }
     
     players->push_back(newPl);

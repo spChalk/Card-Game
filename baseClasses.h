@@ -430,6 +430,7 @@ public:
   size_t getCurrMoney();
 
   void decreaseProvinceNum() { --activeProvinces; }
+  void increaseProvinceNum() { ++activeProvinces; }
 
   const std::string& getUserName() const { return userName; }
   
