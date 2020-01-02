@@ -77,8 +77,8 @@ std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::strin
 /* ========================================================================= */
 
 void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
-  std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Personalities_and_Holdings.txt");
-  std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Followers_and_Weapons.txt");
+  std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Personalities_and_Holdings.txt");
+  std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Followers_and_Weapons.txt");
   
   for (size_t i = 0; i < maxGreenCards; i++) {
     
