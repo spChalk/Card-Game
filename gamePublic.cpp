@@ -18,6 +18,7 @@ using std::endl;
 namespace {  // Namespace Start
 
 #define NO_WINNER 0
+// TODO : Kanonika o kwdikas twn templates paei se .h arxeio
 
 // D stands for Deck's Cards. D can be GreenCard or BlackCard
 // E stands for Enum. 
