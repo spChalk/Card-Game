@@ -126,8 +126,8 @@ public:
   virtual void print() const = 0;
   /* Not defined for this class */
   virtual size_t getMaxPerPersonality() const = 0;
-  virtual enum FollowerType getFollowerType() const = 0;
-  virtual enum ItemType getItemType() const = 0;
+  virtual enum FollowerType getFollowerType() const;
+  virtual enum ItemType getItemType() const;
 };
 
 //==========================================|| F O L L O W E R ||==========================================
