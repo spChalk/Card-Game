@@ -253,6 +253,7 @@ void Player::printStatistics() const
 {
   cout << "\nPrinting statistics for player: " << getUserName() << endl;
   cout << "=======   BEGINNING OF STATS  =======" << endl;
+  cout << "\nHonor: " << honor << endl; // might remove this
   cout << "\nActive provinces: " << activeProvinces << endl;
 
   if (activeProvinces == 0)
