@@ -321,7 +321,7 @@ public:
 
   void print() const;
 
-  void attachToPlayer(Player *);
+  void attachToPlayer(std::shared_ptr< Player >);
 
   std::shared_ptr< CrystalMine > getUpperHolding (void) const { return upperHolding ; }
   std::shared_ptr< Mine > getSubHolding (void) const { return subHolding ; }
@@ -494,23 +494,23 @@ void pushNtimes(std::shared_ptr < std::queue< std::shared_ptr < D > > > deck , s
   while (temp--)
   {
     if (j->second.size() == 6) {  // Follower
-      deck->push (( std::shared_ptr<D> )std::make_shared< Follower >(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum FollowerType)type , total));
+      deck->push (std::dynamic_pointer_cast<D>( std::make_shared< Follower >(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum FollowerType)type , total) ) );
     }
     else if (j->second.size() == 7) {  // Item
-      deck->push (( std::shared_ptr<D> )std::make_shared< Item >(j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum ItemType)type , total));
+      deck->push (std::dynamic_pointer_cast<D>(std::make_shared< Item >(j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum ItemType)type , total)));
     }
     else if (j->second.size() == 4) {  // Personality
-      deck->push (( std::shared_ptr<D> )std::make_shared< Personality >(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , (const enum PersonalityType)type));
+      deck->push (std::dynamic_pointer_cast<D>(std::make_shared< Personality >(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , (const enum PersonalityType)type)));
     }
     else if (j->second.size() == 2) {  // Holding
         if (j->first == "MINE")
-          deck->push (( std::shared_ptr<D> )std::make_shared < Mine >());  
+          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < Mine >()));  
         else if (j->first == "GOLD_MINE")
-          deck->push (( std::shared_ptr<D> )std::make_shared < GoldMine >());
+          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < GoldMine >()));
         else if (j->first == "CRYSTAL_MINE")
-          deck->push (( std::shared_ptr<D> )std::make_shared < CrystalMine >());    
+          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < CrystalMine >()));    
         else 
-          deck->push (( std::shared_ptr<D> )std::make_shared < Holding >(j->first , j->second[0] , j->second[1] , (const enum HoldingType)type));
+          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < Holding >(j->first , j->second[0] , j->second[1] , (const enum HoldingType)type)));
     }
     (*times)++;
   }
