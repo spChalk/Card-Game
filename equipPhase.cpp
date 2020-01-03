@@ -11,13 +11,13 @@ using std::endl;
 namespace // namespace_start
 {
 
-void upgradeGreenCard (Player *,      GreenCard *);
-bool hasEnoughMoney   (Player *,      GreenCard *);
-bool hasEnoughHonor   (Personality *, GreenCard *);
-bool hasntReachedLimit(Personality *, GreenCard *);
+void upgradeGreenCard (std::shared_ptr< Player > ,      std::shared_ptr<GreenCard> );
+bool hasEnoughMoney   (std::shared_ptr< Player > ,      std::shared_ptr<GreenCard> );
+bool hasEnoughHonor   (std::shared_ptr< Personality > , std::shared_ptr<GreenCard> );
+bool hasntReachedLimit(std::shared_ptr< Personality > , std::shared_ptr<GreenCard> );
 /* ========================================================================= */
 
-void upgradeGreenCard(Player * player, GreenCard *card)
+void upgradeGreenCard(std::shared_ptr<Player> player, std::shared_ptr<GreenCard > card)
 {
   size_t currMoney = player->getCurrMoney();
   if (currMoney >= card->getEffectCost())
@@ -34,7 +34,7 @@ void upgradeGreenCard(Player * player, GreenCard *card)
 }
 /* ========================================================================= */
 
-bool hasEnoughMoney(Player *player, GreenCard *card)
+bool hasEnoughMoney(std::shared_ptr<Player >player, std::shared_ptr<GreenCard >card)
 { 
   size_t currMoney = player->getCurrMoney();
   if (currMoney >= card->getCost()) 
@@ -46,7 +46,7 @@ bool hasEnoughMoney(Player *player, GreenCard *card)
 }
 /* ========================================================================= */
 
-bool hasEnoughHonor(Personality *person, GreenCard *card)
+bool hasEnoughHonor(std::shared_ptr<Personality >person, std::shared_ptr<GreenCard >card)
 { 
   if (person->getHonor() >= card->getMinHonor())
     return true;
@@ -58,15 +58,15 @@ bool hasEnoughHonor(Personality *person, GreenCard *card)
 }
 /* ========================================================================= */
 
-bool hasntReachedLimit(Personality *person, GreenCard *card)
+bool hasntReachedLimit(std::shared_ptr<Personality >person, std::shared_ptr<GreenCard >card)
 {
   enum GreenCardType cardType = card->getGreenCardType();
   size_t maxCardPerPers = card->getMaxPerPersonality();
 
   if (cardType == FOLLOWER)
   {
-    std::vector<Follower *> * followers = person->getFollowers();
-    for (auto *i : *followers)
+    std::shared_ptr<std::vector<std::shared_ptr<Follower > > > followers = person->getFollowers();
+    for (auto i : *followers)
     {
       if (i->getFollowerType() == card->getFollowerType())
         --maxCardPerPers;
@@ -76,8 +76,8 @@ bool hasntReachedLimit(Personality *person, GreenCard *card)
   }
   else // cardType == ITEM
   {
-    std::vector<Item *> * items = person->getItems();
-    for (auto *i : *items)
+    std::shared_ptr<std::vector<std::shared_ptr<Item > > > items = person->getItems();
+    for (auto i : *items)
     {
       if (i->getItemType() == card->getItemType())
         --maxCardPerPers;
@@ -102,33 +102,33 @@ of this type: " << card->getMaxPerPersonality() << endl;
 
 /* ========================================================================= */
 
-void Follower::attachToPersonality (Personality * pers) {
-  pers->getFollowers()->push_back(this);
+void Follower::attachToPersonality (std::shared_ptr <Personality > pers) {
+  pers->getFollowers()->push_back(std::make_shared<Follower>(*this));
 }
 /* ========================================================================= */
 
-void Item::attachToPersonality (Personality * pers) {
-  pers->getItems()->push_back(this);
+void Item::attachToPersonality (std::shared_ptr <Personality > pers) {
+  pers->getItems()->push_back(std::make_shared<Item>(*this));
 }
 /* ========================================================================= */
 
 size_t Player::getCurrMoney()
 {
-  std::vector <Holding *> * holdings = this->getHoldings();
+  std::shared_ptr < std::vector <std::shared_ptr <Holding > > > holdings = this->getHoldings();
 
   size_t total = 0;
 
   if (this->getStrongHold()->checkTapped() == false)
     total += this->getStrongHold()->getHarvestValue();
 
-  for (auto *i : *holdings)
+  for (auto i : *holdings)
     if (i->checkTapped() == false) total += i->getHarvestValue();
 
   return total;
 }
 /* ========================================================================= */
 
-void Game::equipmentPhase (Player * player)
+void Game::equipmentPhase (std::shared_ptr< Player > player)
 {
   cout << "Equipment Phase Started !" << endl;
 
@@ -141,7 +141,7 @@ void Game::equipmentPhase (Player * player)
   cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
 appearance if you want to enhance the card's attributes!" << endl;
 
-  for (auto * pers : *(player->getArmy())) 
+  for (auto pers : *(player->getArmy())) 
   {
     pers->print();
     cout << "Equip this Personality ?\n> Your answer : ";
@@ -152,7 +152,7 @@ appearance if you want to enhance the card's attributes!" << endl;
     if (answer != "Y") continue;
 
     cout << "Cards in Hand :" << endl;
-    for (auto * card : *(player->getHand()))
+    for (auto card : *(player->getHand()))
     {
       card->print();
       cout << endl <<"Proceed to purchase ?\n> Your answer: ";

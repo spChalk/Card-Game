@@ -3,18 +3,19 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#include <memory>
 #include "baseClasses.h"
 
 namespace {
 
-  bool checkForFullChain (CrystalMine * crM) {                                                // Check if 
+  bool checkForFullChain (std::shared_ptr< CrystalMine > crM) {                                                // Check if 
     return (crM->getSubHolding() != nullptr                                                   // CrystalMine -> GoldMine exists
         && crM->getSubHolding()->getUpperHolding() == crM                                     // CrystalMine -> GoldMine -> CrystalMine exists
         && crM->getSubHolding()->getSubHolding() != nullptr                                   // CrystalMine -> GoldMine -> Mine exists
         && crM->getSubHolding()->getSubHolding()->getUpperHolding() == crM->getSubHolding()); // CrystalMine -> GoldMine -> Mine -> GoldMine exists
   }
 
-  bool checkForFullChain (Mine * M) {                                                         // Check if 
+  bool checkForFullChain (std::shared_ptr< Mine > M) {                                                         // Check if 
     return (M->getUpperHolding() != nullptr                                                   // Mine -> GoldMine exists
         && M->getUpperHolding()->getSubHolding() == M                                         // Mine -> GoldMine -> Mine exists
         && M->getUpperHolding()->getUpperHolding() != nullptr                                 // Mine -> GoldMine -> CrystalMine exists
@@ -42,24 +43,25 @@ bool Player::makePurchase (size_t cost) {
   return true;
 }
 
-void Personality::attachToPlayer (Player * pl) {
-  pl->getArmy()->push_back(this);
+void Personality::attachToPlayer (std::shared_ptr< Player > pl) {
+  pl->getArmy()->push_back(std::make_shared< Personality >(*this));
 }
 
-void Holding::attachToPlayer (Player * pl) {
-  pl->getHoldings()->push_back(this);  
+void Holding::attachToPlayer (std::shared_ptr< Player > pl) {
+  pl->getHoldings()->push_back(std::make_shared< Holding >(*this));  
 }
 
-void Mine::attachToPlayer(Player * pl) {
+void Mine::attachToPlayer(std::shared_ptr< Player > pl) {
   
-  for (auto * i : *(pl->getHoldings())) {
+  for (auto i : *(pl->getHoldings())) {
     
     if (i->getHoldingType() == GOLD_MINE) {
-      if (((GoldMine *)i)->getSubHolding() == nullptr) {
-        upperHolding = (GoldMine *)i;
-        ((GoldMine *)i)->setSubHolding(this);
+      if ((std::static_pointer_cast<GoldMine>(i))->getSubHolding() == nullptr) {
 
-        if (checkForFullChain(this) == true) {
+        upperHolding = std::static_pointer_cast<GoldMine>(i);
+        (std::static_pointer_cast<GoldMine>(i))->setSubHolding(std::make_shared< Mine >(*this));
+
+        if (checkForFullChain(std::make_shared< Mine >(*this)) == true) {
           upperHolding->getUpperHolding()->increaseHarvestValueBy(3*(upperHolding->getUpperHolding()->getHarvestValue()));
           i->increaseHarvestValueBy(2*(i->getHarvestValue()));
         }
@@ -72,16 +74,16 @@ void Mine::attachToPlayer(Player * pl) {
       }
     }
   }
-  pl->getHoldings()->push_back(this);
+  pl->getHoldings()->push_back(std::make_shared< Mine >(*this));
 }
 
-void GoldMine::attachToPlayer(Player * pl) {
+void GoldMine::attachToPlayer(std::shared_ptr< Player > pl) {
   
-  for (auto * i : *(pl->getHoldings())) {  // Check for Mines
+  for (auto i : *(pl->getHoldings())) {  // Check for Mines
     if (i->getHoldingType() == MINE) {
-      if (((Mine *)i)->getUpperHolding() == nullptr) {
-        subHolding = (Mine *)i;
-        ((Mine *)i)->setUpperHolding(this);
+      if ((std::static_pointer_cast<Mine>(i))->getUpperHolding() == nullptr) {
+        subHolding = std::static_pointer_cast<Mine>(i);
+        (std::static_pointer_cast<Mine>(i))->setUpperHolding(std::make_shared< GoldMine >(*this));
       
         harvestValue += 4;
         i->increaseHarvestValueBy(2);
@@ -90,11 +92,11 @@ void GoldMine::attachToPlayer(Player * pl) {
       }
     }
   }
-  for (auto * i : *(pl->getHoldings())) {  // Check for Crystal Mines
+  for (auto i : *(pl->getHoldings())) {  // Check for Crystal Mines
     if (i->getHoldingType() == CRYSTAL_MINE) {
-      if (((CrystalMine *)i)->getSubHolding() == nullptr) {
-        upperHolding = (CrystalMine *)i;
-        ((CrystalMine *)i)->setSubHolding(this);
+      if ((std::static_pointer_cast<CrystalMine>(i))->getSubHolding() == nullptr) {
+        upperHolding = std::static_pointer_cast<CrystalMine>(i);
+        (std::static_pointer_cast<CrystalMine>(i))->setSubHolding(std::make_shared< GoldMine >(*this));
 
         if (subHolding == nullptr) {        // If there's no link with a Mine
           harvestValue +=5;                 // Add the bonus
@@ -108,19 +110,19 @@ void GoldMine::attachToPlayer(Player * pl) {
       }
     }
   }
-  pl->getHoldings()->push_back(this);
+  pl->getHoldings()->push_back(std::make_shared< GoldMine >(*this));
 }
 
-void CrystalMine::attachToPlayer(Player * pl) {
+void CrystalMine::attachToPlayer(std::shared_ptr< Player > pl) {
 
-  for (auto * i : *(pl->getHoldings())) {
+  for (auto i : *(pl->getHoldings())) {
     
     if (i->getHoldingType() == GOLD_MINE) {
-      if (((GoldMine *)i)->getUpperHolding() == nullptr) {
-        subHolding = (GoldMine *)i;
-        ((GoldMine *)i)->setUpperHolding(this);
+      if ((std::static_pointer_cast<GoldMine>(i))->getUpperHolding() == nullptr) {
+        subHolding = std::static_pointer_cast<GoldMine>(i);
+        (std::static_pointer_cast<GoldMine>(i))->setUpperHolding(std::make_shared< CrystalMine >(*this));
 
-        if (checkForFullChain(this) == true) {
+        if (checkForFullChain(std::make_shared< CrystalMine >(*this)) == true) {
           harvestValue += 3*harvestValue;
           i->increaseHarvestValueBy(2*(i->getHarvestValue()));
         }
@@ -132,10 +134,10 @@ void CrystalMine::attachToPlayer(Player * pl) {
       }
     }
   }
-  pl->getHoldings()->push_back(this);
+  pl->getHoldings()->push_back(std::make_shared< CrystalMine >(*this));
 }
 
-void Game::economyPhase(Player * pl) {
+void Game::economyPhase(std::shared_ptr<Player> pl) {
 
   std::cout << "Economy Phase Started !" << std::endl;
   // Reveal Provinces ** if needed **
@@ -154,7 +156,7 @@ void Game::economyPhase(Player * pl) {
   appearance, to proceed to purchase. " << std::endl;
 
   // Buy Provinces
-  for (auto * i : *(pl->getProvinces())) {
+  for (auto i : *(pl->getProvinces())) {
 
     if (i->checkBroken() == false && i->getCard()->checkRevealed() == true) {
       

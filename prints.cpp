@@ -75,12 +75,12 @@ void Personality::print() const
   cout << "Honor: " << honor   << endl;
 
   cout << YEL << "==  FOLLOWERS  == " << RST << endl;
-  for (auto *i : *followers)
+  for (auto i : *followers)
     i->print();
   cout << YEL << "== !FOLLOWERS! == " << RST << endl;
 
   cout << YEL << "==  ITEMS  == " << RST << endl;
-  for (auto *i : *items)
+  for (auto i : *items)
     i->print();
   cout << YEL << "== !ITEMS! == " << RST << endl;
 
@@ -203,7 +203,7 @@ void Player::printHoldings() const
 {
   strongHold->print();
 
-  for (auto *i : *holdings) i->print();
+  for (auto i : *holdings) i->print();
 }
 /* ========================================================================= */
 
@@ -212,7 +212,7 @@ void Player::printArmy() const
   if (army->size() == 0) 
     cout << "No army!" << endl;
   else
-    for (auto *i : *army) i->print();
+    for (auto i : *army) i->print();
 }
 /* ========================================================================= */
 
@@ -221,7 +221,7 @@ void Player::printAvailableArmy() const
   if (army->size() == 0) 
     cout << "No army!" << endl;
   else
-    for (auto *i : *army)
+    for (auto i : *army)
     {  
       if (i->checkTapped() == false) // if untapped
         i->print();
@@ -235,13 +235,13 @@ void Player::printHand() const
   if (hand->size() == 0) 
     cout << "Empty hand!" << endl;
   else
-    for (auto *i : *hand) i->print();
+    for (auto i : *hand) i->print();
 }
 
 /* ========================================================================= */
 
 void Player::printProvinces() const {
-  for (auto *i : *provinces) i->print();
+  for (auto i : *provinces) i->print();
 }
 /* ========================================================================= */
 
@@ -284,7 +284,7 @@ void Game::printGameStatistics() const
   cout << " Printing global game statistics!" << endl;
   cout << "=========  BEGINNING OF GLOBAL STATS  =========" << endl;
   // could also print the current round
-  for (auto *i : *players)
+  for (auto i : *players)
     i->printStatistics();
 
   cout << "========= !END OF GLOBAL STATS! =========" << endl;

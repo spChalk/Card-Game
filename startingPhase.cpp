@@ -10,21 +10,21 @@
 namespace // namespace_begin
 {
 
-void untapEverything(Player *);
-void drawFateCard(Player *);
-void revealProvinces(Player *);
+void untapEverything(std::shared_ptr<Player >);
+void drawFateCard(std::shared_ptr<Player >);
+void revealProvinces(std::shared_ptr<Player >);
 
 /* ========================================================================= */
 
-void untapEverything(Player *player)
+void untapEverything(std::shared_ptr<Player > player)
 {
-  auto * holdings = player->getHoldings();
-  auto * army     = player->getArmy();
+  auto holdings = player->getHoldings();
+  auto army     = player->getArmy();
 
-  for (auto *i : *holdings)
+  for (auto i : *holdings)
     i->setUnTapped();
 
-  for (auto *i : *army)
+  for (auto i : *army)
     i->setUnTapped();
 
   player->getStrongHold()->setUnTapped();
@@ -34,11 +34,11 @@ void untapEverything(Player *player)
 
 /* ========================================================================= */
 
-void revealProvinces(Player *player)
+void revealProvinces(std::shared_ptr<Player > player)
 {
-  auto * provinces = player->getProvinces();
+  auto provinces = player->getProvinces();
 
-  for (auto *i : *provinces)
+  for (auto i : *provinces)
   {
     if (i->checkBroken() == false)
       i->getCard()->setRevealed();
@@ -48,13 +48,13 @@ void revealProvinces(Player *player)
 }
 
 /* ========================================================================= */
-void drawFateCard(Player *player) // take care if empty fate deck!
+void drawFateCard(std::shared_ptr<Player > player) // take care if empty fate deck!
 {
-  auto * fate = player->getFateDeck();
+  auto fate = player->getFateDeck();
 
   if (fate->size() > 0)
   {
-    auto * hand = player->getHand();
+    auto hand = player->getHand();
 
     hand->push_back(fate->front());
     fate->pop();
@@ -72,7 +72,7 @@ void drawFateCard(Player *player) // take care if empty fate deck!
 }; // namespace_end
 /* ========================================================================= */
 
-void Game::startingPhase (Player *player)
+void Game::startingPhase (std::shared_ptr<Player > player)
 {
   untapEverything(player);
   drawFateCard(player);
