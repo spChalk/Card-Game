@@ -8,6 +8,7 @@
 #include <fstream>
 #include <unordered_map>
 #include <cassert>
+#include <memory>
 
 #include "baseClasses.h"
 #include "rules.hpp"
@@ -43,7 +44,7 @@ std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::strin
 
 /* ========================================================================= */
 
-void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
+void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t maxBlackCards) {
   std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Personalities_and_Holdings.txt");
   std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Followers_and_Weapons.txt");
   
@@ -138,11 +139,11 @@ GreenCard * Player::drawFateCard(void) { // TODO : assert if empty
 
 /* ========================================================================= */
 
-void Game::initGameBoard(vector <Player *> * players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
+void Game::initGameBoard(std::shared_ptr< vector < std::shared_ptr <Player > > > players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
 
           // Make player (assign name , StrongHold and honor(via StrongHold))
-    Player * newPl = new Player("Player" + std::to_string(i) );
+    auto newPl = std::make_shared< Player >("Player" + std::to_string(i) );
           // Make fateDeck and dynastyDeck
     deckBuilder(newPl , maxGreenCards , maxBlackCards);
     
@@ -172,7 +173,7 @@ void Game::gameplay(void)
 
   while(win == 0) // while no winner is found
   {
-    for (auto *i : *players) // c-like != python...
+    for (auto i : *players) // c-like != python...
     {
       cout << "Player's \'" << i->getUserName() << "\' turn!" << endl;
 
@@ -197,7 +198,7 @@ void Game::gameplay(void)
     }
   }
 
-  Player *winner = players->at(win-1);
+  std::shared_ptr <Player > winner = players->at(win-1);
   std::cout << "Player \'" << winner->getUserName() 
             << "\' just won the game!" << std::endl;
 }
@@ -206,7 +207,7 @@ void Game::gameplay(void)
 
 Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/) {  
   
-  players = new vector<Player *>;  // Create a new vector 
+  players = std::make_shared< vector < std::shared_ptr <Player >  > >();  // Create a new vector 
   
   initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards , maxHand);
   
@@ -214,8 +215,6 @@ Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t
   
   // gameplay(); 
 }
-
-Game::~Game () { delete players; }
 
 /* ========================================================================= */
 
@@ -228,7 +227,7 @@ size_t Game::checkWinningCondition(void)
   size_t pos;
   size_t ctr = 1;
 
-  for (auto *i : *players) // if it doesn't work, it's this cr p
+  for (auto i : *players) // if it doesn't work, it's this cr p
   {                         // cuz idk what i'm doing, auto is lazy af
 
     if (i->getProvincesNum() != 0)     /* If the player still has prov */

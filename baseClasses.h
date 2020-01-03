@@ -24,6 +24,7 @@ class Item;
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 
 using std::vector;
@@ -468,22 +469,21 @@ public:
 
 class Game
 {
-  vector <Player *> * players;
+  std::shared_ptr< vector < std::shared_ptr <Player > > > players;
  
   size_t checkWinningCondition();
 
-  void startingPhase (Player *);
-  void equipmentPhase(Player *);
-  void battlePhase   (Player *);
-  void economyPhase  (Player *);
-  void finalPhase    (Player *);
+  void startingPhase (std::shared_ptr <Player > );
+  void equipmentPhase(std::shared_ptr <Player > );
+  void battlePhase   (std::shared_ptr <Player > );
+  void economyPhase  (std::shared_ptr <Player > );
+  void finalPhase    (std::shared_ptr <Player > );
 
 public:
 
   Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/);
-  ~Game();
 
-  void initGameBoard(vector <Player *> * players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards , size_t maxHand);
+  void initGameBoard(std::shared_ptr< vector < std::shared_ptr <Player >  > > players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards , size_t maxHand);
   void printGameStatistics() const;
   void gameplay();
 };
