@@ -494,23 +494,23 @@ void pushNtimes(std::shared_ptr < std::queue< std::shared_ptr < D > > > deck , s
   while (temp--)
   {
     if (j->second.size() == 6) {  // Follower
-      deck->push ((D *)std::make_shared< Follower >(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum FollowerType)type , total));
+      deck->push (( std::shared_ptr<D> )std::make_shared< Follower >(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum FollowerType)type , total));
     }
     else if (j->second.size() == 7) {  // Item
-      deck->push ((D *)std::make_shared< Item >(j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum ItemType)type , total));
+      deck->push (( std::shared_ptr<D> )std::make_shared< Item >(j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum ItemType)type , total));
     }
     else if (j->second.size() == 4) {  // Personality
       deck->push (( std::shared_ptr<D> )std::make_shared< Personality >(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , (const enum PersonalityType)type));
     }
     else if (j->second.size() == 2) {  // Holding
         if (j->first == "MINE")
-          deck->push ((D *)new Mine ());  
+          deck->push (( std::shared_ptr<D> )std::make_shared < Mine >());  
         else if (j->first == "GOLD_MINE")
-          deck->push ((D *)new GoldMine ());
+          deck->push (( std::shared_ptr<D> )std::make_shared < GoldMine >());
         else if (j->first == "CRYSTAL_MINE")
-          deck->push ((D *)new CrystalMine ());    
+          deck->push (( std::shared_ptr<D> )std::make_shared < CrystalMine >());    
         else 
-          deck->push ((D *)new Holding (j->first , j->second[0] , j->second[1] , (const enum HoldingType)type));
+          deck->push (( std::shared_ptr<D> )std::make_shared < Holding >(j->first , j->second[0] , j->second[1] , (const enum HoldingType)type));
     }
     (*times)++;
   }
