@@ -28,8 +28,8 @@ class Item;
 #include <memory>
 
 
-using std::vector;
-using std::queue;
+// using std::vector;
+// using std::queue;
 
 enum GreenCardType
 {
@@ -515,7 +515,7 @@ public:
 // E stands for Enum. 
 template <class D , typename E>
 // Pushes <total> times , <D type> objects in the given <deck>
-void pushNtimes(std::shared_ptr < std::queue< std::shared_ptr < D > > > deck , std::unordered_map<std::string , vector<size_t> >::iterator j ,const E type  , size_t total , size_t * times ) {
+void pushNtimes(std::shared_ptr < std::queue< std::shared_ptr < D > > > deck , std::unordered_map<std::string , std::vector<size_t> >::iterator j ,const E type  , size_t total , size_t * times ) {
 
   size_t temp = total;
   while (temp--)
