@@ -20,41 +20,41 @@ namespace // namespace_start
 
 size_t ptsDiff;
   
-Player *player;
-Player *enemy;
+std::shared_ptr< Player > player;
+std::shared_ptr< Player > enemy;
   
-std::vector<Personality *> * attArmy;
-std::vector<Personality *> * defArmy;
+std::shared_ptr< vector <std::shared_ptr< Personality > > > attArmy;
+std::shared_ptr< vector <std::shared_ptr< Personality > > > defArmy;
 
 const std::string *attName;
 const std::string *defName;
 
-Player   * chooseEnemy(Player *, std::vector<Player *> * players);
-Province * chooseProvince(Player *player);
+std::shared_ptr< Player > chooseEnemy(std::shared_ptr< Player >, std::shared_ptr< vector < std::shared_ptr <Player > > > players);
+std::shared_ptr< Province > chooseProvince(std::shared_ptr< Player > player);
 
 int chooseAction(void);
 
-size_t calcTotalATK(std::vector<Personality *> * battleArmy);
-size_t calcTotalDEF(std::vector<Personality *> * battleArmy);
+size_t calcTotalATK(std::shared_ptr< vector <std::shared_ptr< Personality > > > battleArmy);
+size_t calcTotalDEF(std::shared_ptr< vector <std::shared_ptr< Personality > > > battleArmy);
 
-void chooseArmy(Player *player, std::vector<Personality *> * battleArmy);
-void provinceDestroyed(Province *prov);
+void chooseArmy(std::shared_ptr< Player > player, std::shared_ptr< vector <std::shared_ptr< Personality > > > battleArmy);
+void provinceDestroyed(std::shared_ptr< Province > prov);
 void draw();
-void verifyCasualties(std::vector<Personality *> * battleArmy, int side);
+void verifyCasualties(std::shared_ptr< vector <std::shared_ptr< Personality > > > battleArmy, int side);
 void attackerWins();
 void defenderWins();
-void battle(Province *);
+void battle(std::shared_ptr< Province >);
 
 /* ========================================================================= */
 
-Player * chooseEnemy(Player *current, std::vector<Player *> * players)
+std::shared_ptr< Player > chooseEnemy(std::shared_ptr< Player > current, std::shared_ptr< vector < std::shared_ptr <Player > > > players)
 {
   cout << "Choose an enemy! Available enemies are:" << endl;
 
-  Player *enemy;
+  std::shared_ptr< Player > enemy;
   for (int status = WRONG_INPUT; status != CORRECT_INPUT; )
   {
-    for (auto *i : *players)
+    for (std::shared_ptr< Player > i : *players)
     {
       if (i == current) continue;
       
@@ -67,7 +67,7 @@ Player * chooseEnemy(Player *current, std::vector<Player *> * players)
     std::getline(std::cin, enemyName);
     cout << enemyName << endl;
 
-    for (auto *i : *players)  // kinda retarded, should do faster if I please
+    for (std::shared_ptr< Player > i: *players)  // kinda retarded, should do faster if I please
     {
       if (i->getProvincesNum() == 0 || i == current) continue;
 
@@ -112,7 +112,7 @@ Input given: " << answer << ". Please, try again.\n>Your answer:";
 }
 /* ========================================================================= */
 
-Province * chooseProvince(Player *player)
+std::shared_ptr< Province > chooseProvince(std::shared_ptr< Player > player)
 {
   cout << "Choose a province to attack! Available provinces are:" << endl;
   player->printProvinces();
@@ -136,7 +136,7 @@ Your input should be an integer in range [1," << player->getProvincesNum()
   }
   
   size_t counter = 0;
-  for (auto *i : *(player->getProvinces()))
+  for (std::shared_ptr< Province > i : *(player->getProvinces()))
   {
     if (i->checkBroken() == true) continue;
     if (++counter == prov) return i;
@@ -146,7 +146,7 @@ Your input should be an integer in range [1," << player->getProvincesNum()
 
 /* ========================================================================= */
 
-void chooseArmy(Player *player, std::vector<Personality *> * battleArmy)
+void chooseArmy(std::shared_ptr< Player > player, std::shared_ptr< vector <std::shared_ptr< Personality > > > battleArmy)
 { // todo: maybe add some better printing if player has no army
   cout << "Choose Personalities from your army to Battle!" << endl;
   
@@ -156,7 +156,7 @@ void chooseArmy(Player *player, std::vector<Personality *> * battleArmy)
   cout << "Now, type 'Y' (YES) or '<any other key>' (NO) after each card's \
 appearance, to recruit the Personality for the Battle!" << endl;
 
-  for (auto *i : *(player->getArmy()))
+  for (std::shared_ptr< Personality > i : *(player->getArmy()))
   {
     if (i->checkTapped() == true) continue;
 
@@ -172,19 +172,19 @@ appearance, to recruit the Personality for the Battle!" << endl;
 
 /* ========================================================================= */
 
-size_t calcTotalATK(std::vector<Personality *> * battleArmy)
+size_t calcTotalATK(std::shared_ptr< vector <std::shared_ptr< Personality > > > battleArmy)
 {
   size_t totalATK = 0;
 
-  for (auto *i : *battleArmy) // sum ATK of all personalities -> sum ATK of all their flollowers + items
+  for (std::shared_ptr< Personality > i : *battleArmy) // sum ATK of all personalities -> sum ATK of all their flollowers + items
   {
-    std::vector <Follower *> * followers = i->getFollowers();
-    std::vector <Item *>     * items = i->getItems();
+    std::shared_ptr< vector <std::shared_ptr< Follower > > > followers = i->getFollowers();
+    std::shared_ptr< vector <std::shared_ptr< Item > > >     items = i->getItems();
 
     totalATK += i->getATK(); // base personality ATK
 
-    for (auto *j : *followers) totalATK += j->getATK(); // get followers ATK
-    for (auto *j : *items)     totalATK += j->getATK(); // get items ATK
+    for (std::shared_ptr< Follower > j : *followers) totalATK += j->getATK(); // get followers ATK
+    for (std::shared_ptr< Item > j : *items)     totalATK += j->getATK(); // get items ATK
   }
 
   return totalATK;
@@ -192,19 +192,19 @@ size_t calcTotalATK(std::vector<Personality *> * battleArmy)
 
 /* ========================================================================= */
 
-size_t calcTotalDEF(std::vector<Personality *> * battleArmy)
+size_t calcTotalDEF(std::shared_ptr< vector <std::shared_ptr< Personality > > > battleArmy)
 {
   size_t totalDEF = 0;
 
-  for (auto *i : *battleArmy) // sum DEF of all personalities -> sum DEF of all their flollowers + items
+  for (std::shared_ptr< Personality > i : *battleArmy) // sum DEF of all personalities -> sum DEF of all their flollowers + items
   {
-    std::vector <Follower *> * followers = i->getFollowers();
-    std::vector <Item *>     * items = i->getItems();
+    std::shared_ptr< vector <std::shared_ptr< Follower > > > followers = i->getFollowers();
+    std::shared_ptr< vector <std::shared_ptr< Item > > >     items = i->getItems();
 
     totalDEF += i->getDEF(); // base personality DEF
 
-    for (auto *j : *followers) totalDEF += j->getDEF(); // get followers DEF
-    for (auto *j : *items)     totalDEF += j->getDEF(); // get items DEF
+    for (std::shared_ptr< Follower > j : *followers) totalDEF += j->getDEF(); // get followers DEF
+    for (std::shared_ptr< Item > j : *items)     totalDEF += j->getDEF(); // get items DEF
   }
 
   return totalDEF;
@@ -212,12 +212,12 @@ size_t calcTotalDEF(std::vector<Personality *> * battleArmy)
 
 /* ========================================================================= */
 
-void provinceDestroyed(Province *prov)
+void provinceDestroyed(std::shared_ptr< Province > prov)
 {
   cout << "Attacker " << *attName << " demolishes " << *defName 
        << " \'s defence!" << endl;
 
-  for (auto *i : *defArmy) i->die(); // todo: cleanup dead from their vectors
+  for (std::shared_ptr< Personality > i : *defArmy) i->die(); // todo: cleanup dead from their vectors
   cout << "Defender's army is destroyed." << endl;
 
   prov->setBroken();
@@ -231,7 +231,7 @@ void provinceDestroyed(Province *prov)
          << "\' is out of the game! Better luck next time. =) " << endl;
   }
 
-  for (auto *i : *attArmy) i->setTapped(); // Tap attackers so they can't be used again for the round
+  for (std::shared_ptr< Personality > i : *attArmy) i->setTapped(); // Tap attackers so they can't be used again for the round
 }
 /* ========================================================================= */
 
@@ -240,33 +240,33 @@ void draw()
   cout << "Battle between \'" << *attName << "\' and \'" 
        << *defName << " ends as a draw! Both armies are destroyed!" << endl;
 
-  for (auto *i : *attArmy) i->die();
-  for (auto *i : *defArmy) i->die();  
+  for (std::shared_ptr< Personality > i : *attArmy) i->die();
+  for (std::shared_ptr< Personality > i : *defArmy) i->die();  
 }
 /* ========================================================================= */
 
-void verifyCasualties(std::vector<Personality *> * battleArmy, int side)
+void verifyCasualties(std::shared_ptr< vector <std::shared_ptr< Personality > > > battleArmy, int side)
 {
-  for (auto *i : * battleArmy)
+  for (std::shared_ptr< Personality > i : * battleArmy)
   {
     if (i->getATK() >= ptsDiff) 
       i->die();
     else
     {
-      std::vector <Follower *> *followers = i->getFollowers();
-      for (auto *j : *followers)
+      std::shared_ptr< vector <std::shared_ptr< Follower > > > followers = i->getFollowers();
+      for (std::shared_ptr< Follower > j : *followers)
         if (j->getATK() >= ptsDiff) // delete followers
           j->detach(); // should do that
     }
   }
 
-  for (auto *i : * battleArmy) i->setTapped(); // Tap defenders so they can't be used again for the round
+  for (std::shared_ptr< Personality > i : * battleArmy) i->setTapped(); // Tap defenders so they can't be used again for the round
     
-  for (auto *i : * battleArmy) // decrease Item durability
+  for (std::shared_ptr< Personality > i : * battleArmy) // decrease Item durability
   {
-    std::vector <Item *> *items = i->getItems();
+    std::shared_ptr< vector <std::shared_ptr< Item > > > items = i->getItems();
     
-    for (auto *j : *items) 
+    for (std::shared_ptr< Item > j : *items) 
     {
       j->decreaseDurability(); // todo: cleanup if 0
       if (j->getDurability() == 0) j->detach(); // should enable that
@@ -275,7 +275,7 @@ void verifyCasualties(std::vector<Personality *> * battleArmy, int side)
 
   if (side == ATTACK)
   {
-    for (auto *i : *battleArmy) //decrease personalities honor
+    for (std::shared_ptr< Personality > i : *battleArmy) //decrease personalities honor
     {   
       i->decreaseHonor();
       if (i->getHonor() == 0) i->kys(); // just kys
@@ -289,7 +289,7 @@ void attackerWins()
   cout << "Attacker " << *attName << " destroys " << *defName 
        << " \'s army, but is unable to break the province!" << endl;
 
-  for (auto *i : *defArmy) i->die(); // todo: cleanup dead from their vectors
+  for (std::shared_ptr< Personality > i : *defArmy) i->die(); // todo: cleanup dead from their vectors
   cout << "Defender's army is destroyed." << endl;
 
   //size_t ptsDiff = attPoints - defPoints;
@@ -304,7 +304,7 @@ void defenderWins()
   cout << "Defender " << *defName << "holds his ground against " << *attName 
        << " \'s army!" << endl;
 
-  for (auto *i : *attArmy) i->die(); // todo: cleanup dead from their vectors
+  for (std::shared_ptr< Personality > i : *attArmy) i->die(); // todo: cleanup dead from their vectors
   cout << "Attacker's army is destroyed." << endl;
 
   // size_t ptsDiff = attPoints - defPoints;
@@ -314,7 +314,7 @@ void defenderWins()
 }
 /* ========================================================================= */
 
-void battle(Province *prov)
+void battle(std::shared_ptr< Province > prov)
 {
   size_t attPoints = calcTotalATK(attArmy);
   size_t defPoints = calcTotalDEF(defArmy);// + enemy->getStrongHold()->getInitDEF(); // todo: verify @lists
@@ -378,7 +378,7 @@ void Player::cleanup()
 }
 /* ========================================================================= */
 
-void Game::battlePhase(Player *player)
+void Game::battlePhase(std::shared_ptr< Player > player)
 {
   cout << "Battle phase begins!" << endl;
 
@@ -397,21 +397,21 @@ void Game::battlePhase(Player *player)
   attName = &player->getUserName();
   defName = &enemy ->getUserName();
 
-  Province *prov = chooseProvince(enemy);
+  std::shared_ptr< Province > prov = chooseProvince(enemy);
 
-  attArmy = new (std::vector<Personality *>); //TODO: delete this
+  //attArmy = std::shared_ptr< vector <std::shared_ptr< Personality > > >; //TODO: delete this
   chooseArmy(player, attArmy);
 
   cout << "Player \'" << *defName 
        << "\' shall pick their DEFENSE!" << endl;
 
-  defArmy = new (std::vector<Personality *>); //TODO: delete this
+  //defArmy = std::shared_ptr< vector <std::shared_ptr< Personality > > >; //TODO: delete this
   chooseArmy(enemy, defArmy);
 
   /* Battle */
   battle(prov);
 
-  delete attArmy;
-  delete defArmy;
+  // delete attArmy;
+  // delete defArmy;
 }
 /* ========================================================================= */
