@@ -399,13 +399,13 @@ void Game::battlePhase(std::shared_ptr< Player > player)
 
   std::shared_ptr< Province > prov = chooseProvince(enemy);
 
-  //attArmy = std::shared_ptr< vector <std::shared_ptr< Personality > > >; //TODO: delete this
+  attArmy = std::make_shared< vector <std::shared_ptr< Personality > > >(); //TODO: delete this
   chooseArmy(player, attArmy);
 
   cout << "Player \'" << *defName 
        << "\' shall pick their DEFENSE!" << endl;
 
-  //defArmy = std::shared_ptr< vector <std::shared_ptr< Personality > > >; //TODO: delete this
+  defArmy = std::make_shared< vector <std::shared_ptr< Personality > > >(); //TODO: delete this
   chooseArmy(enemy, defArmy);
 
   /* Battle */
