@@ -16,39 +16,6 @@ using std::cout;  // an se enoxloun mporoume na ta vgaloume
 using std::endl;
 
 namespace {  // Namespace Start
-// TODO : Kanonika o kwdikas twn templates paei se .h arxeio
-
-// D stands for Deck's Cards. D can be GreenCard or BlackCard
-// E stands for Enum. 
-template <class D , typename E>
-// Pushes <total> times , <D type> objects in the given <deck>
-void pushNtimes(std::queue< D *> * deck , std::unordered_map<std::string , vector<size_t> >::iterator j ,const E type  , size_t total , size_t * times ) {
-
-  size_t temp = total;
-  while (temp--)
-  {
-    if (j->second.size() == 6) {  // Follower
-      deck->push ((D *)new Follower (j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum FollowerType)type , total));
-    }
-    else if (j->second.size() == 7) {  // Item
-      deck->push ((D *)new Item (j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum ItemType)type , total));
-    }
-    else if (j->second.size() == 4) {  // Personality
-      deck->push ((D *)new Personality (j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , (const enum PersonalityType)type));
-    }
-    else if (j->second.size() == 2) {  // Holding
-        if (j->first == "MINE")
-          deck->push ((D *)new Mine ());  
-        else if (j->first == "GOLD_MINE")
-          deck->push ((D *)new GoldMine ());
-        else if (j->first == "CRYSTAL_MINE")
-          deck->push ((D *)new CrystalMine ());    
-        else 
-          deck->push ((D *)new Holding (j->first , j->second[0] , j->second[1] , (const enum HoldingType)type));
-    }
-    (*times)++;
-  }
-}
 
 /* ========================================================================= */
 
@@ -145,6 +112,12 @@ void deckBuilder (Player * pl , size_t maxGreenCards , size_t maxBlackCards) {
   delete bMap;
 }
 
+/* ========================================================================= */
+
+bool playerCompare(Player *p1, Player *p2) { // make sure this is descending order
+  return (p1->getHonor() > p2->getHonor());
+}
+
 } // NameSpace End
 
 /* ========================================================================= */
@@ -185,11 +158,6 @@ void Game::initGameBoard(vector <Player *> * players , size_t numPlayers ,size_t
     
     players->push_back(newPl);
   }
-}
-/* ========================================================================= */
-
-static bool playerCompare(Player *p1, Player *p2) { // make sure this is descending order
-  return (p1->getHonor() > p2->getHonor());
 }
 
 /* ========================================================================= */
@@ -242,9 +210,9 @@ Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t
   
   initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards , maxHand);
   
-  printGameStatistics();
+  // printGameStatistics();
   
-  gameplay(); 
+  // gameplay(); 
 }
 
 Game::~Game () { delete players; }
