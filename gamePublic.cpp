@@ -20,8 +20,8 @@ namespace {  // Namespace Start
 
 /* ========================================================================= */
 
-std::shared_ptr < std::unordered_map<std::string , vector<size_t> > > readAndMap (const std::string & fileName ) {
-  std::shared_ptr < std::unordered_map<std::string , vector<size_t> > > uMap = std::make_shared < std::unordered_map<std::string , vector<size_t> > >();
+std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > readAndMap (const std::string & fileName ) {
+  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > uMap = std::make_shared < std::unordered_map<std::string , std::vector<size_t> > >();
   std::ifstream newFile (fileName);
   std::string name , num;
 
@@ -45,8 +45,8 @@ std::shared_ptr < std::unordered_map<std::string , vector<size_t> > > readAndMap
 /* ========================================================================= */
 
 void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t maxBlackCards) {
-  std::shared_ptr < std::unordered_map<std::string , vector<size_t> > > bMap = readAndMap("Personalities_and_Holdings.txt");
-  std::shared_ptr < std::unordered_map<std::string , vector<size_t> > > gMap = readAndMap("Followers_and_Weapons.txt");
+  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > bMap = readAndMap("Personalities_and_Holdings.txt");
+  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > gMap = readAndMap("Followers_and_Weapons.txt");
   
   for (size_t i = 0; i < maxGreenCards; i++) {
     
@@ -203,7 +203,7 @@ void Game::gameplay(void)
 
 Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/) {  
   
-  players = std::make_shared< vector < std::shared_ptr <Player >  > >();  // Create a new vector 
+  players = std::make_shared< std::vector <PlayerPtr> >();  // Create a new vector 
   
   initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards , maxHand);
   
