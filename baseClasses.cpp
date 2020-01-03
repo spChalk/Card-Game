@@ -6,6 +6,7 @@
 
 #include <cstddef>    // size_t
 #include <iostream>
+#include <memory>
 #include "baseClasses.h"
 
 Card::Card (const std::string & name , const size_t & cost )
@@ -24,12 +25,7 @@ Item::Item(const size_t & dur , const std::string & name , const size_t & cost ,
 : GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost) , durability(dur) , type(type) , maxPerPerson(maxPerPerson) {}
 
 Personality::Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor , const enum PersonalityType type)
-: BlackCard(name , cost) , attack(attack) , defence(defence) , honor(honor) , isDead(false) , followers(new std::vector<Follower *>) , items(new std::vector<Item *>) , type(type) {}
-
-Personality::~Personality() {
-    delete followers;
-    delete items;
-}
+: BlackCard(name , cost) , attack(attack) , defence(defence) , honor(honor) , isDead(false) , followers(std::make_shared<vector< std::shared_ptr <Follower > > >()) , items( std::make_shared < vector< std::shared_ptr <Item > > >()) , type(type) {}
 
 Holding::Holding(const std::string & name , const size_t & cost , const size_t & harvestValue , const enum HoldingType type)
 : BlackCard(name , cost) , harvestValue(harvestValue) , type(type) {}
@@ -37,37 +33,17 @@ Holding::Holding(const std::string & name , const size_t & cost , const size_t &
 Mine::Mine(const std::string & name , const size_t & cost , const size_t & harvestValue) 
 : Holding(name , cost , harvestValue , MINE) , upperHolding(nullptr) {} 
 
-Mine::~Mine() { if (upperHolding != nullptr) delete upperHolding; }
-
 CrystalMine::CrystalMine(const std::string & name , const size_t & cost , const size_t & harvestValue) 
 : Holding(name , cost , harvestValue , CRYSTAL_MINE) , subHolding(nullptr) {} 
-
-CrystalMine::~CrystalMine() { if (subHolding != nullptr) delete subHolding; }
 
 GoldMine::GoldMine(const std::string & name , const size_t & cost , const size_t & harvestValue)
 : Holding(name , cost , harvestValue , GOLD_MINE) , upperHolding(nullptr) ,subHolding(nullptr) {} 
 
-GoldMine::~GoldMine() { 
-    if (upperHolding != nullptr) delete upperHolding; 
-    if (subHolding != nullptr) delete subHolding; 
-}
-
-StrongHold::StrongHold() // TODO : to Stronghold den exei cost ?
+StrongHold::StrongHold() 
 : Holding("StrongHold" , 0 , 5 , STRONGHOLD) , initHonor(5) , initDefence(5) {} 
 
-Province::Province(BlackCard * blC) : isBroken(false) , card(blC) {}
-
-Province::~Province() { delete card; }  // tou pousth pia den vazw elegxo gia null kai edw
+Province::Province(std::shared_ptr <BlackCard > blC) : isBroken(false) , card(blC) {}
 
 Player::Player(const std::string & userName )
-: userName(userName) , strongHold(new StrongHold()) , honor(strongHold->getInitHonor()) , activeProvinces(0) , fateDeck(new queue<GreenCard *>) , dynastyDeck(new queue<BlackCard *>) , hand(new vector<GreenCard *>) , holdings(new vector<Holding *>) , army(new vector<Personality*>) , provinces(new vector<Province *>) {}
+: userName(userName) , strongHold(std::make_shared< StrongHold >()) , honor(strongHold->getInitHonor()) , activeProvinces(0) , fateDeck(std::make_shared < queue<std::shared_ptr <GreenCard > > >()) , dynastyDeck(std::make_shared< queue<std::shared_ptr <BlackCard > > >()) , hand(std::make_shared< vector<std::shared_ptr <GreenCard > > >()) , holdings(std::make_shared< vector<std::shared_ptr <Holding > > >()) , army(std::make_shared< vector<std::shared_ptr <Personality > > >()) , provinces(std::make_shared< vector<std::shared_ptr <Province > > >()) {}
 
-Player::~Player() {
-    delete strongHold;
-    delete fateDeck;
-    delete dynastyDeck;
-    delete hand;
-    delete holdings;
-    delete army;
-    delete provinces;
-}

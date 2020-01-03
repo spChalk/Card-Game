@@ -20,8 +20,8 @@ namespace {  // Namespace Start
 
 /* ========================================================================= */
 
-std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::string & fileName ) {
-  std::unordered_map<std::string , vector<size_t> > * uMap = new std::unordered_map<std::string , vector<size_t> >;
+std::shared_ptr < std::unordered_map<std::string , vector<size_t> > > readAndMap (const std::string & fileName ) {
+  std::shared_ptr < std::unordered_map<std::string , vector<size_t> > > uMap = std::make_shared < std::unordered_map<std::string , vector<size_t> > >();
   std::ifstream newFile (fileName);
   std::string name , num;
 
@@ -36,7 +36,7 @@ std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::strin
     }
     newFile.close();
   } else {
-    std::cout << "Couldn't open file ." << std::endl;
+    cout << "Couldn't open file ." << endl;
     exit(EXIT_FAILURE);
   }  
   return uMap;
@@ -45,8 +45,8 @@ std::unordered_map<std::string , vector<size_t> > * readAndMap (const std::strin
 /* ========================================================================= */
 
 void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t maxBlackCards) {
-  std::unordered_map<std::string , vector<size_t> > * bMap = readAndMap("Personalities_and_Holdings.txt");
-  std::unordered_map<std::string , vector<size_t> > * gMap = readAndMap("Followers_and_Weapons.txt");
+  std::shared_ptr < std::unordered_map<std::string , vector<size_t> > > bMap = readAndMap("Personalities_and_Holdings.txt");
+  std::shared_ptr < std::unordered_map<std::string , vector<size_t> > > gMap = readAndMap("Followers_and_Weapons.txt");
   
   for (size_t i = 0; i < maxGreenCards; i++) {
     
@@ -78,8 +78,6 @@ void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t max
     }
   }
   
-  delete gMap;
-
   for (size_t i = 0; i < maxBlackCards; i++) {
     
     for (auto j = bMap->begin() ; j != bMap->end() ; j++ ) {
@@ -109,13 +107,11 @@ void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t max
 
     }
   }
-  
-  delete bMap;
 }
 
 /* ========================================================================= */
 
-bool playerCompare(Player *p1, Player *p2) { // make sure this is descending order
+bool playerCompare(std::shared_ptr< Player >p1, std::shared_ptr< Player > p2) { // make sure this is descending order
   return (p1->getHonor() > p2->getHonor());
 }
 
@@ -123,16 +119,16 @@ bool playerCompare(Player *p1, Player *p2) { // make sure this is descending ord
 
 /* ========================================================================= */
 
-BlackCard * Player::drawBlackCard(void) { // TODO : assert if empty
-  BlackCard * tmp = dynastyDeck->front();
+std::shared_ptr< BlackCard > Player::drawBlackCard(void) { // TODO : assert if empty
+  std::shared_ptr< BlackCard > tmp = dynastyDeck->front();
   dynastyDeck->pop();
   return tmp;
 }
 
 /* ========================================================================= */
 
-GreenCard * Player::drawFateCard(void) { // TODO : assert if empty
-  GreenCard * tmp = fateDeck->front();
+std::shared_ptr< GreenCard > Player::drawFateCard(void) { // TODO : assert if empty
+  std::shared_ptr< GreenCard > tmp = fateDeck->front();
   fateDeck->pop();
   return tmp;
 }
@@ -152,7 +148,7 @@ void Game::initGameBoard(std::shared_ptr< vector < std::shared_ptr <Player > > >
     }
     
     for (size_t i = 0; i < 4; i++) {
-      Province * newPr = new Province(newPl->drawBlackCard());
+      std::shared_ptr< Province > newPr = std::make_shared< Province >(newPl->drawBlackCard());
       newPl->getProvinces()->push_back(newPr);
       newPl->increaseProvinceNum();
     }
@@ -199,8 +195,8 @@ void Game::gameplay(void)
   }
 
   std::shared_ptr <Player > winner = players->at(win-1);
-  std::cout << "Player \'" << winner->getUserName() 
-            << "\' just won the game!" << std::endl;
+  cout << "Player \'" << winner->getUserName() 
+            << "\' just won the game!" << endl;
 }
 
 /* ========================================================================= */
@@ -211,9 +207,9 @@ Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t
   
   initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards , maxHand);
   
-  // printGameStatistics();
+  printGameStatistics();
   
-  // gameplay(); 
+  gameplay(); 
 }
 
 /* ========================================================================= */
