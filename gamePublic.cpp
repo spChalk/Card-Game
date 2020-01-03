@@ -200,9 +200,9 @@ void Game::gameplay(void)
 {
   std::sort(players->begin(), players->end(), playerCompare); // sort by honor // too lazy to PQ it
 
-  size_t winPos;
+  size_t win = 0;
 
-  while(true) // while no winner is found
+  while(win == 0) // while no winner is found
   {
     for (auto *i : *players) // c-like != python...
     {
@@ -212,15 +212,24 @@ void Game::gameplay(void)
       equipmentPhase(i);
       battlePhase(i);
 
-      if ((winPos = checkWinningCondition()) != 0) // we have a winner
+      if ((win = checkWinningCondition()) != 0) // we have a winner
         break;
 
       economyPhase(i);
       finalPhase(i);
+
+      // TODO:(maybe) Remove that when ready!
+      std::string answer;
+      cout << "Do you want to quit the game? Type 'Q' if YES or \
+<any other key> if NO\n> Your answer: ";
+      std::getline(std::cin , answer);
+      cout << answer << endl;
+
+      if (answer == "Q") return;
     }
   }
 
-  Player *winner = players->at(winPos-1);
+  Player *winner = players->at(win-1);
   std::cout << "Player \'" << winner->getUserName() 
             << "\' just won the game!" << std::endl;
 }
