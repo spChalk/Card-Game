@@ -11,13 +11,13 @@ using std::endl;
 namespace // namespace_start
 {
 
-void upgradeGreenCard (std::shared_ptr< Player > ,      std::shared_ptr<GreenCard> );
-bool hasEnoughMoney   (std::shared_ptr< Player > ,      std::shared_ptr<GreenCard> );
-bool hasEnoughHonor   (std::shared_ptr< Personality > , std::shared_ptr<GreenCard> );
-bool hasntReachedLimit(std::shared_ptr< Personality > , std::shared_ptr<GreenCard> );
+void upgradeGreenCard (PlayerPtr ,      GreenCardPtr );
+bool hasEnoughMoney   (PlayerPtr ,      GreenCardPtr );
+bool hasEnoughHonor   (PersonalityPtr , GreenCardPtr );
+bool hasntReachedLimit(PersonalityPtr , GreenCardPtr );
 /* ========================================================================= */
 
-void upgradeGreenCard(std::shared_ptr<Player> player, std::shared_ptr<GreenCard > card)
+void upgradeGreenCard(PlayerPtr player, GreenCardPtr card)
 {
   size_t currMoney = player->getCurrMoney();
   if (currMoney >= card->getEffectCost())
@@ -34,7 +34,7 @@ void upgradeGreenCard(std::shared_ptr<Player> player, std::shared_ptr<GreenCard 
 }
 /* ========================================================================= */
 
-bool hasEnoughMoney(std::shared_ptr<Player >player, std::shared_ptr<GreenCard >card)
+bool hasEnoughMoney(PlayerPtr player, GreenCardPtr card)
 { 
   size_t currMoney = player->getCurrMoney();
   if (currMoney >= card->getCost()) 
@@ -46,7 +46,7 @@ bool hasEnoughMoney(std::shared_ptr<Player >player, std::shared_ptr<GreenCard >c
 }
 /* ========================================================================= */
 
-bool hasEnoughHonor(std::shared_ptr<Personality >person, std::shared_ptr<GreenCard >card)
+bool hasEnoughHonor(PersonalityPtr person, GreenCardPtr card)
 { 
   if (person->getHonor() >= card->getMinHonor())
     return true;
@@ -58,14 +58,14 @@ bool hasEnoughHonor(std::shared_ptr<Personality >person, std::shared_ptr<GreenCa
 }
 /* ========================================================================= */
 
-bool hasntReachedLimit(std::shared_ptr<Personality >person, std::shared_ptr<GreenCard >card)
+bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 {
   enum GreenCardType cardType = card->getGreenCardType();
   size_t maxCardPerPers = card->getMaxPerPersonality();
 
   if (cardType == FOLLOWER)
   {
-    std::shared_ptr<std::vector<std::shared_ptr<Follower > > > followers = person->getFollowers();
+    FollowerVectorPtr followers = person->getFollowers();
     for (auto i : *followers)
     {
       if (i->getFollowerType() == card->getFollowerType())
@@ -76,7 +76,7 @@ bool hasntReachedLimit(std::shared_ptr<Personality >person, std::shared_ptr<Gree
   }
   else // cardType == ITEM
   {
-    std::shared_ptr<std::vector<std::shared_ptr<Item > > > items = person->getItems();
+    ItemVectorPtr items = person->getItems();
     for (auto i : *items)
     {
       if (i->getItemType() == card->getItemType())
@@ -114,7 +114,7 @@ void Item::attachToPersonality (std::shared_ptr <Personality > pers) {
 
 size_t Player::getCurrMoney()
 {
-  std::shared_ptr < std::vector <std::shared_ptr <Holding > > > holdings = this->getHoldings();
+  HoldingVectorPtr holdings = this->getHoldings();
 
   size_t total = 0;
 
@@ -128,7 +128,7 @@ size_t Player::getCurrMoney()
 }
 /* ========================================================================= */
 
-void Game::equipmentPhase (std::shared_ptr< Player > player)
+void Game::equipmentPhase (PlayerPtr player)
 {
   cout << "Equipment Phase Started !" << endl;
 

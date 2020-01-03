@@ -9,6 +9,7 @@ class GreenCard;
 class BlackCard;
 
 class Personality;
+class Province;
 class Holding;
 class Mine;
 class GoldMine;
@@ -59,6 +60,30 @@ enum HoldingType
 {
   MINE, GOLD_MINE, CRYSTAL_MINE, PLAIN, FARMLAND, GIFT_N_FAVOUR, STRONGHOLD 
 };
+
+
+typedef std::shared_ptr< Mine >        MinePtr;
+typedef std::shared_ptr< Player >      PlayerPtr;
+typedef std::shared_ptr< GoldMine >    GoldMinePtr;
+typedef std::shared_ptr< CrystalMine > CrystalMinePtr;
+typedef std::shared_ptr< GreenCard >   GreenCardPtr;
+typedef std::shared_ptr< BlackCard >   BlackCardPtr;
+typedef std::shared_ptr< StrongHold >  StrongHoldPtr;
+typedef std::shared_ptr< Holding >     HoldingPtr;
+typedef std::shared_ptr< Province >    ProvincePtr;
+typedef std::shared_ptr< Personality > PersonalityPtr;
+
+typedef std::shared_ptr< std::queue <GreenCardPtr > >    FateDeckPtr;
+typedef std::shared_ptr< std::queue <BlackCardPtr > >    DynastyDeckPtr;
+typedef std::shared_ptr< std::vector <GreenCardPtr > >   HandPtr;
+typedef std::shared_ptr< std::vector <ProvincePtr > >    ProvinceVectorPtr;
+typedef std::shared_ptr< std::vector <PersonalityPtr > > ArmyPtr;
+typedef std::shared_ptr< std::vector <HoldingPtr > >     HoldingVectorPtr;
+typedef std::shared_ptr< std::vector <PlayerPtr > >      PlayerVectorPtr;
+
+typedef std::shared_ptr< std::vector <std::shared_ptr< Item>>>    ItemVectorPtr;
+typedef std::shared_ptr< std::vector <std::shared_ptr<Follower>>> FollowerVectorPtr;
+
 //==========================================|| C A R D ||==========================================
 
 class Card
@@ -120,7 +145,7 @@ public:
   void detach() { attached = false; }
 
   bool isAttached() const { return attached; }
-  virtual void attachToPersonality(std::shared_ptr< Personality >) = 0;
+  virtual void attachToPersonality(PersonalityPtr) = 0;
 
   void upgrade(); 
 
@@ -149,7 +174,7 @@ public:
   size_t getMaxPerPersonality() const { return maxPerPerson; }
 
   void print() const;
-  void attachToPersonality(std::shared_ptr< Personality >);
+  void attachToPersonality(PersonalityPtr);
 };
 
 //==========================================|| I T E M ||==========================================
@@ -172,7 +197,7 @@ public:
   size_t getMaxPerPersonality() const { return maxPerPerson; }
   
   void decreaseDurability() { --durability; }
-  void attachToPersonality(std::shared_ptr< Personality >);
+  void attachToPersonality(PersonalityPtr);
   
   void print() const;
 };
@@ -199,7 +224,7 @@ public:
   bool checkRevealed() { return isRevealed; }
 
   virtual void print() const = 0;
-  virtual void attachToPlayer(std::shared_ptr< Player >) = 0;
+  virtual void attachToPlayer(PlayerPtr) = 0;
 };
 
 //==========================================|| P E R S O N A L I T Y ||==========================================
@@ -213,8 +238,8 @@ class Personality : public BlackCard
 
   bool isDead;
   
-  std::shared_ptr< vector <std::shared_ptr< Follower > > > followers;
-  std::shared_ptr< vector <std::shared_ptr< Item > > > items;
+  FollowerVectorPtr followers;
+  ItemVectorPtr     items;
 
   const enum PersonalityType type;
 
@@ -234,11 +259,11 @@ public:
 
   bool checkIfDead() const { return isDead; }
 
-  std::shared_ptr< vector <std::shared_ptr< Follower > > > getFollowers() { return followers; }
-  std::shared_ptr< vector <std::shared_ptr< Item > > > getItems() { return items; }
+  FollowerVectorPtr getFollowers() { return followers; }
+  ItemVectorPtr     getItems() { return items; }
 
   void print() const;
-  void attachToPlayer(std::shared_ptr< Player >);
+  void attachToPlayer(PlayerPtr);
 
   void cleanup(); // removes detached items + followers
 };
@@ -265,14 +290,14 @@ public:
 
   virtual void print() const; // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
 
-  void attachToPlayer(std::shared_ptr< Player >);
+  void attachToPlayer(PlayerPtr);
 };
 
 //==========================================|| M I N E ||==========================================
 
 class Mine : public Holding
 {
-  std::shared_ptr< GoldMine > upperHolding;
+  GoldMinePtr upperHolding;
 
 public:
     
@@ -280,11 +305,11 @@ public:
 
   void print() const;
 
-  void attachToPlayer(std::shared_ptr< Player >);
+  void attachToPlayer(PlayerPtr);
 
-  std::shared_ptr< GoldMine > getUpperHolding (void) const { return upperHolding ; }
+  GoldMinePtr getUpperHolding (void) const { return upperHolding ; }
 
-  void setUpperHolding (std::shared_ptr< GoldMine > glM) { upperHolding = glM ; }
+  void setUpperHolding (GoldMinePtr gMine) { upperHolding = gMine ; }
 
 };
 
@@ -292,7 +317,7 @@ public:
 // ligo malakia pou exw mia oloidia class me allo onoma enos member alla nta3 ugeia
 class CrystalMine : public Holding
 {
-  std::shared_ptr< GoldMine > subHolding;
+  GoldMinePtr subHolding;
 
 public:
     
@@ -300,11 +325,11 @@ public:
 
   void print() const; 
 
-  void attachToPlayer(std::shared_ptr< Player >);
+  void attachToPlayer(PlayerPtr);
 
-  std::shared_ptr< GoldMine > getSubHolding (void) const { return subHolding ; }
+  GoldMinePtr getSubHolding (void) const { return subHolding ; }
 
-  void setSubHolding (std::shared_ptr< GoldMine > glM) { subHolding = glM ; }
+  void setSubHolding (GoldMinePtr gMine) { subHolding = gMine ; }
 
 };
 
@@ -312,8 +337,8 @@ public:
 
 class GoldMine : public Holding
 {
-  std::shared_ptr< CrystalMine > upperHolding;
-  std::shared_ptr< Mine > subHolding;
+  CrystalMinePtr upperHolding;
+  MinePtr subHolding;
 
 public:
     
@@ -321,13 +346,13 @@ public:
 
   void print() const;
 
-  void attachToPlayer(std::shared_ptr< Player >);
+  void attachToPlayer(PlayerPtr);
 
-  std::shared_ptr< CrystalMine > getUpperHolding (void) const { return upperHolding ; }
-  std::shared_ptr< Mine > getSubHolding (void) const { return subHolding ; }
+  CrystalMinePtr getUpperHolding (void) const { return upperHolding ; }
+  MinePtr getSubHolding (void) const { return subHolding ; }
 
-  void setUpperHolding (std::shared_ptr< CrystalMine > crM) { upperHolding = crM ; }
-  void setSubHolding (std::shared_ptr< Mine > M) { subHolding = M ; }
+  void setUpperHolding (CrystalMinePtr crM) { upperHolding = crM ; }
+  void setSubHolding (MinePtr M) { subHolding = M ; }
 };
 
 //==========================================|| S T R O N G H O L D ||==========================================
@@ -353,17 +378,17 @@ class Province
 {
   bool isBroken; // init as false
 
-  std::shared_ptr< BlackCard > card;
+  BlackCardPtr card;
 
 public:
 
-  Province(std::shared_ptr< BlackCard >);
+  Province(BlackCardPtr);
 
   bool checkBroken() const { return isBroken; }
   void setBroken() { isBroken = true; }
 
-  std::shared_ptr< BlackCard > getCard() { return card; }
-  void setCard(std::shared_ptr< BlackCard > bc) { card = bc ; }
+  BlackCardPtr getCard() { return card; }
+  void setCard(BlackCardPtr bc) { card = bc ; }
  
   void print() const;
 
@@ -400,26 +425,26 @@ class Player
 {
   const std::string userName;
 
-  std::shared_ptr< StrongHold > strongHold;
+  StrongHoldPtr strongHold;
 
   const size_t honor;
   
   size_t activeProvinces;
 
-  std::shared_ptr< queue < std::shared_ptr< GreenCard > > > fateDeck;
-  std::shared_ptr< queue <std::shared_ptr< BlackCard > > > dynastyDeck;
+  FateDeckPtr    fateDeck;
+  DynastyDeckPtr dynastyDeck;
 
-  std::shared_ptr< vector <std::shared_ptr< GreenCard > > > hand;
-  std::shared_ptr< vector <std::shared_ptr< Holding > > > holdings;
-  std::shared_ptr< vector <std::shared_ptr< Personality > > > army;
+  HandPtr hand;
+  ArmyPtr army;
 
-  std::shared_ptr< vector <std::shared_ptr< Province > > > provinces;
+  HoldingVectorPtr  holdings;
+  ProvinceVectorPtr provinces;
 
 public:
 
   Player(const std::string & userName );
 
-  size_t getHonor() const { return honor; }
+  size_t getHonor()        const { return honor; }
   size_t getProvincesNum() const { return activeProvinces; }
 
   size_t getCurrMoney();
@@ -429,17 +454,19 @@ public:
 
   const std::string& getUserName() const { return userName; }
   
-  std::shared_ptr< queue <std::shared_ptr< GreenCard > > > getFateDeck() { return fateDeck; }
-  std::shared_ptr< queue <std::shared_ptr< BlackCard > > > getDynastyDeck() { return dynastyDeck; }
-  std::shared_ptr< vector <std::shared_ptr< GreenCard > > > getHand() { return hand; }
-  std::shared_ptr< vector <std::shared_ptr< Province > > > getProvinces() { return provinces; }
-  std::shared_ptr< vector <std::shared_ptr< Personality > > > getArmy() { return army; }
-  std::shared_ptr< vector <std::shared_ptr< Holding > > > getHoldings() { return holdings; }
+  FateDeckPtr    getFateDeck()    const { return fateDeck; }
+  DynastyDeckPtr getDynastyDeck() const { return dynastyDeck; }
+  
+  HandPtr getHand() const { return hand; }
+  ArmyPtr getArmy() const { return army; }
 
-  void setFateDeck(std::shared_ptr< queue< std::shared_ptr< GreenCard > > > fDeck) { fateDeck = fDeck; }
-  void setDynastyDeck(std::shared_ptr< queue< std::shared_ptr< BlackCard > > > dDeck) { dynastyDeck = dDeck; }
+  ProvinceVectorPtr getProvinces() const { return provinces; }
+  HoldingVectorPtr  getHoldings()  const { return holdings; }
 
-  std::shared_ptr< StrongHold > getStrongHold() { return strongHold; }
+  void setFateDeck   (FateDeckPtr    fDeck) { fateDeck    = fDeck; }
+  void setDynastyDeck(DynastyDeckPtr dDeck) { dynastyDeck = dDeck; }
+
+  StrongHoldPtr getStrongHold() { return strongHold; }
 
   void print() const;
   void printHoldings() const;
@@ -452,8 +479,8 @@ public:
 
   void cleanup(); // Removes 1) dead personalities from army 2) detached GreenCards
 
-  std::shared_ptr< BlackCard > drawBlackCard (void);
-  std::shared_ptr< GreenCard > drawFateCard (void);
+  BlackCardPtr drawBlackCard (void);
+  GreenCardPtr drawFateCard (void);
 
   bool makePurchase (size_t cost ); // Tap Holdings until you cover the needed cost
   // Returns true if the purchase is successfull
@@ -463,21 +490,21 @@ public:
 
 class Game
 {
-  std::shared_ptr< vector < std::shared_ptr <Player > > > players;
+  PlayerVectorPtr players;
  
   size_t checkWinningCondition();
 
-  void startingPhase (std::shared_ptr <Player > );
-  void equipmentPhase(std::shared_ptr <Player > );
-  void battlePhase   (std::shared_ptr <Player > );
-  void economyPhase  (std::shared_ptr <Player > );
-  void finalPhase    (std::shared_ptr <Player > );
+  void startingPhase (PlayerPtr );
+  void equipmentPhase(PlayerPtr );
+  void battlePhase   (PlayerPtr );
+  void economyPhase  (PlayerPtr );
+  void finalPhase    (PlayerPtr );
 
 public:
 
   Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/);
 
-  void initGameBoard(std::shared_ptr< vector < std::shared_ptr <Player >  > > players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards , size_t maxHand);
+  void initGameBoard(PlayerVectorPtr players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards , size_t maxHand);
   void printGameStatistics() const;
   void gameplay();
 };

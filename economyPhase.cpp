@@ -8,14 +8,14 @@
 
 namespace {
 
-  bool checkForFullChain (std::shared_ptr< CrystalMine > crM) {                                                // Check if 
+  bool checkForFullChain (CrystalMinePtr crM) {                                                // Check if 
     return (crM->getSubHolding() != nullptr                                                   // CrystalMine -> GoldMine exists
         && crM->getSubHolding()->getUpperHolding() == crM                                     // CrystalMine -> GoldMine -> CrystalMine exists
         && crM->getSubHolding()->getSubHolding() != nullptr                                   // CrystalMine -> GoldMine -> Mine exists
         && crM->getSubHolding()->getSubHolding()->getUpperHolding() == crM->getSubHolding()); // CrystalMine -> GoldMine -> Mine -> GoldMine exists
   }
 
-  bool checkForFullChain (std::shared_ptr< Mine > M) {                                                         // Check if 
+  bool checkForFullChain (MinePtr M) {                                                         // Check if 
     return (M->getUpperHolding() != nullptr                                                   // Mine -> GoldMine exists
         && M->getUpperHolding()->getSubHolding() == M                                         // Mine -> GoldMine -> Mine exists
         && M->getUpperHolding()->getUpperHolding() != nullptr                                 // Mine -> GoldMine -> CrystalMine exists
@@ -43,15 +43,15 @@ bool Player::makePurchase (size_t cost) {
   return true;
 }
 
-void Personality::attachToPlayer (std::shared_ptr< Player > pl) {
+void Personality::attachToPlayer (PlayerPtr pl) {
   pl->getArmy()->push_back(std::make_shared< Personality >(*this));
 }
 
-void Holding::attachToPlayer (std::shared_ptr< Player > pl) {
+void Holding::attachToPlayer (PlayerPtr pl) {
   pl->getHoldings()->push_back(std::make_shared< Holding >(*this));  
 }
 
-void Mine::attachToPlayer(std::shared_ptr< Player > pl) {
+void Mine::attachToPlayer(PlayerPtr pl) {
   
   for (auto i : *(pl->getHoldings())) {
     
@@ -77,7 +77,7 @@ void Mine::attachToPlayer(std::shared_ptr< Player > pl) {
   pl->getHoldings()->push_back(std::make_shared< Mine >(*this));
 }
 
-void GoldMine::attachToPlayer(std::shared_ptr< Player > pl) {
+void GoldMine::attachToPlayer(PlayerPtr pl) {
   
   for (auto i : *(pl->getHoldings())) {  // Check for Mines
     if (i->getHoldingType() == MINE) {
@@ -113,7 +113,7 @@ void GoldMine::attachToPlayer(std::shared_ptr< Player > pl) {
   pl->getHoldings()->push_back(std::make_shared< GoldMine >(*this));
 }
 
-void CrystalMine::attachToPlayer(std::shared_ptr< Player > pl) {
+void CrystalMine::attachToPlayer(PlayerPtr pl) {
 
   for (auto i : *(pl->getHoldings())) {
     

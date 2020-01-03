@@ -111,7 +111,7 @@ void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t max
 
 /* ========================================================================= */
 
-bool playerCompare(std::shared_ptr< Player >p1, std::shared_ptr< Player > p2) { // make sure this is descending order
+bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending order
   return (p1->getHonor() > p2->getHonor());
 }
 
@@ -119,23 +119,23 @@ bool playerCompare(std::shared_ptr< Player >p1, std::shared_ptr< Player > p2) { 
 
 /* ========================================================================= */
 
-std::shared_ptr< BlackCard > Player::drawBlackCard(void) { // TODO : assert if empty
-  std::shared_ptr< BlackCard > tmp = dynastyDeck->front();
+BlackCardPtr Player::drawBlackCard(void) { // TODO : assert if empty
+  BlackCardPtr tmp = dynastyDeck->front();
   dynastyDeck->pop();
   return tmp;
 }
 
 /* ========================================================================= */
 
-std::shared_ptr< GreenCard > Player::drawFateCard(void) { // TODO : assert if empty
-  std::shared_ptr< GreenCard > tmp = fateDeck->front();
+GreenCardPtr Player::drawFateCard(void) { // TODO : assert if empty
+  GreenCardPtr tmp = fateDeck->front();
   fateDeck->pop();
   return tmp;
 }
 
 /* ========================================================================= */
 
-void Game::initGameBoard(std::shared_ptr< vector < std::shared_ptr <Player > > > players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
+void Game::initGameBoard(PlayerVectorPtr players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
 
           // Make player (assign name , StrongHold and honor(via StrongHold))
@@ -148,7 +148,7 @@ void Game::initGameBoard(std::shared_ptr< vector < std::shared_ptr <Player > > >
     }
     
     for (size_t i = 0; i < 4; i++) {
-      std::shared_ptr< Province > newPr = std::make_shared< Province >(newPl->drawBlackCard());
+      ProvincePtr newPr = std::make_shared< Province >(newPl->drawBlackCard());
       newPl->getProvinces()->push_back(newPr);
       newPl->increaseProvinceNum();
     }

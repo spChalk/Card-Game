@@ -69,8 +69,8 @@ Personality::Personality(const std::string & name , const size_t & cost ,  const
   defence(defence), 
   honor(honor), 
   isDead(false), 
-  followers(std::make_shared<vector< std::shared_ptr <Follower > > >()),
-  items( std::make_shared < vector< std::shared_ptr <Item > > >()), 
+  followers(std::make_shared<std::vector< std::shared_ptr <Follower > > >()),
+  items( std::make_shared < std::vector< std::shared_ptr <Item > > >()), 
   type(type)
   {}
 /* ========================================================================= */
@@ -109,9 +109,9 @@ StrongHold::StrongHold()
   {} 
 /* ========================================================================= */
 
-Province::Province(std::shared_ptr <BlackCard > blC)
+Province::Province(BlackCardPtr blackCard)
 : isBroken(false), 
-  card(blC)
+  card(blackCard)
   {}
 /* ========================================================================= */
 
@@ -120,11 +120,11 @@ Player::Player(const std::string & userName )
   strongHold(std::make_shared< StrongHold >()), 
   honor(strongHold->getInitHonor()), 
   activeProvinces(0), 
-  fateDeck(std::make_shared < queue<std::shared_ptr <GreenCard > > >()) , 
-  dynastyDeck(std::make_shared< queue<std::shared_ptr <BlackCard > > >()) , 
-  hand(std::make_shared< vector<std::shared_ptr <GreenCard > > >()) , 
-  holdings(std::make_shared< vector<std::shared_ptr <Holding > > >()) , 
-  army(std::make_shared< vector<std::shared_ptr <Personality > > >()) , 
-  provinces(std::make_shared< vector<std::shared_ptr <Province > > >())
+  fateDeck(std::make_shared < std::queue<std::shared_ptr <GreenCard > > >()) , 
+  dynastyDeck(std::make_shared< std::queue<std::shared_ptr <BlackCard > > >()) , 
+  hand(std::make_shared< std::vector<std::shared_ptr <GreenCard > > >()) , 
+  army(std::make_shared< std::vector<std::shared_ptr <Personality > > >()) , 
+  holdings(std::make_shared< std::vector<std::shared_ptr <Holding > > >()) , 
+  provinces(std::make_shared< std::vector<std::shared_ptr <Province > > >())
   {}
 /* ========================================================================= */

@@ -10,13 +10,13 @@
 namespace // namespace_begin
 {
 
-void untapEverything(std::shared_ptr<Player >);
-void drawFateCard(std::shared_ptr<Player >);
-void revealProvinces(std::shared_ptr<Player >);
+void untapEverything(PlayerPtr);
+void drawFateCard(PlayerPtr);
+void revealProvinces(PlayerPtr);
 
 /* ========================================================================= */
 
-void untapEverything(std::shared_ptr<Player > player)
+void untapEverything(PlayerPtr player)
 {
   auto holdings = player->getHoldings();
   auto army     = player->getArmy();
@@ -34,7 +34,7 @@ void untapEverything(std::shared_ptr<Player > player)
 
 /* ========================================================================= */
 
-void revealProvinces(std::shared_ptr<Player > player)
+void revealProvinces(PlayerPtr player)
 {
   auto provinces = player->getProvinces();
 
@@ -48,7 +48,7 @@ void revealProvinces(std::shared_ptr<Player > player)
 }
 
 /* ========================================================================= */
-void drawFateCard(std::shared_ptr<Player > player) // take care if empty fate deck!
+void drawFateCard(PlayerPtr player) // take care if empty fate deck!
 {
   auto fate = player->getFateDeck();
 
@@ -72,7 +72,7 @@ void drawFateCard(std::shared_ptr<Player > player) // take care if empty fate de
 }; // namespace_end
 /* ========================================================================= */
 
-void Game::startingPhase (std::shared_ptr<Player > player)
+void Game::startingPhase (PlayerPtr player)
 {
   untapEverything(player);
   drawFateCard(player);
