@@ -13,7 +13,7 @@ namespace {  // Namespace start
 
 /* ========================================================================= */
 
-void discardSurplusFateCards (Player * pl , size_t numOfCards)
+void discardSurplusFateCards (std::shared_ptr< Player > pl , size_t numOfCards)
 { // could be a method of class Player, since MAX_HAND_CARDS *will* also be a field
   while (numOfCards > 0)
   {
@@ -51,7 +51,7 @@ void discardSurplusFateCards (Player * pl , size_t numOfCards)
 
 /* ========================================================================= */
 
-void Game::finalPhase(Player * pl)
+void Game::finalPhase(std::shared_ptr< Player > pl)
 {
   cout << "Final Phase Started !" << endl;
 
