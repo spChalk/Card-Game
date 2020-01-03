@@ -19,8 +19,8 @@
 
 #define NO_PLAIN          3
 #define NO_MINE           3
-#define NO_GOLD_MINE      3
-#define NO_CRYSTAL_MINE   3
+#define NO_GOLD_MINE      2
+#define NO_CRYSTAL_MINE   2
 #define NO_FARMS          3
 #define NO_SOLO           2
 
