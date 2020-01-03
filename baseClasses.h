@@ -120,7 +120,7 @@ public:
   void detach() { attached = false; }
 
   bool isAttached() const { return attached; }
-  virtual void attachToPersonality(Personality *) = 0;
+  virtual void attachToPersonality(std::shared_ptr< Personality >) = 0;
 
   void upgrade(); 
 
@@ -149,7 +149,7 @@ public:
   size_t getMaxPerPersonality() const { return maxPerPerson; }
 
   void print() const;
-  void attachToPersonality(Personality *);
+  void attachToPersonality(std::shared_ptr< Personality >);
 };
 
 //==========================================|| I T E M ||==========================================
@@ -172,7 +172,7 @@ public:
   size_t getMaxPerPersonality() const { return maxPerPerson; }
   
   void decreaseDurability() { --durability; }
-  void attachToPersonality(Personality *);
+  void attachToPersonality(std::shared_ptr< Personality >);
   
   void print() const;
 };
@@ -199,7 +199,7 @@ public:
   bool checkRevealed() { return isRevealed; }
 
   virtual void print() const = 0;
-  virtual void attachToPlayer(Player *) = 0;
+  virtual void attachToPlayer(std::shared_ptr< Player >) = 0;
 };
 
 //==========================================|| P E R S O N A L I T Y ||==========================================
@@ -213,15 +213,14 @@ class Personality : public BlackCard
 
   bool isDead;
   
-  vector <Follower *> * followers;
-  vector <Item *>     * items;
+  std::shared_ptr< vector <std::shared_ptr< Follower > > > followers;
+  std::shared_ptr< vector <std::shared_ptr< Item > > > items;
 
   const enum PersonalityType type;
 
 public:
     
   Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor , const enum PersonalityType );
-  ~Personality();
 
   enum PersonalityType getPersonalityType() const { return type; }
 
@@ -235,11 +234,11 @@ public:
 
   bool checkIfDead() const { return isDead; }
 
-  vector <Follower *> * getFollowers() { return followers; }
-  vector <Item *>     * getItems() { return items; }
+  std::shared_ptr< vector <std::shared_ptr< Follower > > > getFollowers() { return followers; }
+  std::shared_ptr< vector <std::shared_ptr< Item > > > getItems() { return items; }
 
   void print() const;
-  void attachToPlayer(Player *);
+  void attachToPlayer(std::shared_ptr< Player >);
 
   void cleanup(); // removes detached items + followers
 };
@@ -266,27 +265,26 @@ public:
 
   virtual void print() const; // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
 
-  void attachToPlayer(Player *);
+  void attachToPlayer(std::shared_ptr< Player >);
 };
 
 //==========================================|| M I N E ||==========================================
 
 class Mine : public Holding
 {
-  GoldMine * upperHolding;
+  std::shared_ptr< GoldMine > upperHolding;
 
 public:
     
   Mine(const std::string & name = "MINE", const size_t & cost = 5 , const size_t & harvestValue = 3);
-  ~Mine();
 
   void print() const;
 
-  void attachToPlayer(Player *);
+  void attachToPlayer(std::shared_ptr< Player >);
 
-  GoldMine * getUpperHolding (void) const { return upperHolding ; }
+  std::shared_ptr< GoldMine > getUpperHolding (void) const { return upperHolding ; }
 
-  void setUpperHolding (GoldMine * glM) { upperHolding = glM ; }
+  void setUpperHolding (std::shared_ptr< GoldMine > glM) { upperHolding = glM ; }
 
 };
 
@@ -294,20 +292,19 @@ public:
 // ligo malakia pou exw mia oloidia class me allo onoma enos member alla nta3 ugeia
 class CrystalMine : public Holding
 {
-  GoldMine * subHolding;
+  std::shared_ptr< GoldMine > subHolding;
 
 public:
     
   CrystalMine(const std::string & name = "CRYSTAL_MINE" , const size_t & cost = 12 , const size_t & harvestValue = 6);
-  ~CrystalMine();
 
   void print() const; 
 
-  void attachToPlayer(Player *);
+  void attachToPlayer(std::shared_ptr< Player >);
 
-  GoldMine * getSubHolding (void) const { return subHolding ; }
+  std::shared_ptr< GoldMine > getSubHolding (void) const { return subHolding ; }
 
-  void setSubHolding (GoldMine * glM) { subHolding = glM ; }
+  void setSubHolding (std::shared_ptr< GoldMine > glM) { subHolding = glM ; }
 
 };
 
@@ -315,23 +312,22 @@ public:
 
 class GoldMine : public Holding
 {
-  CrystalMine * upperHolding;
-  Mine * subHolding;
+  std::shared_ptr< CrystalMine > upperHolding;
+  std::shared_ptr< Mine > subHolding;
 
 public:
     
   GoldMine(const std::string & name = "GOLD_MINE", const size_t & cost = 7 , const size_t & harvestValue = 5);  
-  ~GoldMine();
 
   void print() const;
 
   void attachToPlayer(Player *);
 
-  CrystalMine * getUpperHolding (void) const { return upperHolding ; }
-  Mine * getSubHolding (void) const { return subHolding ; }
+  std::shared_ptr< CrystalMine > getUpperHolding (void) const { return upperHolding ; }
+  std::shared_ptr< Mine > getSubHolding (void) const { return subHolding ; }
 
-  void setUpperHolding (CrystalMine * crM) { upperHolding = crM ; }
-  void setSubHolding (Mine * M) { subHolding = M ; }
+  void setUpperHolding (std::shared_ptr< CrystalMine > crM) { upperHolding = crM ; }
+  void setSubHolding (std::shared_ptr< Mine > M) { subHolding = M ; }
 };
 
 //==========================================|| S T R O N G H O L D ||==========================================
@@ -357,18 +353,17 @@ class Province
 {
   bool isBroken; // init as false
 
-  BlackCard *card;
+  std::shared_ptr< BlackCard > card;
 
 public:
 
-  Province(BlackCard *);
-  ~Province();
+  Province(std::shared_ptr< BlackCard >);
 
   bool checkBroken() const { return isBroken; }
   void setBroken() { isBroken = true; }
 
-  BlackCard * getCard() { return card; }
-  void setCard(BlackCard * bc) { card = bc ; }
+  std::shared_ptr< BlackCard > getCard() { return card; }
+  void setCard(std::shared_ptr< BlackCard > bc) { card = bc ; }
  
   void print() const;
 
@@ -405,25 +400,24 @@ class Player
 {
   const std::string userName;
 
-  StrongHold *strongHold;
+  std::shared_ptr< StrongHold > strongHold;
 
   const size_t honor;
   
   size_t activeProvinces;
 
-  queue <GreenCard *> * fateDeck;
-  queue <BlackCard *> * dynastyDeck;
+  std::shared_ptr< queue < std::shared_ptr< GreenCard > > > fateDeck;
+  std::shared_ptr< queue <std::shared_ptr< BlackCard > > > dynastyDeck;
 
-  vector <GreenCard *>   * hand;
-  vector <Holding *>     * holdings;
-  vector <Personality *> * army;
+  std::shared_ptr< vector <std::shared_ptr< GreenCard > > > hand;
+  std::shared_ptr< vector <std::shared_ptr< Holding > > > holdings;
+  std::shared_ptr< vector <std::shared_ptr< Personality > > > army;
 
-  vector <Province *>    * provinces;
+  std::shared_ptr< vector <std::shared_ptr< Province > > > provinces;
 
 public:
 
   Player(const std::string & userName );
-  ~Player();
 
   size_t getHonor() const { return honor; }
   size_t getProvincesNum() const { return activeProvinces; }
@@ -435,17 +429,17 @@ public:
 
   const std::string& getUserName() const { return userName; }
   
-  queue <GreenCard *>    * getFateDeck() { return fateDeck; }
-  queue <BlackCard *>    * getDynastyDeck() { return dynastyDeck; }
-  vector <GreenCard *>   * getHand() { return hand; }
-  vector <Province *>    * getProvinces() { return provinces; }
-  vector <Personality *> * getArmy() { return army; }
-  vector <Holding *>     * getHoldings() { return holdings; }
+  std::shared_ptr< queue <std::shared_ptr< GreenCard > > > getFateDeck() { return fateDeck; }
+  std::shared_ptr< queue <std::shared_ptr< BlackCard > > > getDynastyDeck() { return dynastyDeck; }
+  std::shared_ptr< vector <std::shared_ptr< GreenCard > > > getHand() { return hand; }
+  std::shared_ptr< vector <std::shared_ptr< Province > > > getProvinces() { return provinces; }
+  std::shared_ptr< vector <std::shared_ptr< Personality > > > getArmy() { return army; }
+  std::shared_ptr< vector <std::shared_ptr< Holding > > > getHoldings() { return holdings; }
 
-  void setFateDeck(queue<GreenCard *> * fDeck) { fateDeck = fDeck; }
-  void setDynastyDeck(queue<BlackCard *> * dDeck) { dynastyDeck = dDeck; }
+  void setFateDeck(std::shared_ptr< queue< std::shared_ptr< GreenCard > > > fDeck) { fateDeck = fDeck; }
+  void setDynastyDeck(std::shared_ptr< queue< std::shared_ptr< BlackCard > > > dDeck) { dynastyDeck = dDeck; }
 
-  StrongHold * getStrongHold() { return strongHold; }
+  std::shared_ptr< StrongHold > getStrongHold() { return strongHold; }
 
   void print() const;
   void printHoldings() const;
@@ -458,8 +452,8 @@ public:
 
   void cleanup(); // Removes 1) dead personalities from army 2) detached GreenCards
 
-  BlackCard * drawBlackCard (void);
-  GreenCard * drawFateCard (void);
+  std::shared_ptr< BlackCard > drawBlackCard (void);
+  std::shared_ptr< GreenCard > drawFateCard (void);
 
   bool makePurchase (size_t cost ); // Tap Holdings until you cover the needed cost
   // Returns true if the purchase is successfull
@@ -494,19 +488,19 @@ public:
 // E stands for Enum. 
 template <class D , typename E>
 // Pushes <total> times , <D type> objects in the given <deck>
-void pushNtimes(std::queue< D *> * deck , std::unordered_map<std::string , vector<size_t> >::iterator j ,const E type  , size_t total , size_t * times ) {
+void pushNtimes(std::shared_ptr < std::queue< std::shared_ptr < D > > > deck , std::unordered_map<std::string , vector<size_t> >::iterator j ,const E type  , size_t total , size_t * times ) {
 
   size_t temp = total;
   while (temp--)
   {
     if (j->second.size() == 6) {  // Follower
-      deck->push ((D *)new Follower (j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum FollowerType)type , total));
+      deck->push ((D *)std::make_shared< Follower >(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum FollowerType)type , total));
     }
     else if (j->second.size() == 7) {  // Item
-      deck->push ((D *)new Item (j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum ItemType)type , total));
+      deck->push ((D *)std::make_shared< Item >(j->second[6] , j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , "Random Text" , j->second[4] , j->second[5] , (const enum ItemType)type , total));
     }
     else if (j->second.size() == 4) {  // Personality
-      deck->push ((D *)new Personality (j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , (const enum PersonalityType)type));
+      deck->push (( std::shared_ptr<D> )std::make_shared< Personality >(j->first , j->second[0] , j->second[1] , j->second[2] , j->second[3] , (const enum PersonalityType)type));
     }
     else if (j->second.size() == 2) {  // Holding
         if (j->first == "MINE")
