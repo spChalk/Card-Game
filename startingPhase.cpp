@@ -14,7 +14,7 @@ namespace // namespace_begin
 {
 
 void untapEverything(PlayerPtr);
-void drawFateCard(PlayerPtr);
+void drawFateCard   (PlayerPtr);
 void revealProvinces(PlayerPtr);
 
 /* ========================================================================= */
@@ -59,8 +59,7 @@ void drawFateCard(PlayerPtr player) // take care if empty fate deck!
   {
     auto hand = player->getHand();
 
-    hand->push_back(fate->front());
-    fate->pop();
+    hand->push_back(player->drawFateCard());
 
     cout << "Player \'" << player->getUserName() 
               << "\' just drew a fate card!" <<endl;
