@@ -137,23 +137,26 @@ void CrystalMine::attachToPlayer(PlayerPtr pl) {
   pl->getHoldings()->push_back(std::make_shared< CrystalMine >(*this));
 }
 
+using std::cout;
+using std::endl;
+
 void Game::economyPhase(std::shared_ptr<Player> pl) {
 
-  std::cout << "Economy Phase Started !" << std::endl;
+  cout << "Economy Phase Started !" << endl;
   // Reveal Provinces ** if needed **
 
   /* for (auto i = pl->getProvinces()->begin() ; i != pl->getProvinces()->end() ; i++) 
     if ((*i)->checkBroken == false && (*i)->getCard()->checkRevealed() == false)
       (*i)->getCard()->setRevealed(); */
   
-  std::cout << "Player : " << pl->getUserName() << " has the option to buy Provinces." << std::endl ;
+  cout << "Player : " << pl->getUserName() << " has the option to buy Provinces." << endl ;
 
   // Print Provinces
-  std::cout << "All Provinces : " << std::endl;
+  cout << "All Provinces : " << endl;
   pl->printProvinces();
   
-  std::cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
-  appearance, to proceed to purchase. " << std::endl;
+  cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
+  appearance, to proceed to purchase. " << endl;
 
   // Buy Provinces
   for (auto i : *(pl->getProvinces())) {
@@ -161,21 +164,21 @@ void Game::economyPhase(std::shared_ptr<Player> pl) {
     if (i->checkBroken() == false && i->getCard()->checkRevealed() == true) {
       
       i->print();
-      std::cout << std::endl <<"Proceed to purchase ?" << std::endl << "> Your answer: " ;
+      cout << endl <<"Proceed to purchase ?" << endl << "> Your answer: " ;
       std::string answer;
       std::getline(std::cin, answer);
-      std::cout << answer << std::endl;
+      cout << answer << endl;
 
       if (answer == "Y") {
         if (pl->makePurchase(i->getCard()->getCost()) == true) {
-          std::cout << "Purchase Completed ! " << std::endl;
+          cout << "Purchase Completed ! " << endl;
           i->getCard()->setTapped();  // TODO : nomizw einai peritto
           i->getCard()->attachToPlayer(pl);
           i->setCard( pl->drawBlackCard() );
         } 
-        else std::cout << "You do not have enough money to buy this province . . ." << std::endl;
+        else cout << "You do not have enough money to buy this province . . ." << endl;
       }
     }
   }
-  std::cout << "Economy Phase Ended !" << std::endl;
+  cout << "Economy Phase Ended !" << endl;
 }

@@ -7,6 +7,9 @@
 
 #include "baseClasses.h"
 
+using std::cout;
+using std::endl;
+
 namespace // namespace_begin
 {
 
@@ -29,7 +32,7 @@ void untapEverything(PlayerPtr player)
 
   player->getStrongHold()->setUnTapped();
 
-  std::cout << "Everything is now untapped!" << std::endl;
+  cout << "Everything is now untapped!" << endl;
 }
 
 /* ========================================================================= */
@@ -44,7 +47,7 @@ void revealProvinces(PlayerPtr player)
       i->getCard()->setRevealed();
   }
 
-  std::cout << "Provinces revealed!" << std::endl;
+  cout << "Provinces revealed!" <<endl;
 }
 
 /* ========================================================================= */
@@ -59,13 +62,13 @@ void drawFateCard(PlayerPtr player) // take care if empty fate deck!
     hand->push_back(fate->front());
     fate->pop();
 
-    std::cout << "Player \'" << player->getUserName() 
-              << "\' just drew a fate card!" << std::endl;
+    cout << "Player \'" << player->getUserName() 
+              << "\' just drew a fate card!" <<endl;
   }
   else
   {
-    std::cout << "Fate deck is empty! No more Green Cards for player \'" 
-              << player->getUserName() << "\' !" << std::endl;
+    cout << "Fate deck is empty! No more Green Cards for player \'" 
+              << player->getUserName() << "\' !" <<endl;
   }
 }
 
