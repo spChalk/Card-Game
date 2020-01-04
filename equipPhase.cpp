@@ -34,7 +34,7 @@ void upgradeGreenCard(PlayerPtr player, GreenCardPtr card)
 }
 /* ========================================================================= */
 
-bool hasEnoughMoney(PlayerPtr player, GreenCardPtr card)
+inline bool hasEnoughMoney(PlayerPtr player, GreenCardPtr card)
 { 
   size_t currMoney = player->getCurrMoney();
   if (currMoney >= card->getCost()) 
@@ -46,7 +46,7 @@ bool hasEnoughMoney(PlayerPtr player, GreenCardPtr card)
 }
 /* ========================================================================= */
 
-bool hasEnoughHonor(PersonalityPtr person, GreenCardPtr card)
+inline bool hasEnoughHonor(PersonalityPtr person, GreenCardPtr card)
 { 
   if (person->getHonor() >= card->getMinHonor())
     return true;
@@ -107,7 +107,7 @@ void Follower::attachToPersonality (std::shared_ptr <Personality > pers) {
 }
 /* ========================================================================= */
 
-void Item::attachToPersonality (std::shared_ptr <Personality > pers) {
+inline void Item::attachToPersonality (std::shared_ptr <Personality > pers) {
   pers->getItems()->push_back(std::make_shared<Item>(*this));
 }
 /* ========================================================================= */
@@ -186,7 +186,7 @@ appearance if you want to enhance the card's attributes!" << endl;
 }
 /* ========================================================================= */
 
-void GreenCard::upgrade() 
+inline void GreenCard::upgrade() 
 { 
   attackBonus  += effectBonus;
   defenceBonus += effectBonus;

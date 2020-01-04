@@ -111,7 +111,7 @@ void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t max
 
 /* ========================================================================= */
 
-bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending order
+inline bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending order
   return (p1->getHonor() > p2->getHonor());
 }
 
@@ -119,7 +119,7 @@ bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending
 
 /* ========================================================================= */
 
-BlackCardPtr Player::drawBlackCard(void) { // TODO : assert if empty
+inline BlackCardPtr Player::drawBlackCard(void) { // TODO : assert if empty
   BlackCardPtr tmp = dynastyDeck->front();
   dynastyDeck->pop();
   return tmp;
@@ -127,7 +127,7 @@ BlackCardPtr Player::drawBlackCard(void) { // TODO : assert if empty
 
 /* ========================================================================= */
 
-GreenCardPtr Player::drawFateCard(void) { // TODO : assert if empty
+inline GreenCardPtr Player::drawFateCard(void) { // TODO : assert if empty
   GreenCardPtr tmp = fateDeck->front();
   fateDeck->pop();
   return tmp;

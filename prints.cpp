@@ -19,7 +19,7 @@ using std::endl;
 
 /* ========================================================================= */
 
-void Card::print() const
+inline void Card::print() const
 {
   cout << "Name:   " << name << endl;
   cout << "Cost:   " << cost << endl;
@@ -27,7 +27,7 @@ void Card::print() const
 }
 /* ========================================================================= */
 
-void GreenCard::print() const
+inline void GreenCard::print() const
 {
   cout << GRN << "======  GREEN CARD  ======" << RST << endl;
   this->Card::print();
@@ -42,7 +42,7 @@ void GreenCard::print() const
 }
 /* ========================================================================= */
 
-void Follower::print() const
+inline void Follower::print() const
 {
   this->GreenCard::print();
   cout << GRN << "====== !GREEN CARD! ======" << RST << endl;
@@ -57,7 +57,7 @@ void Item::print() const
 }
 /* ========================================================================= */
 
-void BlackCard::print() const // TODO: fix color
+inline void BlackCard::print() const // TODO: fix color
 {
   cout << RED << "======  BLACK CARD  ======" << RST << endl;
   this->Card::print();
@@ -66,7 +66,7 @@ void BlackCard::print() const // TODO: fix color
 }
 /* ========================================================================= */
 
-void Personality::print() const
+inline void Personality::print() const
 {
   this->BlackCard::print();
 
@@ -89,7 +89,7 @@ void Personality::print() const
 
 /* ========================================================================= */
 
-void Holding::print() const
+inline void Holding::print() const
 {
   this->BlackCard::print();
 
@@ -100,7 +100,7 @@ void Holding::print() const
 
 /* ========================================================================= */
 
-void Mine::print() const
+inline void Mine::print() const
 {
   this->BlackCard::print();
   cout << "Harvest value: " << harvestValue << endl;
@@ -117,7 +117,7 @@ void Mine::print() const
 
 /* ========================================================================= */
 
-void GoldMine::print() const
+inline void GoldMine::print() const
 {
   this->BlackCard::print();
   cout << "Harvest value: " << harvestValue << endl;
@@ -140,7 +140,7 @@ void GoldMine::print() const
 }
 /* ========================================================================= */
 
-void CrystalMine::print() const
+inline void CrystalMine::print() const
 {
   this->BlackCard::print();
   cout << "Harvest value: " << harvestValue << endl;
@@ -156,7 +156,7 @@ void CrystalMine::print() const
 }
 /* ========================================================================= */
 
-void StrongHold::print() const
+inline void StrongHold::print() const
 {
   this->BlackCard::print();
   cout << "Harvest value: " << harvestValue << endl;
@@ -168,7 +168,7 @@ void StrongHold::print() const
 }
 /* ========================================================================= */
 
-void Province::print() const
+inline void Province::print() const
 {
   if (isBroken == true)
     cout << "!! Broken Province !!" << endl;
@@ -179,7 +179,7 @@ void Province::print() const
 }
 /* ========================================================================= */
 
-void Player::print() const
+inline void Player::print() const
 {
   cout << BLU << "=======  PLAYER  =======" << RST << endl;
   cout << "User : " << userName << endl;
@@ -199,7 +199,7 @@ void Player::print() const
 }
 /* ========================================================================= */
 
-void Player::printHoldings() const
+inline void Player::printHoldings() const
 {
   strongHold->print();
 
@@ -207,7 +207,7 @@ void Player::printHoldings() const
 }
 /* ========================================================================= */
 
-void Player::printArmy() const
+inline void Player::printArmy() const
 {
   if (army->size() == 0) 
     cout << "No army!" << endl;
@@ -245,11 +245,11 @@ void Player::printProvinces() const {
 }
 /* ========================================================================= */
 
-void Player::printArena() const { this->printArmy(); }
+inline void Player::printArena() const { this->printArmy(); }
 
 /* ========================================================================= */
 
-void Player::printStatistics() const
+inline void Player::printStatistics() const
 {
   cout << "\nPrinting statistics for player: " << getUserName() << endl;
   cout << "=======   BEGINNING OF STATS  =======" << endl;

@@ -8,14 +8,14 @@
 
 namespace {
 
-  bool checkForFullChain (CrystalMinePtr crM) {                                                // Check if 
+  inline bool checkForFullChain (CrystalMinePtr crM) {                                               // Check if 
     return (crM->getSubHolding() != nullptr                                                   // CrystalMine -> GoldMine exists
         && crM->getSubHolding()->getUpperHolding() == crM                                     // CrystalMine -> GoldMine -> CrystalMine exists
         && crM->getSubHolding()->getSubHolding() != nullptr                                   // CrystalMine -> GoldMine -> Mine exists
         && crM->getSubHolding()->getSubHolding()->getUpperHolding() == crM->getSubHolding()); // CrystalMine -> GoldMine -> Mine -> GoldMine exists
   }
 
-  bool checkForFullChain (MinePtr M) {                                                         // Check if 
+  inline bool checkForFullChain (MinePtr M) {                                                         // Check if 
     return (M->getUpperHolding() != nullptr                                                   // Mine -> GoldMine exists
         && M->getUpperHolding()->getSubHolding() == M                                         // Mine -> GoldMine -> Mine exists
         && M->getUpperHolding()->getUpperHolding() != nullptr                                 // Mine -> GoldMine -> CrystalMine exists
