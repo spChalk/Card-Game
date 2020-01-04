@@ -1,43 +1,53 @@
 ATTACKER
-5
-3
-2
-2
+Cost   : 5
+Attack : 3
+Defense: 2
+Honor  : 2
+
 DEFENDER
-5
-2
-3
-2
+Cost   : 5
+Attack : 2
+Defense: 3
+Honor  : 2
+
 SHOGUN
-15
-10
-5
-8
+Cost   : 15
+Attack : 10
+Defense: 5
+Honor  : 8
+
 CHANCELLOR
-15
-5
-10
-8
+Cost   : 15
+Attack : 5
+Defense: 10
+Honor  : 8
+
 CHAMPION
-30
-20
-20
-12
+Cost   : 30
+Attack : 20
+Defense: 20
+Honor  : 12
+
 SOLO
-2
-2
+Cost    : 2
+Harvest : 2
+
 PLAIN
-2
-2
+Cost    : 2
+Harvest : 2
+
 FARMS
-3
-4
+Cost    : 3
+Harvest : 4
+
 MINE
-5
-3
+Cost    : 5
+Harvest : 3
+
 GOLD_MINE
-7
-5
+Cost    : 7
+Harvest : 5
+
 CRYSTAL_MINE
-12
-6
+Cost    : 12
+Harvest : 6
