@@ -10,6 +10,7 @@
 #include <cassert>
 #include <memory>
 #include <cctype>
+#include <vector>
 // #include <limits>
 
 #include "baseClasses.h"
@@ -148,7 +149,7 @@ GreenCardPtr Player::drawFateCard(void) { // TODO : assert if empty
 
 /* ========================================================================= */
 
-void Game::initGameBoard(PlayerVectorPtr players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
+void Game::initGameBoard(PlayerListPtr players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
 
           // Make player (assign name , StrongHold and honor(via StrongHold))
@@ -176,7 +177,8 @@ void Game::initGameBoard(PlayerVectorPtr players , size_t numPlayers ,size_t max
  * TODO: Maybe add some violent termination feature ?    */
 void Game::gameplay(void)
 {
-  std::sort(players->begin(), players->end(), playerCompare); // sort by honor // too lazy to PQ it
+  //std::sort(players->begin(), players->end(), playerCompare); // sort by honor // too lazy to PQ it
+  players->sort(playerCompare);
 
   size_t win = 0;
 
@@ -207,7 +209,17 @@ void Game::gameplay(void)
     }
   }
 
-  std::shared_ptr <Player > winner = players->at(win-1);
+  PlayerPtr winner;
+  for (auto i : *players)
+  {
+    --win;
+    if (win == 0)
+    {
+      winner = i;
+      break;
+    }
+  }
+  //PlayerPtr winner = players->at(win-1);
   cout << "Player \'" << winner->getUserName() 
             << "\' just won the game!" << endl;
 }
@@ -216,7 +228,7 @@ void Game::gameplay(void)
 
 Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/) {  
   
-  players = std::make_shared< std::vector <PlayerPtr> >();  // Create a new vector 
+  players = std::make_shared< std::list <PlayerPtr> >();  // Create a new list 
   
   initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards , maxHand);
   
@@ -228,7 +240,7 @@ Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t
 /* ========================================================================= */
 
 /* Checks whether we have a winner                  *
- * Returns his place in the vector counting from 1  *
+ * Returns his place in the list counting from 1  *
  * If no winner is found, returns 0 (NO_WINNER)     */
 size_t Game::checkWinningCondition(void)
 {
@@ -246,7 +258,7 @@ size_t Game::checkWinningCondition(void)
       else
       {
         playersWithProvinces = 1;
-        pos = ctr;     /* Keep his position in the vector */
+        pos = ctr;     /* Keep his position in the list */
       }
     }
     ++ctr;

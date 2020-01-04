@@ -69,8 +69,8 @@ Personality::Personality(const std::string & name , const size_t & cost ,  const
   defence(defence), 
   honor(honor), 
   isDead(false), 
-  followers(std::make_shared<std::vector< std::shared_ptr <Follower > > >()),
-  items( std::make_shared < std::vector< std::shared_ptr <Item > > >()), 
+  followers(std::make_shared<std::list< std::shared_ptr <Follower > > >()),
+  items( std::make_shared < std::list< std::shared_ptr <Item > > >()), 
   type(type)
   {}
 /* ========================================================================= */
@@ -122,9 +122,9 @@ Player::Player(const std::string & userName )
   activeProvinces(0), 
   fateDeck(std::make_shared < std::queue<std::shared_ptr <GreenCard > > >()) , 
   dynastyDeck(std::make_shared< std::queue<std::shared_ptr <BlackCard > > >()) , 
-  hand(std::make_shared< std::vector<std::shared_ptr <GreenCard > > >()) , 
-  army(std::make_shared< std::vector<std::shared_ptr <Personality > > >()) , 
-  holdings(std::make_shared< std::vector<std::shared_ptr <Holding > > >()) , 
-  provinces(std::make_shared< std::vector<std::shared_ptr <Province > > >())
+  hand(std::make_shared< std::list<std::shared_ptr <GreenCard > > >()) , 
+  army(std::make_shared< std::list<std::shared_ptr <Personality > > >()) , 
+  holdings(std::make_shared< std::list<std::shared_ptr <Holding > > >()) , 
+  provinces(std::make_shared< std::list<std::shared_ptr <Province > > >())
   {}
 /* ========================================================================= */

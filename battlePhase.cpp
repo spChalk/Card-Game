@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
 
 #include "baseClasses.h"
 
@@ -29,7 +29,7 @@ ArmyPtr defArmy;
 const std::string *attName;
 const std::string *defName;
 
-PlayerPtr chooseEnemy(PlayerPtr, PlayerVectorPtr players);
+PlayerPtr chooseEnemy(PlayerPtr, PlayerListPtr players);
 ProvincePtr chooseProvince(PlayerPtr player);
 
 int chooseAction(void);
@@ -47,7 +47,7 @@ void battle(ProvincePtr);
 
 /* ========================================================================= */
 
-PlayerPtr chooseEnemy(PlayerPtr current, PlayerVectorPtr players)
+PlayerPtr chooseEnemy(PlayerPtr current, PlayerListPtr players)
 {
   cout << "Choose an enemy! Available enemies are:" << endl;
 
@@ -178,8 +178,8 @@ size_t calcTotalATK(ArmyPtr battleArmy)
 
   for (std::shared_ptr< Personality > i : *battleArmy) // sum ATK of all personalities -> sum ATK of all their flollowers + items
   {
-    FollowerVectorPtr followers = i->getFollowers();
-    ItemVectorPtr     items = i->getItems();
+    FollowerListPtr followers = i->getFollowers();
+    ItemListPtr     items = i->getItems();
 
     totalATK += i->getATK(); // base personality ATK
 
@@ -198,8 +198,8 @@ size_t calcTotalDEF(ArmyPtr battleArmy)
 
   for (auto i : *battleArmy) // sum DEF of all personalities -> sum DEF of all their flollowers + items
   {
-    FollowerVectorPtr followers = i->getFollowers();
-    ItemVectorPtr     items = i->getItems();
+    FollowerListPtr followers = i->getFollowers();
+    ItemListPtr     items = i->getItems();
 
     totalDEF += i->getDEF(); // base personality DEF
 
@@ -217,7 +217,7 @@ void provinceDestroyed(ProvincePtr prov)
   cout << "Attacker " << *attName << " demolishes " << *defName 
        << " \'s defence!" << endl;
 
-  for (auto i : *defArmy) i->die(); // todo: cleanup dead from their vectors
+  for (auto i : *defArmy) i->die(); // todo: cleanup dead from their lists
   cout << "Defender's army is destroyed." << endl;
 
   prov->setBroken();
@@ -253,7 +253,7 @@ void verifyCasualties(ArmyPtr battleArmy, int side)
       i->die();
     else
     {
-      FollowerVectorPtr followers = i->getFollowers();
+      FollowerListPtr followers = i->getFollowers();
       for (auto j : *followers)
         if (j->getATK() >= ptsDiff) // delete followers
           j->detach(); // should do that
@@ -264,7 +264,7 @@ void verifyCasualties(ArmyPtr battleArmy, int side)
     
   for (auto i : *battleArmy) // decrease Item durability
   {
-    ItemVectorPtr items = i->getItems();
+    ItemListPtr items = i->getItems();
     
     for (auto j : *items) 
     {
@@ -289,7 +289,7 @@ void attackerWins()
   cout << "Attacker " << *attName << " destroys " << *defName 
        << " \'s army, but is unable to break the province!" << endl;
 
-  for (auto i : *defArmy) i->die(); // todo: cleanup dead from their vectors
+  for (auto i : *defArmy) i->die(); // todo: cleanup dead from their lists
   cout << "Defender's army is destroyed." << endl;
 
   //size_t ptsDiff = attPoints - defPoints;
@@ -304,7 +304,7 @@ void defenderWins()
   cout << "Defender " << *defName << "holds his ground against " << *attName 
        << " \'s army!" << endl;
 
-  for (auto i : *attArmy) i->die(); // todo: cleanup dead from their vectors
+  for (auto i : *attArmy) i->die(); // todo: cleanup dead from their lists
   cout << "Attacker's army is destroyed." << endl;
 
   // size_t ptsDiff = attPoints - defPoints;
@@ -399,13 +399,13 @@ void Game::battlePhase(PlayerPtr player)
 
   ProvincePtr prov = chooseProvince(enemy);
 
-  attArmy = std::make_shared< std::vector <std::shared_ptr< Personality>>>(); //TODO: delete this
+  attArmy = std::make_shared< std::list <std::shared_ptr< Personality>>>(); //TODO: delete this
   chooseArmy(player, attArmy);
 
   cout << "Player \'" << *defName 
        << "\' shall pick their DEFENSE!" << endl;
 
-  defArmy = std::make_shared< std::vector <std::shared_ptr< Personality>>>(); //TODO: delete this
+  defArmy = std::make_shared< std::list <std::shared_ptr< Personality>>>(); //TODO: delete this
   chooseArmy(enemy, defArmy);
 
   /* Battle */

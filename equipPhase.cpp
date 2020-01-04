@@ -1,7 +1,7 @@
 //======|| EQUIPMENT PHASE IMPL ||======
 
 #include <iostream>
-#include <vector>
+// #include <vector>
 
 #include "baseClasses.h"
 
@@ -65,7 +65,7 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 
   if (cardType == FOLLOWER)
   {
-    FollowerVectorPtr followers = person->getFollowers();
+    FollowerListPtr followers = person->getFollowers();
     for (auto i : *followers)
     {
       if (i->getFollowerType() == card->getFollowerType())
@@ -76,7 +76,7 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
   }
   else // cardType == ITEM
   {
-    ItemVectorPtr items = person->getItems();
+    ItemListPtr items = person->getItems();
     for (auto i : *items)
     {
       if (i->getItemType() == card->getItemType())
@@ -114,7 +114,7 @@ void Item::attachToPersonality (std::shared_ptr <Personality > pers) {
 
 size_t Player::getCurrMoney()
 {
-  HoldingVectorPtr holdings = this->getHoldings();
+  HoldingListPtr holdings = this->getHoldings();
 
   size_t total = 0;
 

@@ -23,12 +23,13 @@ class Item;
 #include <cstddef> // size_t
 #include <queue>
 #include <string>
-#include <vector>
+#include <list>
 #include <unordered_map>
 #include <memory>
+#include <vector>
 
 
-// using std::vector;
+// using std::list;
 // using std::queue;
 
 enum GreenCardType
@@ -75,14 +76,14 @@ typedef std::shared_ptr< Personality > PersonalityPtr;
 
 typedef std::shared_ptr< std::queue <GreenCardPtr > >    FateDeckPtr;
 typedef std::shared_ptr< std::queue <BlackCardPtr > >    DynastyDeckPtr;
-typedef std::shared_ptr< std::vector <GreenCardPtr > >   HandPtr;
-typedef std::shared_ptr< std::vector <ProvincePtr > >    ProvinceVectorPtr;
-typedef std::shared_ptr< std::vector <PersonalityPtr > > ArmyPtr;
-typedef std::shared_ptr< std::vector <HoldingPtr > >     HoldingVectorPtr;
-typedef std::shared_ptr< std::vector <PlayerPtr > >      PlayerVectorPtr;
+typedef std::shared_ptr< std::list <GreenCardPtr > >   HandPtr;
+typedef std::shared_ptr< std::list <ProvincePtr > >    ProvinceListPtr;
+typedef std::shared_ptr< std::list <PersonalityPtr > > ArmyPtr;
+typedef std::shared_ptr< std::list <HoldingPtr > >     HoldingListPtr;
+typedef std::shared_ptr< std::list <PlayerPtr > >      PlayerListPtr;
 
-typedef std::shared_ptr< std::vector <std::shared_ptr< Item>>>    ItemVectorPtr;
-typedef std::shared_ptr< std::vector <std::shared_ptr<Follower>>> FollowerVectorPtr;
+typedef std::shared_ptr< std::list <std::shared_ptr< Item>>>    ItemListPtr;
+typedef std::shared_ptr< std::list <std::shared_ptr<Follower>>> FollowerListPtr;
 
 //==========================================|| C A R D ||==========================================
 
@@ -238,8 +239,8 @@ class Personality : public BlackCard
 
   bool isDead;
   
-  FollowerVectorPtr followers;
-  ItemVectorPtr     items;
+  FollowerListPtr followers;
+  ItemListPtr     items;
 
   const enum PersonalityType type;
 
@@ -259,8 +260,8 @@ public:
 
   bool checkIfDead() const { return isDead; }
 
-  FollowerVectorPtr getFollowers() { return followers; }
-  ItemVectorPtr     getItems() { return items; }
+  FollowerListPtr getFollowers() { return followers; }
+  ItemListPtr     getItems() { return items; }
 
   void print() const;
   void attachToPlayer(PlayerPtr);
@@ -437,8 +438,8 @@ class Player
   HandPtr hand;
   ArmyPtr army;
 
-  HoldingVectorPtr  holdings;
-  ProvinceVectorPtr provinces;
+  HoldingListPtr  holdings;
+  ProvinceListPtr provinces;
 
 public:
 
@@ -460,8 +461,8 @@ public:
   HandPtr getHand() const { return hand; }
   ArmyPtr getArmy() const { return army; }
 
-  ProvinceVectorPtr getProvinces() const { return provinces; }
-  HoldingVectorPtr  getHoldings()  const { return holdings; }
+  ProvinceListPtr getProvinces() const { return provinces; }
+  HoldingListPtr  getHoldings()  const { return holdings; }
 
   void setFateDeck   (FateDeckPtr    fDeck) { fateDeck    = fDeck; }
   void setDynastyDeck(DynastyDeckPtr dDeck) { dynastyDeck = dDeck; }
@@ -490,7 +491,7 @@ public:
 
 class Game
 {
-  PlayerVectorPtr players;
+  PlayerListPtr players;
  
   size_t checkWinningCondition();
 
@@ -504,7 +505,7 @@ public:
 
   Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/);
 
-  void initGameBoard(PlayerVectorPtr players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards , size_t maxHand);
+  void initGameBoard(PlayerListPtr players , size_t numPlayers , size_t maxGreenCards , size_t maxBlackCards , size_t maxHand);
   void printGameStatistics() const;
   void gameplay();
 };
