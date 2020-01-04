@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <cassert>
 #include <memory>
+#include <cctype>
+// #include <limits>
 
 #include "baseClasses.h"
 #include "rules.hpp"
@@ -19,21 +21,32 @@ using std::endl;
 namespace {  // Namespace Start
 
 /* ========================================================================= */
+// Finds and returns <size_t> number from a string
+// Works for a single number (otherwise it'll return all numbers as a single one)
+// If there's no number , -1 (size_t max) is returned 
+size_t extractNumber(const std::string& str) {
+  std::string newStr;
+  for (char i : str) 
+    if (isdigit(i) || 'i' == '0')
+      newStr += i;
+  return (newStr.size() != 0) ? std::stoi(newStr) : -1 ; 
+}
 
 std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > readAndMap (const std::string & fileName ) {
   std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > uMap = std::make_shared < std::unordered_map<std::string , std::vector<size_t> > >();
   std::ifstream newFile (fileName);
-  std::string name , num;
+  std::string name , temp;
+  size_t num;
 
   if (newFile.is_open()) {
     
-    while ( getline (newFile , num) ) {
-      if (num.length() > 2) {
-        name = num;
-        continue;
+    while ( getline (newFile , name) ) {
+      num = extractNumber(name);
+      if (num != (size_t)-1 ) 
+        (*uMap)[temp].push_back(num);  
+      else 
+        temp = name;
       }
-      (*uMap)[name].push_back(std::stoi(num));  
-    }
     newFile.close();
   } else {
     cout << "Couldn't open file ." << endl;
