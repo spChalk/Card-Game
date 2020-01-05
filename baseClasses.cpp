@@ -1,8 +1,5 @@
 // File that contains the implementation of constructors / destructors of baseClasses.h
 
-// TODO : isws merikes classes xreiastoun default orismata
-
-// TODO : use smart pointers
 
 #include <cstddef>    // size_t
 #include <iostream>
