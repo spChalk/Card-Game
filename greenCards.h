@@ -7,15 +7,15 @@ class Item;
 
 #include "cards.h"
 
-// enum FollowerType 
-// {
-//   FOOTSOLDIER, ARCHER, CAVALRY, BUSHIDO, SIEGER, ATAKEBUNE, NOT_FOLLOWER
-// };
+enum FollowerType 
+{
+  FOOTSOLDIER, ARCHER, CAVALRY, BUSHIDO, SIEGER, ATAKEBUNE
+};
 
-// enum ItemType
-// {
-//   KATANA, SPEAR, BOW, NINJATO, WAKIZASHI, NOT_ITEM
-// };
+enum ItemType
+{
+  KATANA, SPEAR, BOW, NINJATO, WAKIZASHI
+};
 
 
 //==========================================|| F O L L O W E R ||==========================================
@@ -31,7 +31,6 @@ public:
   Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum FollowerType , const size_t maxPerPerson);
 
   enum FollowerType getFollowerType() const { return type; }
-  enum ItemType getItemType() const { return NOT_ITEM; }  // this is not supposed to be called, ever
 
   size_t getMaxPerPersonality() const { return maxPerPerson; }
 
@@ -53,7 +52,6 @@ public:
   Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum ItemType , const size_t maxPerPerson);
 
   enum ItemType getItemType() const { return type; }
-  enum FollowerType getFollowerType() const { return NOT_FOLLOWER; }  // this is not supposed to be called, ever 
   
   size_t getDurability() const { return durability; }
   size_t getMaxPerPersonality() const { return maxPerPerson; }

@@ -13,21 +13,11 @@ enum GreenCardType
   FOLLOWER, ITEM
 };
 
-// this is not clean
-enum FollowerType 
-{
-  FOOTSOLDIER, ARCHER, CAVALRY, BUSHIDO, SIEGER, ATAKEBUNE, NOT_FOLLOWER
-};
-
-enum ItemType
-{
-  KATANA, SPEAR, BOW, NINJATO, WAKIZASHI, NOT_ITEM
-};
-
 enum BlackCardType
 {
   PERSONALITY, HOLDING
 };
+
 //==========================================|| C A R D ||==========================================
 
 class Card
@@ -45,11 +35,13 @@ public:
   Card(const std::string & name , const size_t & cost );
   virtual ~Card() {} 
 
+  const std::string getName (void) const { return name; }
+
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
 
   size_t getCost(void) const { return cost; }
-  const std::string getName (void) const { return name; }
+  
   bool checkTapped() const { return isTapped; }
 
   virtual void print() const = 0;
@@ -96,9 +88,6 @@ public:
   virtual void print() const = 0;
   /* Not defined for this class */
   virtual size_t getMaxPerPersonality() const = 0;
-
-  virtual enum FollowerType getFollowerType() const = 0;
-  virtual enum ItemType getItemType() const = 0;
 };
 
 #endif

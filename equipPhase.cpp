@@ -60,15 +60,18 @@ bool hasEnoughHonor(PersonalityPtr person, GreenCardPtr card)
 
 bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 {
-  enum GreenCardType cardType = card->getGreenCardType();
   size_t maxCardPerPers = card->getMaxPerPersonality();
+  enum GreenCardType cardType = card->getGreenCardType();
 
   if (cardType == FOLLOWER)
   {
+    FollowerPtr curr = std::dynamic_pointer_cast<Follower> (card);
+
     FollowerListPtr followers = person->getFollowers();
     for (auto i : *followers)
     {
-      if (i->getFollowerType() == card->getFollowerType())
+
+      if (i->getFollowerType() == curr->getFollowerType())
         --maxCardPerPers;
       
       if (maxCardPerPers == 0) break;
@@ -76,10 +79,12 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
   }
   else // cardType == ITEM
   {
+    ItemPtr curr = std::dynamic_pointer_cast<Item> (card);
+    
     ItemListPtr items = person->getItems();
     for (auto i : *items)
     {
-      if (i->getItemType() == card->getItemType())
+      if (i->getItemType() == curr->getItemType())
         --maxCardPerPers;
       
       if (maxCardPerPers == 0) break;
