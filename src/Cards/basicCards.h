@@ -6,7 +6,7 @@ class Card;
 class GreenCard;
 class BlackCard;
 
-#include "baseClasses.h"
+#include "basicHeader.h"
 
 /* ======================================================== */
 

@@ -5,7 +5,7 @@
 class Follower;
 class Item;
 
-#include "cards.h"
+#include "basicCards.h"
 
 /* ========================================================================= */
 

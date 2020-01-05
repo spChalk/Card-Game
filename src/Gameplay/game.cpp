@@ -13,8 +13,8 @@
 #include <vector>
 // #include <limits>
 
-#include "baseClasses.h"
-#include "rules.hpp"
+#include "basicHeader.h"
+#include "rules.hpp" // PERS_HOLD_TXT_PATH, FLLW_ITEM_TXT_PATH
 
 using std::cout;  // an se enoxloun mporoume na ta vgaloume
 using std::endl;
@@ -59,8 +59,8 @@ std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > readA
 /* ========================================================================= */
 
 void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t maxBlackCards) {
-  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > bMap = readAndMap("Personalities_and_Holdings.txt");
-  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > gMap = readAndMap("Followers_and_Weapons.txt");
+  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > bMap = readAndMap(PERS_HOLD_TXT_PATH); // defined in rules.hpp
+  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > gMap = readAndMap(FLLW_ITEM_TXT_PATH);
   
   for (size_t i = 0; i < maxGreenCards; i++) {
     

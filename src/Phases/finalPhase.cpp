@@ -2,7 +2,7 @@
 //TODO: change the the handling of MAX_HAND_CARDS define
 #include <iostream>
 
-#include "baseClasses.h"
+#include "basicHeader.h"
 #include "rules.hpp" // temp
 
 using std::cout;

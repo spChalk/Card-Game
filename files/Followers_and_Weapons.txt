@@ -1,82 +1,92 @@
 FOOTSOLDIER
-0
-2
-0
-1
-1
-2
+Cost         : 0
+AttackBonus  : 2
+DefenseBonus : 0
+MinimumHonor : 1
+EffectBonus  : 1
+EffectCost   : 2
+
 ARCHER
-0
-0
-2
-1
-1
-2
+Cost         : 0
+AttackBonus  : 0
+DefenseBonus : 2
+MinimumHonor : 1
+EffectBonus  : 1
+EffectCost   : 2
+
 SIEGER
-5
-3
-3
-2
-2
-3
+Cost         : 5
+AttackBonus  : 3
+DefenseBonus : 3
+MinimumHonor : 2
+EffectBonus  : 2
+EffectCost   : 3
+
 CAVALRY
-3
-4
-2
-3
-3
-4
+Cost         : 3
+AttackBonus  : 4
+DefenseBonus : 2
+MinimumHonor : 3
+EffectBonus  : 3
+EffectCost   : 4
+
 NAVAL
-3
-2
-4
-3
-3
-4
+Cost         : 3
+AttackBonus  : 2
+DefenseBonus : 4
+MinimumHonor : 3
+EffectBonus  : 3
+EffectCost   : 4
+
 BUSHIDO
-8
-8
-8
-6
-3
-8
+Cost         : 8
+AttackBonus  : 8
+DefenseBonus : 8
+MinimumHonor : 6
+EffectBonus  : 3
+EffectCost   : 8
+
 KATANA
-0
-2
-0
-1
-1
-2
-3
+Cost         : 0
+AttackBonus  : 2
+DefenseBonus : 0
+MinimumHonor : 1
+EffectBonus  : 1
+EffectCost   : 2
+Durability   : 3
+
 SPEAR
-0
-0
-2
-1
-1
-2
-3
+Cost         : 0
+AttackBonus  : 0
+DefenseBonus : 2
+MinimumHonor : 1
+EffectBonus  : 1
+EffectCost   : 2
+Durability   : 3
+
 BOW
-2
-2
-2
-2
-3
-4
-5
+Cost         : 2
+AttackBonus  : 2
+DefenseBonus : 2
+MinimumHonor : 2
+EffectBonus  : 3
+EffectCost   : 4
+Durability   : 5
+
 NINJATO
-4
-3
-3
-3
-2
-2
-4
+Cost         : 4
+AttackBonus  : 3
+DefenseBonus : 3
+MinimumHonor : 3
+EffectBonus  : 2
+EffectCost   : 2
+Durability   : 4
+
 WAKIZASHI
-8
-5
-5
-3
-3
-3
-8
+Cost         : 8
+AttackBonus  : 5
+DefenseBonus : 5
+MinimumHonor : 3
+EffectBonus  : 3
+EffectCost   : 3
+Durability   : 8

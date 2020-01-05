@@ -9,7 +9,7 @@ class GoldMine;
 class CrystalMine;
 class StrongHold;
 
-#include "cards.h"
+#include "basicCards.h"
 #include "greenCards.h"
 
 enum PersonalityType

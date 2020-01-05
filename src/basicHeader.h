@@ -60,7 +60,7 @@ typedef std::shared_ptr < std::list <FollowerPtr> > FollowerListPtr;
 
 
 //temp_start
-#include "cards.h"
+#include "basicCards.h"
 #include "greenCards.h"
 #include "blackCards.h"
 #include "player.h"
