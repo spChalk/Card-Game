@@ -1,6 +1,6 @@
-/* baseClasses.h */
-#ifndef BASE_CLASSES_0
-#define BASE_CLASSES_0
+
+#ifndef BASIC_HEADER_0
+#define BASIC_HEADER_0
 
 /* Standard headers */
 #include <cstddef> // size_t
