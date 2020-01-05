@@ -4,47 +4,30 @@
 
 #include "baseClasses.h"
 
-#if 0
-
-#define RST "\033[0m"
-#define BLK "\033[30m"  /* Black */
-#define RED "\033[31m"  /* Red */
-#define GRN "\033[32m"  /* Green */
-#define YEL "\033[33m"  /* Yellow */
-#define BLU "\033[34m"  /* Blue */
-#define MAG "\033[35m"  /* Magenta */
-#define CYN "\033[36m"  /* Cyan */
-#define WHT "\033[37m"  /* White */
-
-#else
-
 // Colours
-
-#define BLACK   30
-#define RED     31
-#define GREEN   32
-#define YELLOW  33
-#define BLUE    34
-#define MAGENTA 35
-#define CYAN    36
-#define WHITE   37
+#define BLK  30
+#define RED  31
+#define GRN  32
+#define YEL  33
+#define BLU  34
+#define MAG  35
+#define CYN  36
+#define WHT  37
 
 // Styles
-
-#define BOLD       1 
-#define ITALIC     3
-#define FILLED     7
-#define UNDERLINE  4
-
-#endif
+#define BOLD  1 
+#define ITLC  3
+#define FILL  7
+#define UNDR  4
 
 using std::cout;
 using std::endl;
 
 /* ========================================================================= */
 
+//  Write formatted output to stdout (args : colour & style)
 void printF (const std::string & s , const size_t & colour , const size_t & format ) {
-    std::cout << "\x1B[" << format << ";" << colour << "m" << s << "\x1B[0m" << std::endl;
+  std::cout << "\x1B[" << format << ";" << colour << "m" << s << "\x1B[0m" << std::endl;
 }
 
 /* ========================================================================= */
@@ -59,7 +42,8 @@ void Card::print() const
 
 void GreenCard::print() const
 {
-  cout << GRN << "======  GREEN CARD  ======" << RST << endl;
+  printF ("======  GREEN CARD  ======" , GRN);
+  
   this->Card::print();
   
   cout << "ATK Bonus: " << attackBonus << endl;
@@ -75,7 +59,7 @@ void GreenCard::print() const
 void Follower::print() const
 {
   this->GreenCard::print();
-  cout << GRN << "====== !GREEN CARD! ======" << RST << endl;
+  printF ("====== !GREEN CARD! ======" , GRN);
 }
 /* ========================================================================= */
 
@@ -83,13 +67,13 @@ void Item::print() const
 {
   this->GreenCard::print();
   cout << "Durability: " << durability << endl;
-  cout << GRN << "====== !GREEN CARD! ======" << RST << endl;
+  printF ("====== !GREEN CARD! ======" , GRN);
 }
 /* ========================================================================= */
 
 void BlackCard::print() const // TODO: fix color
 {
-  cout << RED << "======  BLACK CARD  ======" << RST << endl;
+  printF ("======  BLACK CARD  ======" , RED);
   this->Card::print();
 
   cout << "Revealed: " << (isRevealed ? "YES" : "NO") << endl;
@@ -104,17 +88,17 @@ void Personality::print() const
   cout << "DEF:   " << defence << endl;
   cout << "Honor: " << honor   << endl;
 
-  cout << YEL << "==  FOLLOWERS  == " << RST << endl;
+  printF ("==  FOLLOWERS  == " , YEL);
   for (auto i : *followers)
     i->print();
-  cout << YEL << "== !FOLLOWERS! == " << RST << endl;
+  printF ("== !FOLLOWERS! == " , YEL);
 
-  cout << YEL << "==  ITEMS  == " << RST << endl;
+  printF ("==  ITEMS  == " , YEL);
   for (auto i : *items)
     i->print();
-  cout << YEL << "== !ITEMS! == " << RST << endl;
+  printF ("== !ITEMS! == " , YEL);
 
-  cout << RED << "====== !BLACK CARD! ======" << RST << endl;
+  printF ("====== !BLACK CARD! ======" , RED);
 }
 
 /* ========================================================================= */
@@ -125,7 +109,7 @@ void Holding::print() const
 
   cout << "Harvest value: " << harvestValue << endl;
 
-  cout << RED << "====== !BLACK CARD! ======" << RST << endl;
+  printF ("====== !BLACK CARD! ======" , RED);
 }
 
 /* ========================================================================= */
@@ -137,12 +121,12 @@ void Mine::print() const
 
   if (upperHolding)
   {
-    cout << CYN << "==  UpperHolding  ==" << RST << endl;
+    printF ("==  UpperHolding  ==" , CYN);
     upperHolding->print();
-    cout << CYN << "== !UpperHolding! ==" << RST << endl;
+    printF ("== !UpperHolding! ==" , CYN);
   }
 
-  cout << RED << "====== !BLACK CARD! ======" << RST << endl;
+  printF ("====== !BLACK CARD! ======" , RED);
 }
 
 /* ========================================================================= */
@@ -154,19 +138,19 @@ void GoldMine::print() const
 
   if (upperHolding)
   {
-    cout << CYN << "==  UpperHolding  ==" << RST << endl;
+    printF ("==  UpperHolding  ==" , CYN);
     upperHolding->print();
-    cout << CYN << "== !UpperHolding! ==" << RST << endl;
+    printF ("== !UpperHolding! ==" , CYN);
   }
 
   if (subHolding)
   {
-    cout << CYN << "==  subHolding  ==" << RST << endl;
+    printF ("==  subHolding  ==" , CYN);
     subHolding->print();
-    cout << CYN << "== !subHolding! ==" << RST << endl;
+    printF ("== !subHolding! ==" , CYN);
   }
 
-  cout << RED << "====== !BLACK CARD! ======" << RST << endl;
+  printF ("====== !BLACK CARD! ======" , RED);
 }
 /* ========================================================================= */
 
@@ -177,12 +161,12 @@ void CrystalMine::print() const
 
   if (subHolding)
   {
-    cout << CYN << "==  subHolding  ==" << RST << endl;
+    printF ("==  subHolding  ==" , CYN);
     subHolding->print();
-    cout << CYN << "== !subHolding! ==" << RST << endl;
+    printF ("== !subHolding! ==" , CYN);
   }
 
-  cout << RED << "====== !BLACK CARD! ======" << RST << endl;
+  printF ("====== !BLACK CARD! ======" , RED);
 }
 /* ========================================================================= */
 
@@ -194,7 +178,7 @@ void StrongHold::print() const
   cout << "Starting Honor: " << initHonor << endl;
   cout << "Starting DEF  : " << initDefence << endl;  
 
-  cout << RED << "====== !BLACK CARD! ======" << RST << endl;
+  printF ("====== !BLACK CARD! ======" , RED);
 }
 /* ========================================================================= */
 
@@ -211,21 +195,21 @@ void Province::print() const
 
 void Player::print() const
 {
-  cout << BLU << "=======  PLAYER  =======" << RST << endl;
+  printF ("=======  PLAYER  =======" , BLU);
   cout << "User : " << userName << endl;
   cout << "Honor: " << honor << endl;
   cout << "Active Provinces: " << activeProvinces << endl;
 
   //probz shouldnt do that here // printHand();
-  cout << MAG << "=====  HOLDINGS  =====" << RST << endl;
+  printF ("=====  HOLDINGS  =====" , MAG);
   printHoldings();
-  cout << MAG << "===== !HOLDINGS! =====" << RST << endl;
+  printF ("===== !HOLDINGS! =====" , MAG);
 
-  cout << MAG << "=====  ARMY  =====" << RST << endl;
+  printF ("=====  ARMY  =====" , MAG);
   printArmy();
-  cout << MAG << "===== !ARMY! =====" << RST << endl;
+  printF ("===== !ARMY! =====" , MAG);
 
-  cout << BLU << "======= !PLAYER! =======" << RST << endl;
+  printF ("======= !PLAYER! =======" , BLU);
 }
 /* ========================================================================= */
 
