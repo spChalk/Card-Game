@@ -4,6 +4,8 @@
 
 #include "baseClasses.h"
 
+#if 0
+
 #define RST "\033[0m"
 #define BLK "\033[30m"  /* Black */
 #define RED "\033[31m"  /* Red */
@@ -14,8 +16,36 @@
 #define CYN "\033[36m"  /* Cyan */
 #define WHT "\033[37m"  /* White */
 
+#else
+
+// Colours
+
+#define BLACK   30
+#define RED     31
+#define GREEN   32
+#define YELLOW  33
+#define BLUE    34
+#define MAGENTA 35
+#define CYAN    36
+#define WHITE   37
+
+// Styles
+
+#define BOLD       1 
+#define ITALIC     3
+#define FILLED     7
+#define UNDERLINE  4
+
+#endif
+
 using std::cout;
 using std::endl;
+
+/* ========================================================================= */
+
+void printF (const std::string & s , const size_t & colour , const size_t & format ) {
+    std::cout << "\x1B[" << format << ";" << colour << "m" << s << "\x1B[0m" << std::endl;
+}
 
 /* ========================================================================= */
 

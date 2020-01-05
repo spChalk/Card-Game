@@ -510,6 +510,9 @@ public:
   void gameplay();
 };
 
+
+void printF (const std::string & s , const size_t & colour = 37, const size_t & format = 0 );
+
 //===================================|| T E M P L A T E  F U N C T I O N ||===================================
 
 // D stands for Deck's Cards. D can be GreenCard or BlackCard
