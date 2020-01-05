@@ -3,6 +3,28 @@
 #include "player.h"
 
 /* ========================================================================= */
+
+Province::Province(BlackCardPtr blackCard)
+: isBroken(false), 
+  card(blackCard)
+  {}
+
+/* ========================================================================= */
+
+Player::Player(const std::string & userName )
+: userName(userName) , 
+  strongHold(std::make_shared< StrongHold >()), 
+  honor(strongHold->getInitHonor()), 
+  activeProvinces(0), 
+  fateDeck(std::make_shared < std::queue<std::shared_ptr <GreenCard > > >()) , 
+  dynastyDeck(std::make_shared< std::queue<std::shared_ptr <BlackCard > > >()) , 
+  hand(std::make_shared< std::list<std::shared_ptr <GreenCard > > >()) , 
+  army(std::make_shared< std::list<std::shared_ptr <Personality > > >()) , 
+  holdings(std::make_shared< std::list<std::shared_ptr <Holding > > >()) , 
+  provinces(std::make_shared< std::list<std::shared_ptr <Province > > >())
+  {}
+
+/* ========================================================================= */
 size_t Player::getCurrMoney() const
 {
   HoldingListPtr holdings = this->getHoldings();
@@ -17,6 +39,7 @@ size_t Player::getCurrMoney() const
 
   return total;
 }
+
 /* ========================================================================= */
 
 bool Player::makePurchase (size_t cost) {

@@ -23,6 +23,13 @@ namespace {
 }  // Namespace End
 
 /* ========================================================================= */
+
+Mine::Mine(const std::string & name , const size_t & cost , const size_t & harvestValue) 
+: Holding(name , cost , harvestValue , MINE), 
+  upperHolding(nullptr)
+  {} 
+
+
 void Mine::attachToPlayer(PlayerPtr pl) {
   
   for (auto i : *(pl->getHoldings())) {
@@ -49,6 +56,13 @@ void Mine::attachToPlayer(PlayerPtr pl) {
   pl->getHoldings()->push_back(std::make_shared< Mine >(*this));
 }
 /* ========================================================================= */
+
+GoldMine::GoldMine(const std::string & name , const size_t & cost , const size_t & harvestValue)
+: Holding(name , cost , harvestValue , GOLD_MINE), 
+  upperHolding(nullptr),
+  subHolding(nullptr)
+  {} 
+
 
 void GoldMine::attachToPlayer(PlayerPtr pl) {
   
@@ -86,6 +100,12 @@ void GoldMine::attachToPlayer(PlayerPtr pl) {
   pl->getHoldings()->push_back(std::make_shared< GoldMine >(*this));
 }
 /* ========================================================================= */
+
+CrystalMine::CrystalMine(const std::string & name , const size_t & cost , const size_t & harvestValue) 
+: Holding(name , cost , harvestValue , CRYSTAL_MINE), 
+  subHolding(nullptr)
+  {} 
+
 
 void CrystalMine::attachToPlayer(PlayerPtr pl) {
 
