@@ -6,7 +6,7 @@ class Province;
 
 #include "baseClasses.h"
 
-//==========================================|| P R O V I N C E ||==========================================
+/* ================================================================= */
 class Province
 {
   bool isBroken; // init as false
@@ -18,16 +18,17 @@ public:
   Province(BlackCardPtr);
 
   bool checkBroken() const { return isBroken; }
-  void setBroken() { isBroken = true; }
 
-  BlackCardPtr getCard() { return card; }
+  void setBroken() { isBroken = true; }
   void setCard(BlackCardPtr bc) { card = bc ; }
- 
+
+  BlackCardPtr getCard() const { return card; }
+
   void print() const;
 
 };
 
-//==========================================|| P L A Y E R ||==========================================
+/* ================================================================= */
 
 class Player
 {
@@ -52,15 +53,14 @@ public:
 
   Player(const std::string & userName );
 
+  const std::string& getUserName() const { return userName; }
+
   size_t getHonor()        const { return honor; }
   size_t getProvincesNum() const { return activeProvinces; }
-
-  size_t getCurrMoney();
+  size_t getCurrMoney()    const;
 
   void decreaseProvinceNum() { --activeProvinces; }
   void increaseProvinceNum() { ++activeProvinces; }
-
-  const std::string& getUserName() const { return userName; }
   
   FateDeckPtr    getFateDeck()    const { return fateDeck; }
   DynastyDeckPtr getDynastyDeck() const { return dynastyDeck; }
@@ -71,27 +71,27 @@ public:
   ProvinceListPtr getProvinces() const { return provinces; }
   HoldingListPtr  getHoldings()  const { return holdings; }
 
+  StrongHoldPtr getStrongHold()  const { return strongHold; }
+
   void setFateDeck   (FateDeckPtr    fDeck) { fateDeck    = fDeck; }
   void setDynastyDeck(DynastyDeckPtr dDeck) { dynastyDeck = dDeck; }
 
-  StrongHoldPtr getStrongHold() { return strongHold; }
-
-  void print() const;
-  void printHoldings() const;
-  void printArmy() const;
-  void printArena() const;
+  void print()              const;
+  void printHoldings()      const;
+  void printArmy()          const;
+  void printArena()         const;
   void printAvailableArmy() const;
-  void printHand() const;
-  void printProvinces() const;
-  void printStatistics() const;
+  void printHand()          const;
+  void printProvinces()     const;
+  void printStatistics()    const;
 
+  bool makePurchase (size_t cost ); // Tap Holdings until you cover the needed cost
+    // Returns true if the purchase is successfull
   void cleanup(); // Removes 1) dead personalities from army 2) detached GreenCards
 
   BlackCardPtr drawBlackCard (void);
   GreenCardPtr drawFateCard (void);
-
-  bool makePurchase (size_t cost ); // Tap Holdings until you cover the needed cost
-  // Returns true if the purchase is successfull
 };  
+/* ================================================================= */
 
 #endif

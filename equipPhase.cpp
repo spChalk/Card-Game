@@ -105,32 +105,7 @@ of this type: " << card->getMaxPerPersonality() << endl;
 
 }; // namespace_end
 
-/* ========================================================================= */
 
-void Follower::attachToPersonality (std::shared_ptr <Personality > pers) {
-  pers->getFollowers()->push_back(std::make_shared<Follower>(*this));
-}
-/* ========================================================================= */
-
-void Item::attachToPersonality (std::shared_ptr <Personality > pers) {
-  pers->getItems()->push_back(std::make_shared<Item>(*this));
-}
-/* ========================================================================= */
-
-size_t Player::getCurrMoney()
-{
-  HoldingListPtr holdings = this->getHoldings();
-
-  size_t total = 0;
-
-  if (this->getStrongHold()->checkTapped() == false)
-    total += this->getStrongHold()->getHarvestValue();
-
-  for (auto i : *holdings)
-    if (i->checkTapped() == false) total += i->getHarvestValue();
-
-  return total;
-}
 /* ========================================================================= */
 
 void Game::equipmentPhase (PlayerPtr player)
@@ -188,12 +163,5 @@ appearance if you want to enhance the card's attributes!" << endl;
   }
 
   cout << "Equipment Phase Ended !" << endl;
-}
-/* ========================================================================= */
-
-void GreenCard::upgrade() 
-{ 
-  attackBonus  += effectBonus;
-  defenceBonus += effectBonus;
 }
 /* ========================================================================= */

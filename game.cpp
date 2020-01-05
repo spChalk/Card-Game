@@ -133,22 +133,6 @@ bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending
 
 /* ========================================================================= */
 
-BlackCardPtr Player::drawBlackCard(void) { // TODO : assert if empty
-  BlackCardPtr tmp = dynastyDeck->front();
-  dynastyDeck->pop();
-  return tmp;
-}
-
-/* ========================================================================= */
-
-GreenCardPtr Player::drawFateCard(void) { // TODO : assert if empty
-  GreenCardPtr tmp = fateDeck->front();
-  fateDeck->pop();
-  return tmp;
-}
-
-/* ========================================================================= */
-
 void Game::initGameBoard(PlayerListPtr players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
 

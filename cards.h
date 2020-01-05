@@ -8,6 +8,8 @@ class BlackCard;
 
 #include "baseClasses.h"
 
+/* ======================================================== */
+
 enum GreenCardType
 {
   FOLLOWER, ITEM
@@ -18,8 +20,7 @@ enum BlackCardType
   PERSONALITY, HOLDING
 };
 
-//==========================================|| C A R D ||==========================================
-
+/* ======================================================== */
 class Card
 {
 protected:
@@ -37,15 +38,16 @@ public:
 
   const std::string getName (void) const { return name; }
 
+  bool checkTapped() const { return isTapped; }
+
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
 
   size_t getCost(void) const { return cost; }
-  
-  bool checkTapped() const { return isTapped; }
 
   virtual void print() const = 0;
 };
+/* ======================================================== */
 
 
 #endif

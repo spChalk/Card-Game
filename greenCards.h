@@ -7,6 +7,8 @@ class Item;
 
 #include "cards.h"
 
+/* ========================================================================= */
+
 enum FollowerType 
 {
   FOOTSOLDIER, ARCHER, CAVALRY, BUSHIDO, SIEGER, ATAKEBUNE
@@ -17,8 +19,7 @@ enum ItemType
   KATANA, SPEAR, BOW, NINJATO, WAKIZASHI
 };
 
-
-//==========================================|| G R E E N  C A R D ||==========================================
+/* ========================================================================= */
 
 class GreenCard : public Card
 {
@@ -38,10 +39,15 @@ protected:
   const enum GreenCardType type;
 
 public:
-    
-  GreenCard(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum GreenCardType = FOLLOWER);
+
+  GreenCard(const std::string &, const size_t &, const size_t &, 
+            const size_t &, const size_t &, const std::string &, 
+            const size_t &, const size_t &, 
+            const enum GreenCardType = FOLLOWER);
 
   enum GreenCardType getGreenCardType() const { return type; }
+
+  bool isAttached() const { return attached; }
 
   size_t getATK() const { return attackBonus;  }
   size_t getDEF() const { return defenceBonus; }
@@ -50,18 +56,15 @@ public:
 
   void attach() { attached = true;  }
   void detach() { attached = false; }
-
-  bool isAttached() const { return attached; }
-  virtual void attachToPersonality(PersonalityPtr) = 0;
-
-  void upgrade(); 
+  void upgrade();
 
   virtual void print() const = 0;
+  virtual void attachToPersonality(PersonalityPtr) = 0;
   /* Not defined for this class */
   virtual size_t getMaxPerPersonality() const = 0;
 };
 
-//==========================================|| F O L L O W E R ||==========================================
+/* ========================================================================= */
 
 class Follower : public GreenCard
 {
@@ -71,17 +74,20 @@ class Follower : public GreenCard
 
 public:
 
-  Follower(const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum FollowerType , const size_t maxPerPerson);
+  Follower(const std::string &, const size_t &, const size_t &, const size_t &,
+           const size_t &, const std::string &, const size_t &, const size_t &, 
+           const enum FollowerType , const size_t);
 
   enum FollowerType getFollowerType() const { return type; }
 
   size_t getMaxPerPersonality() const { return maxPerPerson; }
 
-  void print() const;
   void attachToPersonality(PersonalityPtr);
+  
+  void print() const;
 };
 
-//==========================================|| I T E M ||==========================================
+/* ========================================================================= */
 
 class Item : public GreenCard
 {
@@ -92,11 +98,13 @@ class Item : public GreenCard
 
 public:
     
-  Item(const size_t & dur , const std::string & name , const size_t & cost , const size_t & attackBonus ,const size_t & defenceBonus ,const size_t & minHonor ,const std::string & cardText ,const size_t & effectBonus ,const size_t & effectCost , const enum ItemType , const size_t maxPerPerson);
+  Item(const size_t &, const std::string &, const size_t &, const size_t &,
+       const size_t &, const size_t &, const std::string &, const size_t &, 
+       const size_t &, const enum ItemType , const size_t);
 
-  enum ItemType getItemType() const { return type; }
+  enum ItemType getItemType()   const { return type; }
   
-  size_t getDurability() const { return durability; }
+  size_t getDurability()        const { return durability; }
   size_t getMaxPerPersonality() const { return maxPerPerson; }
   
   void decreaseDurability() { --durability; }
@@ -104,5 +112,6 @@ public:
   
   void print() const;
 };
+/* ========================================================================= */
 
 #endif

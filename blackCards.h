@@ -41,7 +41,7 @@ public:
   void setRevealed() { isRevealed = true;  }
   void setHidden()   { isRevealed = false; }
 
-  bool checkRevealed() { return isRevealed; }
+  bool checkRevealed() const { return isRevealed; }
 
   virtual void print() const = 0;
   virtual void attachToPlayer(PlayerPtr) = 0;
@@ -79,8 +79,8 @@ public:
 
   bool checkIfDead() const { return isDead; }
 
-  FollowerListPtr getFollowers() { return followers; }
-  ItemListPtr     getItems() { return items; }
+  FollowerListPtr getFollowers() const { return followers; }
+  ItemListPtr     getItems()     const { return items; }
 
   void print() const;
   void attachToPlayer(PlayerPtr);
@@ -123,14 +123,11 @@ public:
     
   Mine(const std::string & name = "MINE", const size_t & cost = 5 , const size_t & harvestValue = 3);
 
+  void setUpperHolding (GoldMinePtr gMine) { upperHolding = gMine ; }
+  void attachToPlayer(PlayerPtr);
   void print() const;
 
-  void attachToPlayer(PlayerPtr);
-
   GoldMinePtr getUpperHolding (void) const { return upperHolding ; }
-
-  void setUpperHolding (GoldMinePtr gMine) { upperHolding = gMine ; }
-
 };
 
 //==========================================|| C R Y S T A L  M I N E ||==========================================
@@ -143,14 +140,11 @@ public:
     
   CrystalMine(const std::string & name = "CRYSTAL_MINE" , const size_t & cost = 12 , const size_t & harvestValue = 6);
 
-  void print() const; 
-
+  void setSubHolding (GoldMinePtr gMine) { subHolding = gMine ; }
   void attachToPlayer(PlayerPtr);
+  void print() const;
 
   GoldMinePtr getSubHolding (void) const { return subHolding ; }
-
-  void setSubHolding (GoldMinePtr gMine) { subHolding = gMine ; }
-
 };
 
 //==========================================|| G O L D  M I N E ||==========================================
@@ -158,21 +152,21 @@ public:
 class GoldMine : public Holding
 {
   CrystalMinePtr upperHolding;
-  MinePtr subHolding;
+  MinePtr        subHolding;
 
 public:
     
   GoldMine(const std::string & name = "GOLD_MINE", const size_t & cost = 7 , const size_t & harvestValue = 5);  
 
+  void setUpperHolding (CrystalMinePtr crM) { upperHolding = crM ; }
+  void setSubHolding (MinePtr M)            { subHolding = M ; }
+  void attachToPlayer(PlayerPtr);
   void print() const;
 
-  void attachToPlayer(PlayerPtr);
+  CrystalMinePtr getUpperHolding() const { return upperHolding ; } 
+  MinePtr        getSubHolding()   const { return subHolding ; }
 
-  CrystalMinePtr getUpperHolding (void) const { return upperHolding ; }
-  MinePtr getSubHolding (void) const { return subHolding ; }
 
-  void setUpperHolding (CrystalMinePtr crM) { upperHolding = crM ; }
-  void setSubHolding (MinePtr M) { subHolding = M ; }
 };
 
 //==========================================|| S T R O N G H O L D ||==========================================
@@ -186,9 +180,8 @@ public:
     
   StrongHold();
 
-  const size_t & getInitHonor() { return initHonor; }
-
-  size_t getInitDEF() const { return initDefence; }
+  size_t getInitHonor() const { return initHonor; }
+  size_t getInitDEF()   const { return initDefence; }
 
   void print() const;
 };

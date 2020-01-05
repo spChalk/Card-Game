@@ -341,41 +341,7 @@ void battle(ProvincePtr prov)
 }
 
 }; // namespace_end
-/* ========================================================================= */
 
-void Personality::cleanup()
-{
-  for (auto it = followers->begin(); it != followers->end(); /* NOTHING */)
-  {
-    if ((*it)->isAttached() == false)
-      it = followers->erase(it);
-    else
-      ++it;
-  }
-
-  for (auto it = items->begin(); it != items->end(); /* NOTHING */)
-  {
-    if ((*it)->isAttached() == false)
-      it = items->erase(it);
-    else
-      ++it;
-  }
-}
-/* ========================================================================= */
-
-void Player::cleanup()
-{
-  for (auto it = army->begin(); it != army->end(); /* NOTHING */)
-  {
-    if ((*it)->checkIfDead() == true)
-      it = army->erase(it);
-    else
-    {
-      (*it)->cleanup(); // erase detached greenCards
-      ++it;
-    }
-  }
-}
 /* ========================================================================= */
 
 void Game::battlePhase(PlayerPtr player)

@@ -1,8 +1,6 @@
 //======|| GAME :: FINAL PHASE ||======
 //TODO: change the the handling of MAX_HAND_CARDS define
 #include <iostream>
-// #include <vector>
-#include <memory>
 
 #include "baseClasses.h"
 #include "rules.hpp" // temp
