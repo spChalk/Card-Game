@@ -14,6 +14,8 @@
 #include "basicHeader.hpp"
 #include "rules.hpp" // PERS_HOLD_TXT_PATH, FLLW_ITEM_TXT_PATH
 
+#define CARD_TXT_PATH "./src/Cards/proverbs.txt"
+
 using std::cout;  // an se enoxloun mporoume na ta vgaloume
 using std::endl;
 
@@ -55,37 +57,69 @@ std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > rea
 }
 
 /* ========================================================================= */
+std::shared_ptr < std::vector< std::string >> cardTxtVecPtr;
+std::ifstream *cardtxt;
+
+void readCardTxt()
+{  
+  std::string txt;
+
+  if (cardtxt->is_open())
+  {
+    for (uint16_t i = 0; i != DECK_SIZE; ++i)
+    {
+      if (cardtxt->eof()) // if we reached the end of the file
+      {                   // rewing to the start
+        cardtxt->clear();
+        cardtxt->seekg(0);
+      }
+
+      getline(*cardtxt, txt);
+      (*cardTxtVecPtr)[i] = txt;
+    }
+  }
+  else
+  {
+    cout << "Error proccessing card text file." << endl;
+    exit(EXIT_FAILURE); 
+  }
+
+}
+/* ========================================================================= */
+
 
 void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t maxBlackCards) {
   std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > bMap = readAndMap(PERS_HOLD_TXT_PATH); // defined in rules.hpp
   std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > gMap = readAndMap(FLLW_ITEM_TXT_PATH);
   
+  readCardTxt();
+
   for (uint16_t i = 0; i < maxGreenCards; i++) {
     
     for (auto j = gMap->begin() ; j != gMap->end() ; j++ ) {
 
       if (j->first == "FOOTSOLDIER")
-        pushNtimes(pl->getFateDeck() , j , FOOTSOLDIER , NO_FOOTSOLDIER , &i );
+        pushNtimes(pl->getFateDeck() , j , FOOTSOLDIER , NO_FOOTSOLDIER , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "ARCHER")
-        pushNtimes(pl->getFateDeck() , j , ARCHER , NO_ARCHER , &i );
+        pushNtimes(pl->getFateDeck() , j , ARCHER , NO_ARCHER , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "SIEGER")
-        pushNtimes(pl->getFateDeck() , j , SIEGER , NO_SIEGER , &i );
+        pushNtimes(pl->getFateDeck() , j , SIEGER , NO_SIEGER , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "CAVALRY")
-        pushNtimes(pl->getFateDeck() , j , CAVALRY , NO_CAVALRY , &i );
+        pushNtimes(pl->getFateDeck() , j , CAVALRY , NO_CAVALRY , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "NAVAL")
-        pushNtimes(pl->getFateDeck() , j , ATAKEBUNE , NO_NAVAL , &i );
+        pushNtimes(pl->getFateDeck() , j , ATAKEBUNE , NO_NAVAL , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "BUSHIDO")
-        pushNtimes(pl->getFateDeck() , j , BUSHIDO , NO_BUSHIDO , &i );
+        pushNtimes(pl->getFateDeck() , j , BUSHIDO , NO_BUSHIDO , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "KATANA")
-        pushNtimes(pl->getFateDeck() , j , KATANA , NO_KATANA , &i );
+        pushNtimes(pl->getFateDeck() , j , KATANA , NO_KATANA , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "SPEAR")
-        pushNtimes(pl->getFateDeck() , j , SPEAR , NO_SPEAR , &i );
+        pushNtimes(pl->getFateDeck() , j , SPEAR , NO_SPEAR , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "BOW")
-        pushNtimes(pl->getFateDeck() , j , BOW , NO_BOW , &i );
+        pushNtimes(pl->getFateDeck() , j , BOW , NO_BOW , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "NINJATO")
-        pushNtimes(pl->getFateDeck() , j , NINJATO , NO_NINJATO , &i );
+        pushNtimes(pl->getFateDeck() , j , NINJATO , NO_NINJATO , &i, (*cardTxtVecPtr)[i]);
       else if (j->first == "WAKIZASHI")
-        pushNtimes(pl->getFateDeck() , j , WAKIZASHI , NO_WAKIZASHI , &i );
+        pushNtimes(pl->getFateDeck() , j , WAKIZASHI , NO_WAKIZASHI , &i, (*cardTxtVecPtr)[i]);
   
     }
   }
@@ -130,6 +164,11 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
 /* ========================================================================= */
 
 void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
+  
+  std::ifstream file(CARD_TXT_PATH);
+  cardtxt = &file;
+  cardTxtVecPtr = std::make_shared < std::vector< std::string >>(DECK_SIZE);
+
   for (uint16_t i = 0 ; i < numPlayers ; i++) {
 
     cout << "> Give username for player " << i+1 << "!\nUsername: ";
@@ -153,6 +192,7 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
     
     players->push_back(newPl);
   }
+  cardtxt->close();
 }
 
 /* ========================================================================= */

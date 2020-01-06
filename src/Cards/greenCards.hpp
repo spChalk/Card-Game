@@ -9,6 +9,11 @@ class Item;
 
 /* ========================================================================= */
 
+enum GreenCardType
+{
+  FOLLOWER, ITEM
+};
+
 enum FollowerType 
 {
   FOOTSOLDIER, ARCHER, CAVALRY, BUSHIDO, SIEGER, ATAKEBUNE

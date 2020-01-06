@@ -9,18 +9,6 @@ class BlackCard;
 #include "basicHeader.hpp"
 
 /* ======================================================== */
-
-enum GreenCardType
-{
-  FOLLOWER, ITEM
-};
-
-enum BlackCardType
-{
-  PERSONALITY, HOLDING
-};
-
-/* ======================================================== */
 class Card
 {
 protected:
@@ -48,6 +36,5 @@ public:
   virtual void print() const = 0;
 };
 /* ======================================================== */
-
 
 #endif

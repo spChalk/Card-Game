@@ -12,6 +12,13 @@ class StrongHold;
 #include "basicCards.hpp"
 #include "greenCards.hpp"
 
+/* ========================================================================= */
+
+enum BlackCardType
+{
+  PERSONALITY, HOLDING
+};
+
 enum PersonalityType
 {
   ATTACKER, DEFENDER, CHAMPION, CHANCELLOR, SHOGUN
