@@ -34,9 +34,9 @@ void printF (const std::string & s , bool printEndl ,const uint16_t & colour , c
 
 void Card::print() const
 {
-  printF("| " , 0 , GRN); cout << "Name: " << name << endl;
-  printF("| " , 0 , GRN); cout << "Cost:   " << cost << endl;
-  printF("| " , 0 , GRN); cout << "Tapped: " << (isTapped ? "YES" : "NO") << endl;  
+  printF("| " , 0 , MAG); cout << "Name: " << name << endl;
+  printF("| " , 0 , MAG); cout << "Cost:   " << cost << endl;
+  printF("| " , 0 , MAG); cout << "Tapped: " << (isTapped ? "YES" : "NO") << endl;  
 }
 /* ========================================================================= */
 
