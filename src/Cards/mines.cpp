@@ -1,6 +1,6 @@
 
-#include "basicHeader.h"
-#include "blackCards.h"
+#include "basicHeader.hpp"
+#include "blackCards.hpp"
 
 /* ========================================================================= */
 

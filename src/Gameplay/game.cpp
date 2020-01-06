@@ -13,7 +13,7 @@
 #include <vector>
 // #include <limits>
 
-#include "basicHeader.h"
+#include "basicHeader.hpp"
 #include "rules.hpp" // PERS_HOLD_TXT_PATH, FLLW_ITEM_TXT_PATH
 
 using std::cout;  // an se enoxloun mporoume na ta vgaloume

@@ -1,6 +1,6 @@
 
-#include "basicHeader.h"
-#include "player.h"
+#include "basicHeader.hpp"
+#include "player.hpp"
 
 /* ========================================================================= */
 

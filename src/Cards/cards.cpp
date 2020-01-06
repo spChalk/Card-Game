@@ -1,7 +1,7 @@
 
-#include "basicHeader.h"
-#include "greenCards.h"
-#include "blackCards.h"
+#include "basicHeader.hpp"
+#include "greenCards.hpp"
+#include "blackCards.hpp"
 
 /* ========================================================================= */
 

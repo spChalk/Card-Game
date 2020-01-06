@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "basicHeader.h"
+#include "basicHeader.hpp"
 
 // Colours
 #define BLK  30
