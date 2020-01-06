@@ -123,12 +123,6 @@ void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t max
   }
 }
 
-/* ========================================================================= */
-
-bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending order
-  return (p1->getHonor() > p2->getHonor());
-}
-
 } // NameSpace End
 
 /* ========================================================================= */
@@ -158,6 +152,41 @@ void Game::initGameBoard(PlayerListPtr players , size_t numPlayers ) {
     players->push_back(newPl);
   }
 }
+
+/* ========================================================================= */
+namespace // namespace_continue
+{
+
+bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending order
+  return (p1->getHonor() > p2->getHonor());
+}
+
+/* ========================================================================= */
+
+size_t getNumOfPlayers()
+{
+  std::string answer;
+  int num;
+
+  while (true)
+  {
+    cout << "> Give the number of Players about to play the game!" << endl;
+    
+    std::getline(std::cin, answer);
+    cout << endl;
+
+    num = std::stoi(answer);
+
+    if (num > 1) break;
+  
+    cout << "> Invalid number given! (" << num 
+         << "). Please, give a positive integer greater than 1!" << endl;
+  }
+
+  return num;
+}
+
+}; // namespace_end
 
 /* ========================================================================= */
 
@@ -210,30 +239,6 @@ void Game::gameplay(void)
   //PlayerPtr winner = players->at(win-1);
   cout << "Player \'" << winner->getUserName() 
             << "\' just won the game!" << endl;
-}
-/* ========================================================================= */
-
-static size_t getNumOfPlayers()
-{
-  std::string answer;
-  size_t num;
-
-  while (true)
-  {
-    cout << "> Give the number of Players about to play the game!" << endl;
-    
-    std::getline(std::cin, answer);
-    cout << endl;
-
-    num = std::stoi(answer);
-
-    if (num > 1) break;
-  
-    cout << "> Invalid number given! (" << num 
-         << "). Please, give a positive integer greater than 1!" << endl;
-  }
-
-  return num;
 }
 
 /* ========================================================================= */
