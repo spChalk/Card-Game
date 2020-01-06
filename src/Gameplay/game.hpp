@@ -19,7 +19,7 @@ class Game
 
 public:
 
-  Game(size_t numPlayers );
+  Game();
 
   void initGameBoard( PlayerListPtr players , 
                       size_t numPlayers );

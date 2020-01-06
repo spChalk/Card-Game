@@ -136,8 +136,12 @@ bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending
 void Game::initGameBoard(PlayerListPtr players , size_t numPlayers ) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
 
+    cout << "> Give username for player " << i+1 << "!\nUsername: ";
+    std::string username;
+    std::getline(std::cin, username);
+    cout << endl;
           // Make player (assign name , StrongHold and honor(via StrongHold))
-    auto newPl = std::make_shared< Player >("Player" + std::to_string(i) );
+    auto newPl = std::make_shared< Player >(username);
           // Make fateDeck and dynastyDeck
     deckBuilder(newPl , DECK_SIZE , DECK_SIZE);
     
@@ -207,14 +211,38 @@ void Game::gameplay(void)
   cout << "Player \'" << winner->getUserName() 
             << "\' just won the game!" << endl;
 }
+/* ========================================================================= */
+
+static size_t getNumOfPlayers()
+{
+  std::string answer;
+  size_t num;
+
+  while (true)
+  {
+    cout << "> Give the number of Players about to play the game!" << endl;
+    
+    std::getline(std::cin, answer);
+    cout << endl;
+
+    num = std::stoi(answer);
+
+    if (num > 1) break;
+  
+    cout << "> Invalid number given! (" << num 
+         << "). Please, give a positive integer greater than 1!" << endl;
+  }
+
+  return num;
+}
 
 /* ========================================================================= */
 
-Game::Game(size_t numPlayers ) {  
+Game::Game() {  
   
   players = std::make_shared< std::list <PlayerPtr> >();  // Create a new list 
   
-  initGameBoard(players , numPlayers);
+  initGameBoard(players , getNumOfPlayers());
   
   printGameStatistics();
   
