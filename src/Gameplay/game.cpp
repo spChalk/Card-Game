@@ -176,7 +176,7 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
     std::getline(std::cin, username);
     cout << endl;
           // Make player (assign name , StrongHold and honor(via StrongHold))
-    auto newPl = std::make_shared< Player >(username);
+    PlayerPtr newPl = std::make_shared< Player >(username);
           // Make fateDeck and dynastyDeck
     deckBuilder(newPl , DECK_SIZE , DECK_SIZE);
     

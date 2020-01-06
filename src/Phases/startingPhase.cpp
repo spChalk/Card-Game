@@ -18,8 +18,8 @@ void revealProvinces(PlayerPtr);
 
 void untapEverything(PlayerPtr player)
 {
-  auto holdings = player->getHoldings();
-  auto army     = player->getArmy();
+  HoldingListPtr holdings = player->getHoldings();
+  ArmyPtr army     = player->getArmy();
 
   for (auto i : *holdings)
     i->setUnTapped();
@@ -36,7 +36,7 @@ void untapEverything(PlayerPtr player)
 
 void revealProvinces(PlayerPtr player)
 {
-  auto provinces = player->getProvinces();
+  ProvinceListPtr provinces = player->getProvinces();
 
   for (auto i : *provinces)
   {
@@ -50,11 +50,11 @@ void revealProvinces(PlayerPtr player)
 /* ========================================================================= */
 void drawFateCard(PlayerPtr player) // take care if empty fate deck!
 {
-  auto fate = player->getFateDeck();
+  FateDeckPtr fate = player->getFateDeck();
 
   if (fate->empty() == false)
   {
-    auto hand = player->getHand();
+    HandPtr hand = player->getHand();
 
     hand->push_back(player->drawFateCard());
 
