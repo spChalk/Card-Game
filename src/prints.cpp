@@ -49,9 +49,9 @@ void GreenCard::print() const
   printF ("| " , 0 , GRN); cout << "ATK Bonus: " << attackBonus << endl;
   printF ("| " , 0 , GRN); cout << "DEF Bonus: " << defenceBonus << endl;
   printF ("| " , 0 , GRN); cout << "Min Honor: " << minHonor << endl;
-  printF ("| " , 0 , GRN); cout << "Card Text: " << cardText << endl;
   printF ("| " , 0 , GRN); cout << "Effect Bonus: " << effectBonus << endl;
   printF ("| " , 0 , GRN); cout << "Effect Cost : " <<effectCost  << endl;
+  printF ("| " , 0 , GRN); cout << "Card Text: " << cardText << endl;
 }
 /* ========================================================================= */
 
