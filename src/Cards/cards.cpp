@@ -16,8 +16,8 @@ Card::Card (const std::string & name , const size_t & cost )
 GreenCard::GreenCard(const std::string & name ,  const size_t & cost , 
                      const size_t & attackBonus ,const size_t & defenceBonus ,
                      const size_t & minHonor ,   const std::string & cardText ,
-                     const size_t & effectBonus ,const size_t & effectCost , 
-                     const enum GreenCardType type) 
+                     const size_t & effectBonus ,const size_t & effectCost ,
+                     const size_t & maxPerPerson , const enum GreenCardType type) 
 : Card(name , cost) , 
   attackBonus(attackBonus), 
   defenceBonus(defenceBonus), 
@@ -26,7 +26,7 @@ GreenCard::GreenCard(const std::string & name ,  const size_t & cost ,
   effectBonus(effectBonus), 
   effectCost(effectCost), 
   attached(false), 
-  type(type)
+  type(type) , maxPerPerson(maxPerPerson)
   {}
 
 
@@ -43,11 +43,8 @@ Follower::Follower(const std::string & name ,     const size_t & cost ,
                    const size_t & minHonor ,      const std::string & cardText ,
                    const size_t & effectBonus ,   const size_t & effectCost , 
                    const enum FollowerType type , const size_t maxPerPerson ) 
-: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost), 
-  type(type), 
-  maxPerPerson(maxPerPerson)
-  {}
-
+: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson), 
+  type(type) {}
 
 void Follower::attachToPersonality (PersonalityPtr pers) {
   pers->getFollowers()->push_back(std::make_shared<Follower>(*this));
@@ -59,12 +56,9 @@ Item::Item(const size_t & dur ,          const std::string & name ,   const size
            const size_t & attackBonus ,  const size_t & defenceBonus ,const size_t & minHonor ,
            const std::string & cardText ,const size_t & effectBonus , const size_t & effectCost , 
            const enum ItemType type,     const size_t maxPerPerson) 
-: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost) , 
+: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson) , 
   durability(dur), 
-  type(type), 
-  maxPerPerson(maxPerPerson)
-  {}
-
+  type(type) {}
 
 void Item::attachToPersonality (PersonalityPtr pers) {
   pers->getItems()->push_back(std::make_shared<Item>(*this));

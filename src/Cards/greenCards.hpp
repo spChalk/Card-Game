@@ -38,11 +38,13 @@ protected:
 
   const enum GreenCardType type;
 
+  const size_t maxPerPerson; // MAX_<GREENCARD>_PER_PERSON gia na mhn xrhsimopoioume tis define'd times pantou sta .cpp
+
 public:
 
   GreenCard(const std::string &, const size_t &, const size_t &, 
             const size_t &, const size_t &, const std::string &, 
-            const size_t &, const size_t &, 
+            const size_t &, const size_t &, const size_t & , 
             const enum GreenCardType = FOLLOWER);
 
   enum GreenCardType getGreenCardType() const { return type; }
@@ -69,9 +71,7 @@ public:
 class Follower : public GreenCard
 {
   const enum FollowerType type;
-  const size_t maxPerPerson; // MAX_<GREENCARD>_PER_PERSON gia na mhn xrhsimopoioume tis define'd times pantou sta .cpp
-  // [Spiros] Yparxei 8ema an xrhsimopoioume ta defined all the way ? 
-
+  
 public:
 
   Follower(const std::string &, const size_t &, const size_t &, const size_t &,
@@ -94,7 +94,6 @@ class Item : public GreenCard
   size_t durability; // not const because it can be decreased till 0 
 
   const enum ItemType type;
-  const size_t maxPerPerson;
 
 public:
     
