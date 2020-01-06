@@ -131,5 +131,5 @@ StrongHold::StrongHold()
 : Holding("StrongHold" , 0 , 5 , STRONGHOLD), 
   initHonor(5), 
   initDefence(5)
-  {} 
+  { setRevealed(); } 
 /* ========================================================================= */
