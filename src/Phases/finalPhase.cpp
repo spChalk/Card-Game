@@ -12,7 +12,7 @@ namespace {  // Namespace start
 
 /* ========================================================================= */
 
-void discardSurplusFateCards (PlayerPtr pl , size_t numOfCards)
+void discardSurplusFateCards (PlayerPtr pl , uint16_t numOfCards)
 { // could be a method of class Player, since MAX_HAND_CARDS *will* also be a field
   while (numOfCards > 0)
   {

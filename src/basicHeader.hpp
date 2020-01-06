@@ -3,7 +3,7 @@
 #define BASIC_HEADER_0
 
 /* Standard headers */
-#include <cstddef> // size_t
+#include <cstdint> // uint16_t
 #include <list>
 #include <memory>  // smart pointers
 #include <queue>
@@ -70,6 +70,6 @@ typedef std::shared_ptr < std::list <FollowerPtr> > FollowerListPtr;
 // 
 #include "templateFunction.hpp"
 
-void printF (const std::string & s , const size_t & colour = 37, const size_t & format = 0 );
+void printF (const std::string & s , const uint16_t & colour = 37, const uint16_t & format = 0 );
 
 #endif

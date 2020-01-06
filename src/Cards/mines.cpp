@@ -24,7 +24,7 @@ namespace {
 
 /* ========================================================================= */
 
-Mine::Mine(const std::string & name , const size_t & cost , const size_t & harvestValue) 
+Mine::Mine(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue) 
 : Holding(name , cost , harvestValue , MINE), 
   upperHolding(nullptr)
   {} 
@@ -57,7 +57,7 @@ void Mine::attachToPlayer(PlayerPtr pl) {
 }
 /* ========================================================================= */
 
-GoldMine::GoldMine(const std::string & name , const size_t & cost , const size_t & harvestValue)
+GoldMine::GoldMine(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue)
 : Holding(name , cost , harvestValue , GOLD_MINE), 
   upperHolding(nullptr),
   subHolding(nullptr)
@@ -101,7 +101,7 @@ void GoldMine::attachToPlayer(PlayerPtr pl) {
 }
 /* ========================================================================= */
 
-CrystalMine::CrystalMine(const std::string & name , const size_t & cost , const size_t & harvestValue) 
+CrystalMine::CrystalMine(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue) 
 : Holding(name , cost , harvestValue , CRYSTAL_MINE), 
   subHolding(nullptr)
   {} 

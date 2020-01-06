@@ -34,7 +34,7 @@ protected:
 
 public:
     
-  BlackCard(const std::string & name , const size_t & cost , const enum BlackCardType = PERSONALITY); 
+  BlackCard(const std::string & name , const uint16_t & cost , const enum BlackCardType = PERSONALITY); 
 
   enum BlackCardType getBlackCardType() const { return type; }
 
@@ -51,10 +51,10 @@ public:
 
 class Personality : public BlackCard
 {
-  const size_t attack;
-  const size_t defence;
+  const uint16_t attack;
+  const uint16_t defence;
   
-  size_t honor; // honor can be decreased till 0
+  uint16_t honor; // honor can be decreased till 0
 
   bool isDead;
   
@@ -65,13 +65,13 @@ class Personality : public BlackCard
 
 public:
     
-  Personality(const std::string & name , const size_t & cost , const size_t & attack ,const size_t & defence , const size_t & honor , const enum PersonalityType );
+  Personality(const std::string & name , const uint16_t & cost , const uint16_t & attack ,const uint16_t & defence , const uint16_t & honor , const enum PersonalityType );
 
   enum PersonalityType getPersonalityType() const { return type; }
 
-  size_t getATK() const { return attack;  }
-  size_t getDEF() const { return defence; }
-  size_t getHonor() const { return honor; }
+  uint16_t getATK() const { return attack;  }
+  uint16_t getDEF() const { return defence; }
+  uint16_t getHonor() const { return honor; }
 
   void die() { isDead = true; } // this is nice
   void kys() { isDead = true; } // this is nicer
@@ -94,19 +94,19 @@ class Holding : public BlackCard
 {
 protected:
 
-  size_t harvestValue; // Not const , because during Mine linkage it grows 
+  uint16_t harvestValue; // Not const , because during Mine linkage it grows 
 
   const enum HoldingType type;
 
 public:
     
-  Holding(const std::string & name , const size_t & cost , const size_t & harvestValue , const enum HoldingType type);
+  Holding(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue , const enum HoldingType type);
 
   enum HoldingType getHoldingType() const { return type; }
 
-  size_t getHarvestValue() const { return harvestValue; }
+  uint16_t getHarvestValue() const { return harvestValue; }
 
-  void increaseHarvestValueBy (size_t points) { harvestValue += points; }
+  void increaseHarvestValueBy (uint16_t points) { harvestValue += points; }
 
   virtual void print() const; // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
 
@@ -121,7 +121,7 @@ class Mine : public Holding
 
 public:
     
-  Mine(const std::string & name = "MINE", const size_t & cost = 5 , const size_t & harvestValue = 3);
+  Mine(const std::string & name = "MINE", const uint16_t & cost = 5 , const uint16_t & harvestValue = 3);
 
   void setUpperHolding (GoldMinePtr gMine) { upperHolding = gMine ; }
   void attachToPlayer(PlayerPtr);
@@ -138,7 +138,7 @@ class CrystalMine : public Holding
 
 public:
     
-  CrystalMine(const std::string & name = "CRYSTAL_MINE" , const size_t & cost = 12 , const size_t & harvestValue = 6);
+  CrystalMine(const std::string & name = "CRYSTAL_MINE" , const uint16_t & cost = 12 , const uint16_t & harvestValue = 6);
 
   void setSubHolding (GoldMinePtr gMine) { subHolding = gMine ; }
   void attachToPlayer(PlayerPtr);
@@ -156,7 +156,7 @@ class GoldMine : public Holding
 
 public:
     
-  GoldMine(const std::string & name = "GOLD_MINE", const size_t & cost = 7 , const size_t & harvestValue = 5);  
+  GoldMine(const std::string & name = "GOLD_MINE", const uint16_t & cost = 7 , const uint16_t & harvestValue = 5);  
 
   void setUpperHolding (CrystalMinePtr crM) { upperHolding = crM ; }
   void setSubHolding (MinePtr M)            { subHolding = M ; }
@@ -173,15 +173,15 @@ public:
 
 class StrongHold : public Holding
 {
-  const size_t initHonor;
-  const size_t initDefence;
-/*  const size_t initMoney; == harvest apo base class */
+  const uint16_t initHonor;
+  const uint16_t initDefence;
+/*  const uint16_t initMoney; == harvest apo base class */
 public:
     
-  StrongHold(const size_t & initHonour , const size_t & initDefence , const std::string & name = "STRONGHOLD" , const size_t & harvestValue = 5 , const size_t & cost = 0 );
+  StrongHold(const uint16_t & initHonour , const uint16_t & initDefence , const std::string & name = "STRONGHOLD" , const uint16_t & harvestValue = 5 , const uint16_t & cost = 0 );
 
-  size_t getInitHonor() const { return initHonor; }
-  size_t getInitDEF()   const { return initDefence; }
+  uint16_t getInitHonor() const { return initHonor; }
+  uint16_t getInitDEF()   const { return initDefence; }
 
   void print() const;
 };

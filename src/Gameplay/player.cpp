@@ -24,11 +24,11 @@ Player::Player(const std::string & userName )
   {}
 
 /* ========================================================================= */
-size_t Player::getCurrMoney() const
+uint16_t Player::getCurrMoney() const
 {
   HoldingListPtr holdings = this->getHoldings();
 
-  size_t total = 0;
+  uint16_t total = 0;
 
   if (this->getStrongHold()->checkTapped() == false)
     total += this->getStrongHold()->getHarvestValue();
@@ -41,7 +41,7 @@ size_t Player::getCurrMoney() const
 
 /* ========================================================================= */
 
-bool Player::makePurchase (size_t cost) {
+bool Player::makePurchase (uint16_t cost) {
   
   if (getCurrMoney() < cost)
     return false;     // If the required cost is more than player's budget , exit 

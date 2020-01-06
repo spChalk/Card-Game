@@ -5,7 +5,7 @@
 
 /* ========================================================================= */
 
-Card::Card (const std::string & name , const size_t & cost )
+Card::Card (const std::string & name , const uint16_t & cost )
 : name(name),
   cost(cost), 
   isTapped(true)
@@ -13,11 +13,11 @@ Card::Card (const std::string & name , const size_t & cost )
 
 /* ========================================================================= */
 
-GreenCard::GreenCard(const std::string & name ,  const size_t & cost , 
-                     const size_t & attackBonus ,const size_t & defenceBonus ,
-                     const size_t & minHonor ,   const std::string & cardText ,
-                     const size_t & effectBonus ,const size_t & effectCost ,
-                     const size_t & maxPerPerson , const enum GreenCardType type) 
+GreenCard::GreenCard(const std::string & name ,  const uint16_t & cost , 
+                     const uint16_t & attackBonus ,const uint16_t & defenceBonus ,
+                     const uint16_t & minHonor ,   const std::string & cardText ,
+                     const uint16_t & effectBonus ,const uint16_t & effectCost ,
+                     const uint16_t & maxPerPerson , const enum GreenCardType type) 
 : Card(name , cost) , 
   attackBonus(attackBonus), 
   defenceBonus(defenceBonus), 
@@ -38,11 +38,11 @@ void GreenCard::upgrade()
 
 /* ========================================================================= */
 
-Follower::Follower(const std::string & name ,     const size_t & cost , 
-                   const size_t & attackBonus ,   const size_t & defenceBonus ,
-                   const size_t & minHonor ,      const std::string & cardText ,
-                   const size_t & effectBonus ,   const size_t & effectCost , 
-                   const enum FollowerType type , const size_t maxPerPerson ) 
+Follower::Follower(const std::string & name ,     const uint16_t & cost , 
+                   const uint16_t & attackBonus ,   const uint16_t & defenceBonus ,
+                   const uint16_t & minHonor ,      const std::string & cardText ,
+                   const uint16_t & effectBonus ,   const uint16_t & effectCost , 
+                   const enum FollowerType type , const uint16_t maxPerPerson ) 
 : GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson), 
   type(type) {}
 
@@ -52,10 +52,10 @@ void Follower::attachToPersonality (PersonalityPtr pers) {
 
 /* ========================================================================= */
 
-Item::Item(const size_t & dur ,          const std::string & name ,   const size_t & cost , 
-           const size_t & attackBonus ,  const size_t & defenceBonus ,const size_t & minHonor ,
-           const std::string & cardText ,const size_t & effectBonus , const size_t & effectCost , 
-           const enum ItemType type,     const size_t maxPerPerson) 
+Item::Item(const uint16_t & dur ,          const std::string & name ,   const uint16_t & cost , 
+           const uint16_t & attackBonus ,  const uint16_t & defenceBonus ,const uint16_t & minHonor ,
+           const std::string & cardText ,const uint16_t & effectBonus , const uint16_t & effectCost , 
+           const enum ItemType type,     const uint16_t maxPerPerson) 
 : GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson) , 
   durability(dur), 
   type(type) {}
@@ -65,7 +65,7 @@ void Item::attachToPersonality (PersonalityPtr pers) {
 }
 /* ========================================================================= */
 
-BlackCard::BlackCard(const std::string & name , const size_t & cost , 
+BlackCard::BlackCard(const std::string & name , const uint16_t & cost , 
                      const enum BlackCardType type)
 : Card(name , cost), 
   isRevealed(false), 
@@ -74,8 +74,8 @@ BlackCard::BlackCard(const std::string & name , const size_t & cost ,
 
 /* ========================================================================= */
 
-Personality::Personality(const std::string & name , const size_t & cost ,  const size_t & attack ,
-                         const size_t & defence ,   const size_t & honor , const enum PersonalityType type)
+Personality::Personality(const std::string & name , const uint16_t & cost ,  const uint16_t & attack ,
+                         const uint16_t & defence ,   const uint16_t & honor , const enum PersonalityType type)
 : BlackCard(name , cost), 
   attack(attack), 
   defence(defence), 
@@ -113,8 +113,8 @@ void Personality::attachToPlayer (PlayerPtr pl) {
 
 /* ========================================================================= */
 
-Holding::Holding(const std::string & name ,    const size_t & cost , 
-                 const size_t & harvestValue , const enum HoldingType type)
+Holding::Holding(const std::string & name ,    const uint16_t & cost , 
+                 const uint16_t & harvestValue , const enum HoldingType type)
 : BlackCard(name , cost), 
   harvestValue(harvestValue), 
   type(type)
@@ -127,7 +127,7 @@ void Holding::attachToPlayer (PlayerPtr pl) {
 
 /* ========================================================================= */
 
-StrongHold::StrongHold(const size_t & initHonour , const size_t & initDefence , const std::string & name , const size_t & harvestValue , const size_t & cost ) 
+StrongHold::StrongHold(const uint16_t & initHonour , const uint16_t & initDefence , const std::string & name , const uint16_t & harvestValue , const uint16_t & cost ) 
 : Holding(name , cost , harvestValue , STRONGHOLD), 
   initHonor(initHonour), 
   initDefence(initDefence)

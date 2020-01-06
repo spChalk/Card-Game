@@ -36,9 +36,9 @@ class Player
 
   StrongHoldPtr strongHold;
 
-  size_t honor;
+  uint16_t honor;
   
-  size_t activeProvinces;
+  uint16_t activeProvinces;
 
   FateDeckPtr    fateDeck;
   DynastyDeckPtr dynastyDeck;
@@ -55,9 +55,9 @@ public:
 
   const std::string& getUserName() const { return userName; }
 
-  size_t getHonor()        const { return honor; }
-  size_t getProvincesNum() const { return activeProvinces; }
-  size_t getCurrMoney()    const;
+  uint16_t getHonor()        const { return honor; }
+  uint16_t getProvincesNum() const { return activeProvinces; }
+  uint16_t getCurrMoney()    const;
 
   void decreaseProvinceNum() { --activeProvinces; }
   void increaseProvinceNum() { ++activeProvinces; }
@@ -86,7 +86,7 @@ public:
   void printProvinces()     const;
   void printStatistics()    const;
 
-  bool makePurchase (size_t cost ); // Tap Holdings until you cover the needed cost
+  bool makePurchase (uint16_t cost ); // Tap Holdings until you cover the needed cost
     // Returns true if the purchase is successfull
   void cleanup(); // Removes 1) dead personalities from army 2) detached GreenCards
 

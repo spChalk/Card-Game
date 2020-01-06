@@ -19,7 +19,7 @@ bool hasntReachedLimit(PersonalityPtr , GreenCardPtr );
 
 void upgradeGreenCard(PlayerPtr player, GreenCardPtr card)
 {
-  size_t currMoney = player->getCurrMoney();
+  uint16_t currMoney = player->getCurrMoney();
   if (currMoney >= card->getEffectCost())
   {
     player->makePurchase(card->getEffectCost()); // TODO: interactive (makePurchase in general)
@@ -36,7 +36,7 @@ void upgradeGreenCard(PlayerPtr player, GreenCardPtr card)
 
 bool hasEnoughMoney(PlayerPtr player, GreenCardPtr card)
 { 
-  size_t currMoney = player->getCurrMoney();
+  uint16_t currMoney = player->getCurrMoney();
   if (currMoney >= card->getCost()) 
     return true;
 
@@ -60,7 +60,7 @@ bool hasEnoughHonor(PersonalityPtr person, GreenCardPtr card)
 
 bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 {
-  size_t maxCardPerPers = card->getMaxPerPersonality();
+  uint16_t maxCardPerPers = card->getMaxPerPersonality();
   enum GreenCardType cardType = card->getGreenCardType();
 
   if (cardType == FOLLOWER)

@@ -2,8 +2,6 @@
 // [Χάρης] Note: σου προτείνω να γράψεις εδώ τα public functions
 // της κλάσης Game και ξεχωριστά τα phases σου αλλά ό,τι 
 // θες γενικά
-#include <algorithm>  // sort
-#include <cstddef>    // size_t
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
@@ -22,10 +20,10 @@ using std::endl;
 namespace {  // Namespace Start
 
 /* ========================================================================= */
-// Finds and returns <size_t> number from a string
+// Finds and returns <uint16_t> number from a string
 // Works for a single number (otherwise it'll return all numbers as a single one)
-// If there's no number , -1 (size_t max) is returned 
-size_t extractNumber(const std::string& str) {
+// If there's no number , -1 (uint16_t max) is returned 
+uint16_t extractNumber(const std::string& str) {
   std::string newStr;
   for (char i : str) 
     if (isdigit(i) || 'i' == '0')
@@ -33,17 +31,17 @@ size_t extractNumber(const std::string& str) {
   return (newStr.size() != 0) ? std::stoi(newStr) : -1 ; 
 }
 
-std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > readAndMap (const std::string & fileName ) {
-  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > uMap = std::make_shared < std::unordered_map<std::string , std::vector<size_t> > >();
+std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > readAndMap (const std::string & fileName ) {
+  std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > uMap = std::make_shared < std::unordered_map<std::string , std::vector<uint16_t> > >();
   std::ifstream newFile (fileName);
   std::string name , temp;
-  size_t num;
+  uint16_t num;
 
   if (newFile.is_open()) {
     
     while ( getline (newFile , name) ) {
       num = extractNumber(name);
-      if (num != (size_t)-1 ) 
+      if (num != (uint16_t)-1 ) 
         (*uMap)[temp].push_back(num);  
       else 
         temp = name;
@@ -58,11 +56,11 @@ std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > readA
 
 /* ========================================================================= */
 
-void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t maxBlackCards) {
-  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > bMap = readAndMap(PERS_HOLD_TXT_PATH); // defined in rules.hpp
-  std::shared_ptr < std::unordered_map<std::string , std::vector<size_t> > > gMap = readAndMap(FLLW_ITEM_TXT_PATH);
+void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t maxBlackCards) {
+  std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > bMap = readAndMap(PERS_HOLD_TXT_PATH); // defined in rules.hpp
+  std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > gMap = readAndMap(FLLW_ITEM_TXT_PATH);
   
-  for (size_t i = 0; i < maxGreenCards; i++) {
+  for (uint16_t i = 0; i < maxGreenCards; i++) {
     
     for (auto j = gMap->begin() ; j != gMap->end() ; j++ ) {
 
@@ -92,7 +90,7 @@ void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t max
     }
   }
   
-  for (size_t i = 0; i < maxBlackCards; i++) {
+  for (uint16_t i = 0; i < maxBlackCards; i++) {
     
     for (auto j = bMap->begin() ; j != bMap->end() ; j++ ) {
 
@@ -131,8 +129,8 @@ void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t max
 
 /* ========================================================================= */
 
-void Game::initGameBoard(PlayerListPtr players , size_t numPlayers ) {
-  for (size_t i = 0 ; i < numPlayers ; i++) {
+void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
+  for (uint16_t i = 0 ; i < numPlayers ; i++) {
 
     cout << "> Give username for player " << i+1 << "!\nUsername: ";
     std::string username;
@@ -143,11 +141,11 @@ void Game::initGameBoard(PlayerListPtr players , size_t numPlayers ) {
           // Make fateDeck and dynastyDeck
     deckBuilder(newPl , DECK_SIZE , DECK_SIZE);
     
-    for (size_t i = 0; i < MAX_HAND_CARDS / 2 ; i++) {           // As einai oi arxikes kartes sto xeri ises me to miso twn MAX , dunno
+    for (uint16_t i = 0; i < MAX_HAND_CARDS / 2 ; i++) {           // As einai oi arxikes kartes sto xeri ises me to miso twn MAX , dunno
       newPl->getHand()->push_back(newPl->drawFateCard());
     }
     
-    for (size_t i = 0; i < 4; i++) {
+    for (uint16_t i = 0; i < 4; i++) {
       ProvincePtr newPr = std::make_shared< Province >(newPl->drawBlackCard());
       newPl->getProvinces()->push_back(newPr);
       newPl->increaseProvinceNum();
@@ -167,7 +165,7 @@ bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending
 
 /* ========================================================================= */
 
-size_t getNumOfPlayers()
+uint16_t getNumOfPlayers()
 {
   std::string answer;
   int num;
@@ -201,7 +199,7 @@ void Game::gameplay(void)
   //std::sort(players->begin(), players->end(), playerCompare); // sort by honor // too lazy to PQ it
   players->sort(playerCompare);
 
-  size_t win = 0;
+  uint16_t win = 0;
 
   while(win == 0) // while no winner is found
   {
@@ -263,11 +261,11 @@ Game::Game() {
 /* Checks whether we have a winner                  *
  * Returns his place in the list counting from 1  *
  * If no winner is found, returns 0 (NO_WINNER)     */
-size_t Game::checkWinningCondition(void)
+uint16_t Game::checkWinningCondition(void)
 {
   bool playersWithProvinces = 0;
-  size_t pos;
-  size_t ctr = 1;
+  uint16_t pos;
+  uint16_t ctr = 1;
 
   for (auto i : *players) // if it doesn't work, it's this cr p
   {                         // cuz idk what i'm doing, auto is lazy af

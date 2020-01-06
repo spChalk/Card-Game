@@ -27,13 +27,13 @@ protected:
 
   const std::string name;
     
-  const size_t cost;
+  const uint16_t cost;
     
   bool isTapped;
 
 public:
 
-  Card(const std::string & name , const size_t & cost );
+  Card(const std::string & name , const uint16_t & cost );
   virtual ~Card() {} 
 
   const std::string getName (void) const { return name; }
@@ -43,7 +43,7 @@ public:
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
 
-  size_t getCost(void) const { return cost; }
+  uint16_t getCost(void) const { return cost; }
 
   virtual void print() const = 0;
 };

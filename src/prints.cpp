@@ -26,7 +26,7 @@ using std::endl;
 /* ========================================================================= */
 
 //  Write formatted output to stdout (args : colour & style)
-void printF (const std::string & s , const size_t & colour , const size_t & format ) {
+void printF (const std::string & s , const uint16_t & colour , const uint16_t & format ) {
   std::cout << "\x1B[" << format << ";" << colour << "m" << s << "\x1B[0m" << std::endl;
 }
 

@@ -9,7 +9,7 @@ class Game
 {
   PlayerListPtr players;
  
-  size_t checkWinningCondition();
+  uint16_t checkWinningCondition();
 
   void startingPhase (PlayerPtr);
   void equipmentPhase(PlayerPtr);
@@ -22,7 +22,7 @@ public:
   Game();
 
   void initGameBoard( PlayerListPtr players , 
-                      size_t numPlayers );
+                      uint16_t numPlayers );
   
   void printGameStatistics() const;
   void gameplay();
