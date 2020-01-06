@@ -39,7 +39,12 @@ void Game::economyPhase(PlayerPtr pl) {
           cout << "Purchase Completed ! " << endl;
           i->getCard()->setTapped();  // TODO : nomizw einai peritto
           i->getCard()->attachToPlayer(pl);
-          i->setCard( pl->drawBlackCard() );
+
+          if (pl->getDynastyDeck()->empty() == false)
+            i->setCard( pl->drawBlackCard() );  /* Replace the card that was bought */
+          else
+            cout << "Dynasty deck is empty! No more Black Cards for player \'"
+                 << pl->getUserName() << "\' !" << endl;
         } 
         else 
           cout << "You don't have enough money to buy this province!" << endl;

@@ -1,9 +1,6 @@
 /* startingPhase.cpp */
-// TODO: disguss whether drawFateCard / revealProvinces 
-// should be of class Player
 #include <iostream>
 #include <queue>
-// #include <vector>
 
 #include "basicHeader.hpp"
 
@@ -47,7 +44,7 @@ void revealProvinces(PlayerPtr player)
       i->getCard()->setRevealed();
   }
 
-  cout << "Provinces revealed!" <<endl;
+  cout << "Provinces revealed!" << endl;
 }
 
 /* ========================================================================= */
@@ -55,19 +52,19 @@ void drawFateCard(PlayerPtr player) // take care if empty fate deck!
 {
   auto fate = player->getFateDeck();
 
-  if (fate->size() > 0)
+  if (fate->empty() == false)
   {
     auto hand = player->getHand();
 
     hand->push_back(player->drawFateCard());
 
     cout << "Player \'" << player->getUserName() 
-              << "\' just drew a fate card!" <<endl;
+              << "\' just drew a fate card!" << endl;
   }
   else
   {
     cout << "Fate deck is empty! No more Green Cards for player \'" 
-              << player->getUserName() << "\' !" <<endl;
+              << player->getUserName() << "\' !" << endl;
   }
 }
 
