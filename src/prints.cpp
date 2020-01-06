@@ -223,7 +223,7 @@ void Player::printHoldings() const
 
 void Player::printArmy() const
 {
-  if (army->size() == 0) 
+  if (army->empty() == true) 
     cout << "No army!" << endl;
   else
     for (auto i : *army) i->print();
@@ -232,7 +232,7 @@ void Player::printArmy() const
 
 void Player::printAvailableArmy() const
 {
-  if (army->size() == 0) 
+  if (army->empty() == true) 
     cout << "No army!" << endl;
   else
     for (auto i : *army)
@@ -246,7 +246,7 @@ void Player::printAvailableArmy() const
 
 void Player::printHand() const 
 {
-  if (hand->size() == 0) 
+  if (hand->empty() == true) 
     cout << "Empty hand!" << endl;
   else
     for (auto i : *hand) i->print();
@@ -303,3 +303,4 @@ void Game::printGameStatistics() const
 
   cout << "========= !END OF GLOBAL STATS! =========" << endl;
 }
+/* ========================================================================= */
