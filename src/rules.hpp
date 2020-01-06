@@ -1,7 +1,7 @@
 //=====|| DEFINES ||=====
 
-#define PERS_HOLD_TXT_PATH "../files/Personalities_and_Holdings.txt"
-#define FLLW_ITEM_TXT_PATH "../files/Followers_and_Weapons.txt"
+#define PERS_HOLD_TXT_PATH "./files/Personalities_and_Holdings.txt"
+#define FLLW_ITEM_TXT_PATH "./files/Followers_and_Weapons.txt"
 //=====|| MAX CARDS IN GAME ||=====
 
 #define DECK_SIZE         40
