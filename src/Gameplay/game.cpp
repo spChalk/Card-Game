@@ -214,7 +214,7 @@ Game::Game(size_t numPlayers ) {
   
   players = std::make_shared< std::list <PlayerPtr> >();  // Create a new list 
   
-  initGameBoard(players , numPlayers , DECK_SIZE , DECK_SIZE , MAX_HAND_CARDS);
+  initGameBoard(players , numPlayers);
   
   printGameStatistics();
   
