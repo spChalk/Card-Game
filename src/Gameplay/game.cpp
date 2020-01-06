@@ -133,15 +133,15 @@ bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending
 
 /* ========================================================================= */
 
-void Game::initGameBoard(PlayerListPtr players , size_t numPlayers ,size_t maxGreenCards , size_t maxBlackCards , size_t maxHand) {
+void Game::initGameBoard(PlayerListPtr players , size_t numPlayers ) {
   for (size_t i = 0 ; i < numPlayers ; i++) {
 
           // Make player (assign name , StrongHold and honor(via StrongHold))
     auto newPl = std::make_shared< Player >("Player" + std::to_string(i) );
           // Make fateDeck and dynastyDeck
-    deckBuilder(newPl , maxGreenCards , maxBlackCards);
+    deckBuilder(newPl , DECK_SIZE , DECK_SIZE);
     
-    for (size_t i = 0; i < maxHand / 2 ; i++) {           // As einai oi arxikes kartes sto xeri ises me to miso twn MAX , dunno
+    for (size_t i = 0; i < MAX_HAND_CARDS / 2 ; i++) {           // As einai oi arxikes kartes sto xeri ises me to miso twn MAX , dunno
       newPl->getHand()->push_back(newPl->drawFateCard());
     }
     
@@ -210,11 +210,11 @@ void Game::gameplay(void)
 
 /* ========================================================================= */
 
-Game::Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand /*might need more, you're up*/) {  
+Game::Game(size_t numPlayers ) {  
   
   players = std::make_shared< std::list <PlayerPtr> >();  // Create a new list 
   
-  initGameBoard(players , numPlayers , maxGreenCards , maxBlackCards , maxHand);
+  initGameBoard(players , numPlayers , DECK_SIZE , DECK_SIZE , MAX_HAND_CARDS);
   
   printGameStatistics();
   

@@ -19,13 +19,10 @@ class Game
 
 public:
 
-  Game(size_t numPlayers, size_t maxGreenCards, size_t maxBlackCards, size_t maxHand);
+  Game(size_t numPlayers );
 
   void initGameBoard( PlayerListPtr players , 
-                      size_t numPlayers , 
-                      size_t maxGreenCards , 
-                      size_t maxBlackCards , 
-                      size_t maxHand);
+                      size_t numPlayers );
   
   void printGameStatistics() const;
   void gameplay();
