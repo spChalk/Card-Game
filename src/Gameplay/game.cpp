@@ -99,27 +99,27 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
     for (auto j = gMap->begin() ; j != gMap->end() ; j++ ) {
 
       if (j->first == "FOOTSOLDIER")
-        pushNtimes(pl->getFateDeck() , j , FOOTSOLDIER , NO_FOOTSOLDIER , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , FOOTSOLDIER , NO_FOOTSOLDIER , &i, cardTxtVecPtr);
       else if (j->first == "ARCHER")
-        pushNtimes(pl->getFateDeck() , j , ARCHER , NO_ARCHER , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , ARCHER , NO_ARCHER , &i, cardTxtVecPtr);
       else if (j->first == "SIEGER")
-        pushNtimes(pl->getFateDeck() , j , SIEGER , NO_SIEGER , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , SIEGER , NO_SIEGER , &i, cardTxtVecPtr);
       else if (j->first == "CAVALRY")
-        pushNtimes(pl->getFateDeck() , j , CAVALRY , NO_CAVALRY , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , CAVALRY , NO_CAVALRY , &i, cardTxtVecPtr);
       else if (j->first == "NAVAL")
-        pushNtimes(pl->getFateDeck() , j , ATAKEBUNE , NO_NAVAL , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , ATAKEBUNE , NO_NAVAL , &i, cardTxtVecPtr);
       else if (j->first == "BUSHIDO")
-        pushNtimes(pl->getFateDeck() , j , BUSHIDO , NO_BUSHIDO , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , BUSHIDO , NO_BUSHIDO , &i, cardTxtVecPtr);
       else if (j->first == "KATANA")
-        pushNtimes(pl->getFateDeck() , j , KATANA , NO_KATANA , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , KATANA , NO_KATANA , &i, cardTxtVecPtr);
       else if (j->first == "SPEAR")
-        pushNtimes(pl->getFateDeck() , j , SPEAR , NO_SPEAR , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , SPEAR , NO_SPEAR , &i, cardTxtVecPtr);
       else if (j->first == "BOW")
-        pushNtimes(pl->getFateDeck() , j , BOW , NO_BOW , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , BOW , NO_BOW , &i, cardTxtVecPtr);
       else if (j->first == "NINJATO")
-        pushNtimes(pl->getFateDeck() , j , NINJATO , NO_NINJATO , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , NINJATO , NO_NINJATO , &i, cardTxtVecPtr);
       else if (j->first == "WAKIZASHI")
-        pushNtimes(pl->getFateDeck() , j , WAKIZASHI , NO_WAKIZASHI , &i, (*cardTxtVecPtr)[i]);
+        pushNtimes(pl->getFateDeck() , j , WAKIZASHI , NO_WAKIZASHI , &i, cardTxtVecPtr);
   
     }
   }
@@ -129,27 +129,27 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
     for (auto j = bMap->begin() ; j != bMap->end() ; j++ ) {
 
       if (j->first == "ATTACKER")
-        pushNtimes(pl->getDynastyDeck() , j , ATTACKER , NO_ATTACKING , &i );
+        pushNtimes(pl->getDynastyDeck() , j , ATTACKER , NO_ATTACKING , &i, cardTxtVecPtr );
       else if (j->first == "DEFENDER")
-        pushNtimes(pl->getDynastyDeck() , j , DEFENDER , NO_DEFENSIVE , &i );
+        pushNtimes(pl->getDynastyDeck() , j , DEFENDER , NO_DEFENSIVE , &i, cardTxtVecPtr );
       else if (j->first == "SHOGUN")
-        pushNtimes(pl->getDynastyDeck() , j , SHOGUN , NO_SHOGUN , &i );
+        pushNtimes(pl->getDynastyDeck() , j , SHOGUN , NO_SHOGUN , &i, cardTxtVecPtr );
       else if (j->first == "CHANCELLOR")
-        pushNtimes(pl->getDynastyDeck() , j , CHANCELLOR , NO_CHANCELLOR , &i );
+        pushNtimes(pl->getDynastyDeck() , j , CHANCELLOR , NO_CHANCELLOR , &i, cardTxtVecPtr );
       else if (j->first == "CHAMPION")
-        pushNtimes(pl->getDynastyDeck() , j , CHAMPION , NO_CHAMPION , &i );
+        pushNtimes(pl->getDynastyDeck() , j , CHAMPION , NO_CHAMPION , &i, cardTxtVecPtr );
       else if (j->first == "SOLO")
-        pushNtimes(pl->getDynastyDeck() , j , GIFT_N_FAVOUR , NO_SOLO , &i );
+        pushNtimes(pl->getDynastyDeck() , j , GIFT_N_FAVOUR , NO_SOLO , &i, cardTxtVecPtr );
       else if (j->first == "PLAIN")
-        pushNtimes(pl->getDynastyDeck() , j , PLAIN , NO_PLAIN , &i );
+        pushNtimes(pl->getDynastyDeck() , j , PLAIN , NO_PLAIN , &i, cardTxtVecPtr );
       else if (j->first == "FARMS")
-        pushNtimes(pl->getDynastyDeck() , j , FARMLAND , NO_FARMS , &i );
+        pushNtimes(pl->getDynastyDeck() , j , FARMLAND , NO_FARMS , &i, cardTxtVecPtr );
       else if (j->first == "MINE")
-        pushNtimes(pl->getDynastyDeck() , j , MINE , NO_MINE , &i );
+        pushNtimes(pl->getDynastyDeck() , j , MINE , NO_MINE , &i, cardTxtVecPtr );
       else if (j->first == "GOLD_MINE")
-        pushNtimes(pl->getDynastyDeck() , j , GOLD_MINE , NO_GOLD_MINE , &i );
+        pushNtimes(pl->getDynastyDeck() , j , GOLD_MINE , NO_GOLD_MINE , &i, cardTxtVecPtr );
       else if (j->first == "CRYSTAL_MINE")
-        pushNtimes(pl->getDynastyDeck() , j , CRYSTAL_MINE , NO_CRYSTAL_MINE , &i );
+        pushNtimes(pl->getDynastyDeck() , j , CRYSTAL_MINE , NO_CRYSTAL_MINE , &i, cardTxtVecPtr );
       else if (j->first == "STRONGHOLD") {
         StrongHoldPtr newStrH = std::make_shared<StrongHold>(j->second[0] , j->second[1] , j->first ,j->second[2]);
         pl->setStrongHold(newStrH);
