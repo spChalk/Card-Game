@@ -20,11 +20,11 @@ void pushNtimes(std::shared_ptr < std::queue< std::shared_ptr < D > > > deck , s
     }
     else if (j->second.size() == 2) {  // Holding
         if (j->first == "MINE")
-          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < Mine >()));  
+          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < Mine >(j->first , j->second[0] , j->second[1])));  
         else if (j->first == "GOLD_MINE")
-          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < GoldMine >()));
+          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < GoldMine >(j->first , j->second[0] , j->second[1])));
         else if (j->first == "CRYSTAL_MINE")
-          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < CrystalMine >()));    
+          deck->push (std::dynamic_pointer_cast<D>(std::make_shared < CrystalMine >(j->first , j->second[0] , j->second[1])));    
         else 
           deck->push (std::dynamic_pointer_cast<D>(std::make_shared < Holding >(j->first , j->second[0] , j->second[1] , (const enum HoldingType)type)));
     }
