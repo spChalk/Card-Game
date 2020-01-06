@@ -127,9 +127,9 @@ void Holding::attachToPlayer (PlayerPtr pl) {
 
 /* ========================================================================= */
 
-StrongHold::StrongHold() 
-: Holding("StrongHold" , 0 , 5 , STRONGHOLD), 
-  initHonor(5), 
-  initDefence(5)
+StrongHold::StrongHold(const size_t & initHonour , const size_t & initDefence , const std::string & name , const size_t & harvestValue , const size_t & cost ) 
+: Holding(name , cost , harvestValue , STRONGHOLD), 
+  initHonor(initHonour), 
+  initDefence(initDefence)
   { setRevealed(); } 
 /* ========================================================================= */

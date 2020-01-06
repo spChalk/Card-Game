@@ -118,6 +118,10 @@ void deckBuilder (std::shared_ptr<Player> pl , size_t maxGreenCards , size_t max
         pushNtimes(pl->getDynastyDeck() , j , GOLD_MINE , NO_GOLD_MINE , &i );
       else if (j->first == "CRYSTAL_MINE")
         pushNtimes(pl->getDynastyDeck() , j , CRYSTAL_MINE , NO_CRYSTAL_MINE , &i );
+      else if (j->first == "STRONGHOLD") {
+        StrongHoldPtr newStrH = std::make_shared<StrongHold>(j->second[0] , j->second[1] , j->first ,j->second[2]);
+        pl->setStrongHold(newStrH);
+      }
 
     }
   }

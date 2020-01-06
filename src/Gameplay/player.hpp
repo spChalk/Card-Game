@@ -36,7 +36,7 @@ class Player
 
   StrongHoldPtr strongHold;
 
-  const size_t honor;
+  size_t honor;
   
   size_t activeProvinces;
 
@@ -75,6 +75,7 @@ public:
 
   void setFateDeck   (FateDeckPtr    fDeck) { fateDeck    = fDeck; }
   void setDynastyDeck(DynastyDeckPtr dDeck) { dynastyDeck = dDeck; }
+  void setStrongHold (StrongHoldPtr strH) { strongHold = strH;  honor = strH->getInitHonor(); }
 
   void print()              const;
   void printHoldings()      const;

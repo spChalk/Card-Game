@@ -1,4 +1,4 @@
-
+#include <fstream>
 #include "basicHeader.hpp"
 #include "player.hpp"
 
@@ -13,8 +13,8 @@ Province::Province(BlackCardPtr blackCard)
 
 Player::Player(const std::string & userName )
 : userName(userName) , 
-  strongHold(std::make_shared< StrongHold >()), 
-  honor(strongHold->getInitHonor()), 
+  strongHold(nullptr),       
+  honor(0), 
   activeProvinces(0), 
   fateDeck(std::make_shared < std::queue<std::shared_ptr <GreenCard > > >()) , 
   dynastyDeck(std::make_shared< std::queue<std::shared_ptr <BlackCard > > >()) , 

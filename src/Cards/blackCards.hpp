@@ -178,7 +178,7 @@ class StrongHold : public Holding
 /*  const size_t initMoney; == harvest apo base class */
 public:
     
-  StrongHold();
+  StrongHold(const size_t & initHonour , const size_t & initDefence , const std::string & name = "STRONGHOLD" , const size_t & harvestValue = 5 , const size_t & cost = 0 );
 
   size_t getInitHonor() const { return initHonor; }
   size_t getInitDEF()   const { return initDefence; }
