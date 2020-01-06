@@ -1,6 +1,7 @@
 # This is the Makefile of cardGame
 
 MODULES = ./src
+GAME_INFO = ./files
 
 CXX = g++
 

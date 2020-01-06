@@ -1,6 +1,7 @@
 # This is the Makefile of Modules 
 
-CXXFLAGS+= -I$(MODULES)
+CXXFLAGS+= -I$(MODULES) -I$(GAME_INFO)
+
 
 OBJS += $(MODULES)/prints.o
 
