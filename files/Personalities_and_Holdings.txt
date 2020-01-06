@@ -51,3 +51,8 @@ Harvest : 5
 CRYSTAL_MINE
 Cost    : 12
 Harvest : 6
+
+STRONGHOLD
+Starting Honour: 5
+InitialDefense : 5
+Harvest : 5
