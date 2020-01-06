@@ -70,6 +70,6 @@ typedef std::shared_ptr < std::list <FollowerPtr> > FollowerListPtr;
 // 
 #include "templateFunction.hpp"
 
-void printF (const std::string & s , const uint16_t & colour = 37, const uint16_t & format = 0 );
+void printF (const std::string & s , bool printEndl , const uint16_t & colour = 37, const uint16_t & format = 0 );
 
 #endif
