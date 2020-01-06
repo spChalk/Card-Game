@@ -5,7 +5,7 @@ GAME_INFO = ./files
 
 CXX = g++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++11
+CXXFLAGS = -Wall -Wextra -std=c++11
 
 PROGRAM = cardGame
 
