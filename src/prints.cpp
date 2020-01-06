@@ -51,13 +51,13 @@ void GreenCard::print() const
   printF ("| " , 0 , GRN); cout << "Min Honor: " << minHonor << endl;
   printF ("| " , 0 , GRN); cout << "Effect Bonus: " << effectBonus << endl;
   printF ("| " , 0 , GRN); cout << "Effect Cost : " <<effectCost  << endl;
-  printF ("| " , 0 , GRN); cout << "Card Text: " << cardText << endl;
 }
 /* ========================================================================= */
 
 void Follower::print() const
 {
   this->GreenCard::print();
+  printF ("| " , 0 , GRN); cout << "Card Text: " << cardText << endl;
   printF ("\\____________________________/" , 1 , GRN);
   cout << endl;
 }
@@ -67,6 +67,7 @@ void Item::print() const
 {
   this->GreenCard::print();
   printF("| " , 0 , GRN); cout << "Durability: " << durability << endl;
+  printF ("| " , 0 , GRN); cout << "Card Text: " << cardText << endl;
   printF ("\\____________________________/" , 1 , GRN);
   cout << endl;
 }
