@@ -18,7 +18,7 @@ namespace // namespace_start
 #define ATTACK 0
 #define DEFEND 1
 
-uint16_t ptsDiff;
+int32_t ptsDiff;
   
 PlayerPtr player;
 PlayerPtr enemy;
@@ -34,8 +34,8 @@ ProvincePtr chooseProvince(PlayerPtr player);
 
 int chooseAction(void);
 
-uint16_t calcTotalATK(ArmyPtr battleArmy);
-uint16_t calcTotalDEF(ArmyPtr battleArmy);
+int32_t calcTotalATK(ArmyPtr battleArmy);
+int32_t calcTotalDEF(ArmyPtr battleArmy);
 
 void chooseArmy(PlayerPtr player, ArmyPtr battleArmy);
 void provinceDestroyed(ProvincePtr prov);
@@ -173,9 +173,9 @@ appearance, to recruit the Personality for the Battle!" << endl;
 
 /* ========================================================================= */
 
-uint16_t calcTotalATK(ArmyPtr battleArmy)
+int32_t calcTotalATK(ArmyPtr battleArmy)
 {
-  uint16_t totalATK = 0;
+  int32_t totalATK = 0;
 
   for (std::shared_ptr< Personality > i : *battleArmy) // sum ATK of all personalities -> sum ATK of all their flollowers + items
   {
@@ -193,9 +193,9 @@ uint16_t calcTotalATK(ArmyPtr battleArmy)
 
 /* ========================================================================= */
 
-uint16_t calcTotalDEF(ArmyPtr battleArmy)
+int32_t calcTotalDEF(ArmyPtr battleArmy)
 {
-  uint16_t totalDEF = 0;
+  int32_t totalDEF = 0;
 
   for (auto i : *battleArmy) // sum DEF of all personalities -> sum DEF of all their flollowers + items
   {
@@ -310,8 +310,6 @@ void attackerWins()
   for (auto i : *defArmy) i->die(); // todo: cleanup dead from their lists
   cout << "Defender's army is destroyed." << endl;
 
-  //uint16_t ptsDiff = attPoints - defPoints;
-
   cout << "Attacker's army has experienced heavy casualties." << endl; 
   verifyCasualties(attArmy, ATTACK);
 }
@@ -325,8 +323,6 @@ void defenderWins()
   for (auto i : *attArmy) i->die(); // todo: cleanup dead from their lists
   cout << "Attacker's army is destroyed." << endl;
 
-  // uint16_t ptsDiff = attPoints - defPoints;
-
   cout << "Defender's army has experienced heavy casualties." << endl; 
   verifyCasualties(attArmy, DEFEND);
 }
@@ -334,8 +330,8 @@ void defenderWins()
 
 void battle(ProvincePtr prov)
 {
-  uint16_t attPoints = calcTotalATK(attArmy);
-  uint16_t defPoints = calcTotalDEF(defArmy);// + enemy->getStrongHold()->getInitDEF(); // todo: verify @lists
+  int32_t attPoints = calcTotalATK(attArmy);
+  int32_t defPoints = calcTotalDEF(defArmy);// + enemy->getStrongHold()->getInitDEF(); // todo: verify @lists
 
   cout << "Attacker's ARMY strength is: " << attPoints << endl;
   cout << "Defender's ARMY strength is: " << defPoints << endl;
