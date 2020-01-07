@@ -15,8 +15,8 @@ Player::Player(const std::string & userName )
   strongHold(nullptr),       
   honor(0), 
   activeProvinces(0), 
-  fateDeck(std::make_shared < std::queue<std::shared_ptr <GreenCard > > >()) , 
-  dynastyDeck(std::make_shared< std::queue<std::shared_ptr <BlackCard > > >()) , 
+  fateDeck(std::make_shared < std::deque<std::shared_ptr <GreenCard > > >()) , 
+  dynastyDeck(std::make_shared< std::deque<std::shared_ptr <BlackCard > > >()) , 
   hand(std::make_shared< std::list<std::shared_ptr <GreenCard > > >()) , 
   army(std::make_shared< std::list<std::shared_ptr <Personality > > >()) , 
   holdings(std::make_shared< std::list<std::shared_ptr <Holding > > >()) , 
@@ -80,7 +80,7 @@ void Player::cleanup()
 
 BlackCardPtr Player::drawBlackCard(void) { // TODO : assert if empty
   BlackCardPtr tmp = dynastyDeck->front();
-  dynastyDeck->pop();
+  dynastyDeck->pop_front();
   return tmp;
 }
 
@@ -88,7 +88,7 @@ BlackCardPtr Player::drawBlackCard(void) { // TODO : assert if empty
 
 GreenCardPtr Player::drawFateCard(void) { // TODO : assert if empty
   GreenCardPtr tmp = fateDeck->front();
-  fateDeck->pop();
+  fateDeck->pop_front();
   return tmp;
 }
 /* ========================================================================= */

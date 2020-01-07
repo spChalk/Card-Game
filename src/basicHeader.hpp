@@ -4,9 +4,9 @@
 
 /* Standard headers */
 #include <cstdint> // uint16_t
+#include <deque>
 #include <list>
 #include <memory>  // smart pointers
-#include <queue>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -46,8 +46,8 @@ typedef std::shared_ptr <Holding>     HoldingPtr;
 typedef std::shared_ptr <Province>    ProvincePtr;
 typedef std::shared_ptr <Personality> PersonalityPtr;
 
-typedef std::shared_ptr < std::queue <GreenCardPtr > > FateDeckPtr;
-typedef std::shared_ptr < std::queue <BlackCardPtr > > DynastyDeckPtr;
+typedef std::shared_ptr < std::deque <GreenCardPtr > > FateDeckPtr;
+typedef std::shared_ptr < std::deque <BlackCardPtr > > DynastyDeckPtr;
 
 typedef std::shared_ptr < std::list <PlayerPtr> >      PlayerListPtr;
 typedef std::shared_ptr < std::list <PersonalityPtr> > ArmyPtr;
