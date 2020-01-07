@@ -131,5 +131,8 @@ StrongHold::StrongHold(const uint16_t & initHonour , const uint16_t & initDefenc
 : Holding(name , cost , harvestValue , STRONGHOLD), 
   initHonor(initHonour), 
   initDefence(initDefence)
-  { setRevealed(); } 
+  { 
+    setRevealed();  /* Stronghold is immediately visible */
+    setUnTapped();  /* Stronghold can be immediately used for purchases */
+  } 
 /* ========================================================================= */
