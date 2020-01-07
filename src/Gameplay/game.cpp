@@ -1,16 +1,15 @@
 /* game.cpp */
-#include <algorithm> // std::random_shuffle
-#include <cassert>   // ??????
-#include <cctype>    // ??????
-#include <ctime>     // std::time
+#include <algorithm> /* std::random_shuffle */
+#include <cctype>    /* isdigit */
+#include <ctime>     /* std::time */
 #include <iostream>
-#include <fstream>   // std::ifstream
-#include <memory>    // smart pointers
+#include <fstream>   /* std::ifstream */
+#include <memory>    /* smart pointers */
 #include <unordered_map>
 #include <vector>
 
 #include "basicHeader.hpp"
-#include "rules.hpp" // PERS_HOLD_TXT_PATH, FLLW_ITEM_TXT_PATH
+#include "rules.hpp" /* PERS_HOLD_TXT_PATH , FLLW_ITEM_TXT_PATH */
 
 #define CARD_TXT_PATH "./src/Cards/proverbs.txt"
 
@@ -20,9 +19,9 @@ using std::endl;
 namespace {  // namespace_start
 
 /* ========================================================================= */
-// Finds and returns <uint16_t> number from a string
-// Works for a single number (otherwise it'll return all numbers as a single one)
-// If there's no number , -1 (uint16_t max) is returned 
+/* Finds and returns <uint16_t> number from a string.
+  Works for a single number (otherwise it will return all numbers included 
+  in the string as a single one) . If there's no number , -1 (uint16_t max) is returned */
 uint16_t extractNumber(const std::string& str) {
   std::string newStr;
   for (char i : str) 
@@ -31,20 +30,22 @@ uint16_t extractNumber(const std::string& str) {
   return (newStr.size() != 0) ? std::stoi(newStr) : -1 ; 
 }
 
+/* Reads a given file and returns an unordered map (Key type: string , Mapped Object : uint16_t vector) 
+  consisting of its info */
 std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > readAndMap (const std::string & fileName ) {
   std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > uMap = std::make_shared < std::unordered_map<std::string , std::vector<uint16_t> > >();
   std::ifstream newFile (fileName);
   std::string name , temp;
   uint16_t num;
 
-  if (newFile.is_open()) {
+  if (newFile.is_open()) {  /* Read the file */
     
-    while ( getline (newFile , name) ) {
-      num = extractNumber(name);
-      if (num != (uint16_t)-1 ) 
+    while ( getline (newFile , name) ) {  /* Get every line */
+      num = extractNumber(name);          /* Extract the line's number */
+      if (num != (uint16_t)-1 )           /* If there's a number , insert into map's vector */
         (*uMap)[temp].push_back(num);  
       else 
-        temp = name;
+        temp = name;                      /* Else , save it as key value */
       }
     newFile.close();
   } else {
@@ -55,7 +56,7 @@ std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > rea
 }
 
 /* ========================================================================= */
-std::shared_ptr < std::vector< std::string >> cardTxtVecPtr;
+std::shared_ptr < std::vector< std::string >> cardTxtVecPtr;  /* Vector of strings */
 std::ifstream *cardtxt;
 
 void readCardTxt()
@@ -66,14 +67,14 @@ void readCardTxt()
   {
     for (uint16_t i = 0; i != DECK_SIZE; ++i)
     {
-      if (cardtxt->eof()) // if we reached the end of the file
-      {                   // rewing to the start
+      if (cardtxt->eof())  /* If we reached the end of the file */
+      {                    /* rewind to the start */
         cardtxt->clear();
         cardtxt->seekg(0);
       }
 
-      getline(*cardtxt, txt);
-      (*cardTxtVecPtr)[i] = txt;
+      getline(*cardtxt, txt); /* Insert the text into vector */
+      (*cardTxtVecPtr)[i] = txt;  
     }
   }
   else
@@ -87,13 +88,14 @@ void readCardTxt()
 
 
 void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t maxBlackCards) {
-  std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > bMap = readAndMap(PERS_HOLD_TXT_PATH); // defined in rules.hpp
+  std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > bMap = readAndMap(PERS_HOLD_TXT_PATH);
   std::shared_ptr < std::unordered_map<std::string , std::vector<uint16_t> > > gMap = readAndMap(FLLW_ITEM_TXT_PATH);
-  
+  /* bMap contains all BlackCard info */
+  /* gMap contains all GreenCard info */
   readCardTxt();
 
   for (uint16_t i = 0; i < maxGreenCards; i++) {
-    
+    /* Based on map's key values , form player's Fate Deck */
     for (auto j = gMap->begin() ; j != gMap->end() ; j++ ) {
 
       if (j->first == "FOOTSOLDIER")
@@ -123,7 +125,7 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
   }
   
   std::random_shuffle(pl->getFateDeck()->begin(), pl->getFateDeck()->end());
-
+  /* Based on map's key values , form player's Dynasty Deck */
   for (uint16_t i = 0; i < maxBlackCards; i++) {
     
     for (auto j = bMap->begin() ; j != bMap->end() ; j++ ) {
@@ -164,7 +166,7 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
 }; // namespace_end
 
 /* ========================================================================= */
-
+/* Initialization of Game Board */
 void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
   
   std::ifstream file(CARD_TXT_PATH);
@@ -173,21 +175,21 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
 
   std::srand(std::time(0));
 
-  for (uint16_t i = 0 ; i < numPlayers ; i++) {
+  for (uint16_t i = 0 ; i < numPlayers ; i++) {  /* For every player */
 
     cout << "> Give username for player " << i+1 << "!\nUsername: ";
     std::string username;
     std::getline(std::cin, username);
     cout << endl;
-          // Make player (assign name , StrongHold and honor(via StrongHold))
+          /* Make player */
     PlayerPtr newPl = std::make_shared< Player >(username);
-          // Make fateDeck and dynastyDeck
+          /* Make player's FateDeck , DynastyDeck and StrongHold */
     deckBuilder(newPl , DECK_SIZE , DECK_SIZE);
-    
-    for (uint16_t i = 0; i < MAX_HAND_CARDS / 2 ; i++) {           // As einai oi arxikes kartes sto xeri ises me to miso twn MAX , dunno
+          /* Form player's hand */
+    for (uint16_t i = 0; i < MAX_HAND_CARDS / 2 ; i++) {           
       newPl->getHand()->push_back(newPl->drawFateCard());
     }
-    
+          /* Form player's provinces */
     for (uint16_t i = 0; i < 4; i++) {
       ProvincePtr newPr = std::make_shared< Province >(newPl->drawBlackCard());
       newPl->getProvinces()->push_back(newPr);
@@ -203,7 +205,7 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
 namespace // namespace_continue
 {
 
-bool playerCompare(PlayerPtr p1, PlayerPtr p2) { // make sure this is descending order
+bool playerCompare(PlayerPtr p1, PlayerPtr p2) {  /* Make sure this is descending order */
   return (p1->getHonor() > p2->getHonor());
 }
 
@@ -236,8 +238,7 @@ uint16_t getNumOfPlayers()
 
 /* ========================================================================= */
 
-/* Plays the game. Terminates only when there's a winner *
- * TODO: Maybe add some violent termination feature ?    */
+/* Plays the game. Terminates only when there's a winner */
 void Game::gameplay(void)
 {
   //std::sort(players->begin(), players->end(), playerCompare); // sort by honor // too lazy to PQ it
@@ -245,17 +246,17 @@ void Game::gameplay(void)
 
   uint16_t win = 0;
 
-  while(win == 0) // while no winner is found
+  while(win == 0) /* While no winner is found */
   {
-    for (auto i : *players) // c-like != python...
+    for (auto i : *players)
     {
       cout << "Player's \'" << i->getUserName() << "\' turn!" << endl;
-
+      /* Play all the phases */
       startingPhase(i);
       equipmentPhase(i);
       battlePhase(i);
 
-      if ((win = checkWinningCondition()) != 0) // we have a winner
+      if ((win = checkWinningCondition()) != 0) /* We have a winner */
         break;
 
       economyPhase(i);
@@ -271,7 +272,7 @@ void Game::gameplay(void)
       if (answer == "Q") return;
     }
   }
-
+  /* Get Winner */
   PlayerPtr winner;
   for (auto i : *players)
   {
@@ -291,7 +292,7 @@ void Game::gameplay(void)
 
 Game::Game() {
 
-  players = std::make_shared< std::list <PlayerPtr> >();  // Create a new list 
+  players = std::make_shared< std::list <PlayerPtr> >();  /* Create a new Player list */ 
   
   initGameBoard(players , getNumOfPlayers());
   
@@ -303,7 +304,7 @@ Game::Game() {
 /* ========================================================================= */
 
 /* Checks whether we have a winner                  *
- * Returns his place in the list counting from 1  *
+ * Returns his place in the list counting from 1    *
  * If no winner is found, returns 0 (NO_WINNER)     */
 uint16_t Game::checkWinningCondition(void)
 {
