@@ -1,25 +1,23 @@
-/* gamePublic.cpp */
-// [Χάρης] Note: σου προτείνω να γράψεις εδώ τα public functions
-// της κλάσης Game και ξεχωριστά τα phases σου αλλά ό,τι 
-// θες γενικά
+/* game.cpp */
+#include <algorithm> // std::random_shuffle
+#include <cassert>   // ??????
+#include <cctype>    // ??????
+#include <ctime>     // std::time
 #include <iostream>
-#include <fstream>
+#include <fstream>   // std::ifstream
+#include <memory>    // smart pointers
 #include <unordered_map>
-#include <cassert>
-#include <memory>
-#include <cctype>
 #include <vector>
-// #include <limits>
 
 #include "basicHeader.hpp"
 #include "rules.hpp" // PERS_HOLD_TXT_PATH, FLLW_ITEM_TXT_PATH
 
 #define CARD_TXT_PATH "./src/Cards/proverbs.txt"
 
-using std::cout;  // an se enoxloun mporoume na ta vgaloume
+using std::cout;
 using std::endl;
 
-namespace {  // Namespace Start
+namespace {  // namespace_start
 
 /* ========================================================================= */
 // Finds and returns <uint16_t> number from a string
@@ -124,6 +122,8 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
     }
   }
   
+  std::random_shuffle(pl->getFateDeck()->begin(), pl->getFateDeck()->end());
+
   for (uint16_t i = 0; i < maxBlackCards; i++) {
     
     for (auto j = bMap->begin() ; j != bMap->end() ; j++ ) {
@@ -157,9 +157,11 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
 
     }
   }
+
+  std::random_shuffle(pl->getDynastyDeck()->begin(), pl->getDynastyDeck()->end());
 }
 
-} // NameSpace End
+}; // namespace_end
 
 /* ========================================================================= */
 
@@ -168,6 +170,8 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
   std::ifstream file(CARD_TXT_PATH);
   cardtxt = &file;
   cardTxtVecPtr = std::make_shared < std::vector< std::string >>(DECK_SIZE);
+
+  std::srand(std::time(0));
 
   for (uint16_t i = 0 ; i < numPlayers ; i++) {
 
@@ -285,8 +289,8 @@ void Game::gameplay(void)
 
 /* ========================================================================= */
 
-Game::Game() {  
-  
+Game::Game() {
+
   players = std::make_shared< std::list <PlayerPtr> >();  // Create a new list 
   
   initGameBoard(players , getNumOfPlayers());
