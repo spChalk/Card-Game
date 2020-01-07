@@ -1,5 +1,6 @@
 /* finalPhase.cpp */ // COMMENTS = OK
 #include <iostream>
+#include <string>
 
 #include "rules.hpp"  // MAX_HAND_CARDS
 #include "basicHeader.hpp"
