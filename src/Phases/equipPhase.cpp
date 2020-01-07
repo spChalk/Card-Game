@@ -1,7 +1,6 @@
-//======|| EQUIPMENT PHASE IMPL ||======
-
+/* equipPhase.cpp */ // COMMENTS = OK
 #include <iostream>
-// #include <vector>
+#include <string>
 
 #include "basicHeader.hpp"
 
@@ -15,14 +14,13 @@ void upgradeGreenCard (PlayerPtr ,      GreenCardPtr );
 bool hasEnoughMoney   (PlayerPtr ,      GreenCardPtr );
 bool hasEnoughHonor   (PersonalityPtr , GreenCardPtr );
 bool hasntReachedLimit(PersonalityPtr , GreenCardPtr );
-/* ========================================================================= */
 
+/* ========================================================================= */
+/* Player attempts to purchase an upgrade for a greencard. */
 void upgradeGreenCard(PlayerPtr player, GreenCardPtr card)
 {
-  uint16_t currMoney = player->getCurrMoney();
-  if (currMoney >= card->getEffectCost())
-  {
-    player->makePurchase(card->getEffectCost()); // TODO: interactive (makePurchase in general)
+  if (player->makePurchase(card->getEffectCost()) == true)  // Successful 
+  {                                                         // Purchase
     card->upgrade();
     cout << "The selected GreenCard has been upgraded!\nNew stats:" << endl;
     card->print();
@@ -30,10 +28,11 @@ void upgradeGreenCard(PlayerPtr player, GreenCardPtr card)
   }
   else
     cout << "Not enough money to make the purchase.\nCurrent money: "
-         << currMoney << "\nEffect cost: " << card->getEffectCost() << endl;
+         << player->getCurrMoney() << "\nEffect cost: " 
+         << card->getEffectCost()  << endl;
 }
 /* ========================================================================= */
-
+/* Check whether a player has enough money to cover a greencard's cost */
 bool hasEnoughMoney(PlayerPtr player, GreenCardPtr card)
 { 
   uint16_t currMoney = player->getCurrMoney();
@@ -45,7 +44,9 @@ bool hasEnoughMoney(PlayerPtr player, GreenCardPtr card)
   return false;
 }
 /* ========================================================================= */
-
+/* Check whether a personality has enough honor 
+ * to cover a greencard's minimum honor required for attachment
+ */
 bool hasEnoughHonor(PersonalityPtr person, GreenCardPtr card)
 { 
   if (person->getHonor() >= card->getMinHonor())
@@ -57,7 +58,9 @@ bool hasEnoughHonor(PersonalityPtr person, GreenCardPtr card)
   return false;
 }
 /* ========================================================================= */
-
+/* Check whether a personality hasn't reached the maximum number of a 
+ * specific kind of attachments (i.e. an item type) already attached to them
+ */
 bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 {
   uint16_t maxCardPerPers = card->getMaxPerPersonality();
@@ -68,13 +71,12 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
     FollowerPtr curr = std::dynamic_pointer_cast<Follower> (card);
 
     FollowerListPtr followers = person->getFollowers();
-    for (auto i : *followers)
+    for (auto i : *followers) /* Find all attachments of the same type */
     {
-
       if (i->getFollowerType() == curr->getFollowerType())
         --maxCardPerPers;
       
-      if (maxCardPerPers == 0) break;
+      if (maxCardPerPers == 0) break; /* We've reached the limit */
     }
   }
   else // cardType == ITEM
@@ -96,7 +98,7 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
     cout << "Personality is already fully equipped! \
 Can't carry more equipment of this type!\nMax equipment \
 of this type: " << card->getMaxPerPersonality() << endl;
-    return false;  
+    return false;  /* Check failed */
   }
 
   return true;
@@ -119,49 +121,49 @@ void Game::equipmentPhase (PlayerPtr player)
   player->printHand();
 
   cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
-appearance if you want to enhance the card's attributes!" << endl;
+appearance if you want to enhance the personality's attributes!" << endl;
 
-  for (auto pers : *(player->getArmy())) 
-  {
+  for (auto pers : *(player->getArmy()))
+  {                        /* Choose a personality from the army to equip */
     pers->print();
-    cout << "Equip this Personality ?\n> Your answer : ";
+    cout << "Equip this Personality?\n> Your answer : ";
     std::string answer;
     std::getline(std::cin, answer);
-    cout << answer << endl;
+    cout << endl;
 
     if (answer != "Y") continue;
 
     cout << "Cards in Hand :" << endl;
     for (auto card : *(player->getHand()))
-    {
+    {                      /* Choose a greencard from the hand to equip */
       card->print();
-      cout << endl <<"Proceed to purchase ?\n> Your answer: ";
+      cout << endl <<"Proceed to purchase?\n> Your answer: ";
       std::getline(std::cin , answer);
-      cout << answer << endl;
+      cout << endl;
 
       if (answer != "Y") continue;
 
-      //if (player->makePurchase(it->getCost()) == true && /*minHonor*/ && /* < MAX_CARDS_PER_PERS */)
+      /* Check if a purchase can be made considering specific limitations */
       if ( hasEnoughMoney(player, card) 
         && hasEnoughHonor(pers, card) 
         && hasntReachedLimit(pers, card))
       {
-        player->makePurchase(card->getCost());
+        player->makePurchase(card->getCost());  /* Make the purchase */
 
         card->attachToPersonality(pers);
         cout << "Purchase Completed ! " << endl;
     
         cout << "Do you also want to upgrade this card ?\n> Your answer: ";
         std::getline(std::cin , answer);
-        cout << answer << endl;
+        cout << endl;
 
-        if (answer == "Y") upgradeGreenCard(player, card);
+        if (answer == "Y")          /* Attempt to upgrade the greencard */
+          upgradeGreenCard(player, card);
 
         cout << "Remaining money: " << player->getCurrMoney() << endl;
       }
     }
   }
-
   cout << "Equipment Phase Ended !" << endl;
 }
 /* ========================================================================= */

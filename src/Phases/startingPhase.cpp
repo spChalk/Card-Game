@@ -1,13 +1,12 @@
-/* startingPhase.cpp */
+/* startingPhase.cpp */ // COMMENTS = OK
 #include <iostream>
-#include <queue>
 
 #include "basicHeader.hpp"
 
 using std::cout;
 using std::endl;
 
-namespace // namespace_begin
+namespace // namespace_start
 {
 
 void untapEverything(PlayerPtr);
@@ -15,11 +14,11 @@ void drawFateCard   (PlayerPtr);
 void revealProvinces(PlayerPtr);
 
 /* ========================================================================= */
-
+ /* Untap every holding/personality a player owns */
 void untapEverything(PlayerPtr player)
 {
   HoldingListPtr holdings = player->getHoldings();
-  ArmyPtr army     = player->getArmy();
+  ArmyPtr        army     = player->getArmy();
 
   for (auto i : *holdings)
     i->setUnTapped();
@@ -33,14 +32,14 @@ void untapEverything(PlayerPtr player)
 }
 
 /* ========================================================================= */
-
+/* Reveal every hidden province of a player */
 void revealProvinces(PlayerPtr player)
 {
   ProvinceListPtr provinces = player->getProvinces();
 
   for (auto i : *provinces)
   {
-    if (i->checkBroken() == false)
+    if (i->checkBroken() == false) /* If the province isn't broken */
       i->getCard()->setRevealed();
   }
 
@@ -48,7 +47,10 @@ void revealProvinces(PlayerPtr player)
 }
 
 /* ========================================================================= */
-void drawFateCard(PlayerPtr player) // take care if empty fate deck!
+/* Draw a fate card from the fate deck and place it @ the hand of the player.
+ * If the fate deck is empty, do nothing.
+ */
+void drawFateCard(PlayerPtr player)
 {
   FateDeckPtr fate = player->getFateDeck();
 

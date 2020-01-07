@@ -58,16 +58,14 @@ typedef std::shared_ptr < std::list <HoldingPtr> >     HoldingListPtr;
 typedef std::shared_ptr < std::list <ItemPtr> >     ItemListPtr;
 typedef std::shared_ptr < std::list <FollowerPtr> > FollowerListPtr;
 
-
-//temp_start
+/* Local headers */
 #include "rules.hpp"
 #include "basicCards.hpp"
 #include "greenCards.hpp"
 #include "blackCards.hpp"
 #include "player.hpp"
 #include "game.hpp"
-// end_temp
-// 
+ 
 #include "templateFunction.hpp"
 
 void printF (const std::string & s , bool printEndl , const uint16_t & colour = 37, const uint16_t & format = 0 );
