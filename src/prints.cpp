@@ -43,9 +43,9 @@ void Card::print() const
 void GreenCard::print() const
 {
   printF ("/=======  GREEN CARD  =======\\" , 1 ,GRN);
-  
-  this->Card::print();
-  
+  // [Harry] added the MAG lines cuz greencards dont care about being tapped
+  printF("| " , 0 , MAG); cout << "Name: " << name << endl;
+  printF("| " , 0 , MAG); cout << "Cost:   " << cost << endl;
   printF ("| " , 0 , GRN); cout << "ATK Bonus: " << attackBonus << endl;
   printF ("| " , 0 , GRN); cout << "DEF Bonus: " << defenceBonus << endl;
   printF ("| " , 0 , GRN); cout << "Min Honor: " << minHonor << endl;
