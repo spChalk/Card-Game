@@ -29,7 +29,7 @@ ArmyPtr defArmy;
 const std::string *attName;
 const std::string *defName;
 
-PlayerPtr chooseEnemy(PlayerPtr, PlayerListPtr players);
+PlayerPtr   chooseEnemy(PlayerPtr, PlayerListPtr players);
 ProvincePtr chooseProvince(PlayerPtr player);
 
 int chooseAction(void);
@@ -44,6 +44,7 @@ void verifyCasualties(ArmyPtr battleArmy, int side);
 void attackerWins();
 void defenderWins();
 void battle(ProvincePtr);
+void provincesCleanup(PlayerPtr);
 
 /* ========================================================================= */
 
@@ -225,6 +226,8 @@ void provinceDestroyed(ProvincePtr prov)
   cout << "Province destroyed. Remaining provinces for player \'" 
        << *defName << "\' : " << enemy->getProvincesNum() << endl;
 
+  provincesCleanup(enemy);
+
   if (enemy->getProvincesNum() == 0)
   {
     cout << ">Player \'" << *defName 
@@ -232,6 +235,21 @@ void provinceDestroyed(ProvincePtr prov)
   }
 
   for (auto i : *attArmy) i->setTapped(); // Tap attackers so they can't be used again for the round
+}
+
+/* ========================================================================= */
+
+void provincesCleanup(PlayerPtr player)
+{
+  ProvinceListPtr prov = player->getProvinces();
+
+  for (auto it = prov->begin(); it != prov->end(); )
+  {
+    if ((*it)->checkBroken() == true)
+      it = prov->erase(it);
+    else
+      ++it;
+  }
 }
 /* ========================================================================= */
 
