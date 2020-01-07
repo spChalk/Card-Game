@@ -12,8 +12,9 @@ class StrongHold;
 #include "basicCards.hpp"
 #include "greenCards.hpp"
 
-/* ========================================================================= */
+/* ========================================================================== */
 
+/* Types of Black Cards */
 enum BlackCardType
 {
   PERSONALITY, HOLDING
@@ -29,7 +30,7 @@ enum HoldingType
   MINE, GOLD_MINE, CRYSTAL_MINE, PLAIN, FARMLAND, GIFT_N_FAVOUR, STRONGHOLD 
 };
 
-//==========================================|| B L A C K  C A R D ||==========================================
+/* =========================|| B L A C K  C A R D ||========================= */
 
 class BlackCard : public Card
 {
@@ -54,19 +55,19 @@ public:
   virtual void attachToPlayer(PlayerPtr) = 0;
 };
 
-//==========================================|| P E R S O N A L I T Y ||==========================================
+/* ========================|| P E R S O N A L I T Y ||======================== */
 
 class Personality : public BlackCard
 {
   const uint16_t attack;
   const uint16_t defence;
   
-  uint16_t honor; // honor can be decreased till 0
+  uint16_t honor;  /* Honor can be decreased till 0 */
 
   bool isDead;
   
-  FollowerListPtr followers;
-  ItemListPtr     items;
+  FollowerListPtr followers;  /* List of Followers */
+  ItemListPtr     items;      /* List of Items */
 
   const enum PersonalityType type;
 
@@ -74,34 +75,35 @@ public:
     
   Personality(const std::string & name , const uint16_t & cost , const uint16_t & attack ,const uint16_t & defence , const uint16_t & honor , const enum PersonalityType );
 
-  enum PersonalityType getPersonalityType() const { return type; }
-
   uint16_t getATK() const { return attack;  }
   uint16_t getDEF() const { return defence; }
   uint16_t getHonor() const { return honor; }
+  FollowerListPtr getFollowers() const { return followers; }
+  ItemListPtr     getItems()     const { return items; }
+  enum PersonalityType getPersonalityType() const { return type; }
 
-  void die() { isDead = true; } // this is nice
-  void kys() { isDead = true; } // this is nicer
+  void die() { isDead = true; }  // this is nice [Spiros : Vgalta opote niwseis etoimos :D ]
+  
+  void kys() { isDead = true; }  // this is nicer
+  
   void decreaseHonor() { --honor; }
 
   bool checkIfDead() const { return isDead; }
 
-  FollowerListPtr getFollowers() const { return followers; }
-  ItemListPtr     getItems()     const { return items; }
-
   void print() const;
+
   void attachToPlayer(PlayerPtr);
 
-  void cleanup(); // removes detached items + followers
+  void cleanup();  /* Removes detached Items & Followers */
 };
 
-//==========================================|| H O L D I N G ||==========================================
+/* =========================|| H O L D I N G ||========================= */
 
 class Holding : public BlackCard
 {
 protected:
 
-  uint16_t harvestValue; // Not const , because during Mine linkage it grows 
+  uint16_t harvestValue;  
 
   const enum HoldingType type;
 
@@ -110,17 +112,16 @@ public:
   Holding(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue , const enum HoldingType type);
 
   enum HoldingType getHoldingType() const { return type; }
-
   uint16_t getHarvestValue() const { return harvestValue; }
 
   void increaseHarvestValueBy (uint16_t points) { harvestValue += points; }
 
-  virtual void print() const; // isws den xreiazontai prints sta mines :shrug: (alla mallon xreiazontai)
+  virtual void print() const;
 
   void attachToPlayer(PlayerPtr);
 };
 
-//==========================================|| M I N E ||==========================================
+/* ============================|| M I N E ||============================ */
 
 class Mine : public Holding
 {
@@ -130,15 +131,16 @@ public:
     
   Mine(const std::string & name = "MINE", const uint16_t & cost = 5 , const uint16_t & harvestValue = 3);
 
+  GoldMinePtr getUpperHolding (void) const { return upperHolding ; }
+
   void setUpperHolding (GoldMinePtr gMine) { upperHolding = gMine ; }
+
   void attachToPlayer(PlayerPtr);
   void print() const;
-
-  GoldMinePtr getUpperHolding (void) const { return upperHolding ; }
 };
 
-//==========================================|| C R Y S T A L  M I N E ||==========================================
-// ligo malakia pou exw mia oloidia class me allo onoma enos member alla nta3 ugeia
+/* =====================|| C R Y S T A L  M I N E ||===================== */
+
 class CrystalMine : public Holding
 {
   GoldMinePtr subHolding;
@@ -147,42 +149,43 @@ public:
     
   CrystalMine(const std::string & name = "CRYSTAL_MINE" , const uint16_t & cost = 12 , const uint16_t & harvestValue = 6);
 
+  GoldMinePtr getSubHolding (void) const { return subHolding ; }
+
   void setSubHolding (GoldMinePtr gMine) { subHolding = gMine ; }
+  
   void attachToPlayer(PlayerPtr);
   void print() const;
-
-  GoldMinePtr getSubHolding (void) const { return subHolding ; }
 };
 
-//==========================================|| G O L D  M I N E ||==========================================
+/* ========================|| G O L D  M I N E ||======================== */
 
 class GoldMine : public Holding
 {
   CrystalMinePtr upperHolding;
+
   MinePtr        subHolding;
 
 public:
     
   GoldMine(const std::string & name = "GOLD_MINE", const uint16_t & cost = 7 , const uint16_t & harvestValue = 5);  
 
-  void setUpperHolding (CrystalMinePtr crM) { upperHolding = crM ; }
-  void setSubHolding (MinePtr M)            { subHolding = M ; }
-  void attachToPlayer(PlayerPtr);
-  void print() const;
-
   CrystalMinePtr getUpperHolding() const { return upperHolding ; } 
   MinePtr        getSubHolding()   const { return subHolding ; }
 
-
+  void setUpperHolding (CrystalMinePtr crM) { upperHolding = crM ; }
+  void setSubHolding (MinePtr M)            { subHolding = M ; }
+  
+  void attachToPlayer(PlayerPtr);
+  void print() const;
 };
 
-//==========================================|| S T R O N G H O L D ||==========================================
+/* ======================|| S T R O N G H O L D ||====================== */
 
 class StrongHold : public Holding
 {
   const uint16_t initHonor;
   const uint16_t initDefence;
-/*  const uint16_t initMoney; == harvest apo base class */
+
 public:
     
   StrongHold(const uint16_t & initHonour , const uint16_t & initDefence , const std::string & name = "STRONGHOLD" , const uint16_t & harvestValue = 5 , const uint16_t & cost = 0 );
@@ -193,5 +196,5 @@ public:
   void print() const;
 };
 
-
 #endif
+/* ======================|| E N D  O F  F I L E ||====================== */

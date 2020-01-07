@@ -1,4 +1,4 @@
-// TODO: make it clean
+// TODO: make it clean [Poso pio clean :p]
 #ifndef CARDS_0
 #define CARDS_0
 
@@ -9,6 +9,7 @@ class BlackCard;
 #include "basicHeader.hpp"
 
 /* ======================================================== */
+
 class Card
 {
 protected:
@@ -23,18 +24,17 @@ public:
 
   Card(const std::string & name , const uint16_t & cost );
   virtual ~Card() {} 
-
+  
   const std::string getName (void) const { return name; }
-
-  bool checkTapped() const { return isTapped; }
-
+  uint16_t getCost(void) const { return cost; }
+  
   void setTapped()   { isTapped = true;  }
   void setUnTapped() { isTapped = false; }
 
-  uint16_t getCost(void) const { return cost; }
+  bool checkTapped() const { return isTapped; }
 
   virtual void print() const = 0;
 };
-/* ======================================================== */
 
 #endif
+/* =================| E N D  O F  F I L E |================= */
