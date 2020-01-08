@@ -39,8 +39,6 @@ bool hasEnoughMoney(PlayerPtr player, GreenCardPtr card)
   if (currMoney >= card->getCost()) 
     return true;
 
-  cout << "Not enough money to buy this card!\nMoney available: "
-       << currMoney << "\nCard Cost: " << card->getCost() << endl;
   return false;
 }
 /* ========================================================================= */
@@ -52,9 +50,6 @@ bool hasEnoughHonor(PersonalityPtr person, GreenCardPtr card)
   if (person->getHonor() >= card->getMinHonor())
     return true;
 
-  cout << "Not enough honor to buy this card!\nPersonality's current honor: "
-       << person->getHonor() << "\nCard minimum honor: " << card->getMinHonor()
-       << endl;
   return false;
 }
 /* ========================================================================= */
@@ -94,12 +89,7 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
   }
 
   if (maxCardPerPers == 0)
-  {
-    cout << "Personality is already fully equipped! \
-Can't carry more equipment of this type!\nMax equipment \
-of this type: " << card->getMaxPerPersonality() << endl;
     return false;  /* Check failed */
-  }
 
   return true;
 }
@@ -133,26 +123,31 @@ appearance if you want to enhance the personality's attributes!" << endl;
 
     if (answer != "Y") continue;
 
-    cout << "Cards in Hand :" << endl;
+    cout << "Printing Cards that are available for purchase in Hand :" << endl;
     for (auto card : *(player->getHand()))
     {                      /* Choose a greencard from the hand to equip */
-      card->print();
-      cout << endl <<"Proceed to purchase?\n> Your answer: ";
-      std::getline(std::cin , answer);
-      cout << endl;
-
-      if (answer != "Y") continue;
-
       /* Check if a purchase can be made considering specific limitations */
       if ( hasEnoughMoney(player, card) 
         && hasEnoughHonor(pers, card) 
         && hasntReachedLimit(pers, card))
       {
+        card->print();
+        cout << "Current balance: " << player->getCurrMoney() << endl;
+
+        cout << endl <<"Proceed to purchase?\n> Your answer: ";
+        std::getline(std::cin , answer);
+        cout << endl;
+
+        if (answer != "Y") continue;
+
         player->makePurchase(card->getCost());  /* Make the purchase */
 
         card->attachToPersonality(pers);
         cout << "Purchase Completed ! " << endl;
     
+        if (player->getCurrMoney() < card->getEffectCost()) continue;
+        
+        cout << "Current balance: " << player->getCurrMoney() << endl;
         cout << "Do you also want to upgrade this card ?\n> Your answer: ";
         std::getline(std::cin , answer);
         cout << endl;

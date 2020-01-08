@@ -28,8 +28,15 @@ appearance, to proceed to purchase. " << endl;
   {
     if (i->checkBroken() == false && i->getCard()->checkRevealed() == true)
     {
+      if (pl->getCurrMoney() == 0) {
+        cout << "No money left !" << endl;
+        return;
+      }
+      else if (pl->getCurrMoney() < i->getCard()->getCost()) 
+      continue; 
+      else  cout << "Current balance: " << pl->getCurrMoney() << endl;
+
       i->print();                     /* If it is revealed and not broken */
-      cout << "Current balance:" << pl->getCurrMoney() << endl;
       cout << "\nProceed to purchase ?\n> Your answer: " ;
       std::string answer;
       std::getline(std::cin, answer);
