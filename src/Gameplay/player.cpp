@@ -43,6 +43,8 @@ uint16_t Player::getCurrMoney() const
 
 bool Player::makePurchase (uint16_t cost) {
   
+  if (cost == 0) return true;
+
   if (getCurrMoney() < cost)
     return false;     // If the required cost is more than player's budget , exit 
     
