@@ -99,27 +99,27 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
     for (auto j = gMap->begin() ; j != gMap->end() ; j++ ) {
 
       if (j->first == "FOOTSOLDIER")
-        pushNtimes(pl->getFateDeck() , j , FOOTSOLDIER , NO_FOOTSOLDIER , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , FOOTSOLDIER , NO_FOOTSOLDIER , i, MAX_FOOTSOLDIER_PER_PERS ,cardTxtVecPtr);
       else if (j->first == "ARCHER")
-        pushNtimes(pl->getFateDeck() , j , ARCHER , NO_ARCHER , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , ARCHER , NO_ARCHER , i , MAX_ARCHER_PER_PERS ,cardTxtVecPtr);
       else if (j->first == "SIEGER")
-        pushNtimes(pl->getFateDeck() , j , SIEGER , NO_SIEGER , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , SIEGER , NO_SIEGER , i , MAX_SIEGER_PER_PERS , cardTxtVecPtr);
       else if (j->first == "CAVALRY")
-        pushNtimes(pl->getFateDeck() , j , CAVALRY , NO_CAVALRY , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , CAVALRY , NO_CAVALRY , i , MAX_CAVALRY_PER_PERS , cardTxtVecPtr);
       else if (j->first == "NAVAL")
-        pushNtimes(pl->getFateDeck() , j , ATAKEBUNE , NO_NAVAL , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , ATAKEBUNE , NO_NAVAL , i , MAX_NAVAL_PER_PERS , cardTxtVecPtr);
       else if (j->first == "BUSHIDO")
-        pushNtimes(pl->getFateDeck() , j , BUSHIDO , NO_BUSHIDO , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , BUSHIDO , NO_BUSHIDO , i , MAX_BUSHIDO_PER_PERS , cardTxtVecPtr);
       else if (j->first == "KATANA")
-        pushNtimes(pl->getFateDeck() , j , KATANA , NO_KATANA , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , KATANA , NO_KATANA , i , MAX_KATANA_PER_PERS , cardTxtVecPtr);
       else if (j->first == "SPEAR")
-        pushNtimes(pl->getFateDeck() , j , SPEAR , NO_SPEAR , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , SPEAR , NO_SPEAR , i , MAX_SPEAR_PER_PERS , cardTxtVecPtr);
       else if (j->first == "BOW")
-        pushNtimes(pl->getFateDeck() , j , BOW , NO_BOW , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , BOW , NO_BOW , i , MAX_BOW_PER_PERS , cardTxtVecPtr);
       else if (j->first == "NINJATO")
-        pushNtimes(pl->getFateDeck() , j , NINJATO , NO_NINJATO , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , NINJATO , NO_NINJATO , i , MAX_NINJATO_PER_PERS , cardTxtVecPtr);
       else if (j->first == "WAKIZASHI")
-        pushNtimes(pl->getFateDeck() , j , WAKIZASHI , NO_WAKIZASHI , i, cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , WAKIZASHI , NO_WAKIZASHI , i , MAX_WAKIZASHI_PER_PERS , cardTxtVecPtr);
   
     }
   }
