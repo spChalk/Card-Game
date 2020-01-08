@@ -29,7 +29,7 @@ appearance, to proceed to purchase. " << endl;
     if (i->checkBroken() == false && i->getCard()->checkRevealed() == true)
     {
       i->print();                     /* If it is revealed and not broken */
-
+      cout << "Current balance:" << pl->getCurrMoney() << endl;
       cout << "\nProceed to purchase ?\n> Your answer: " ;
       std::string answer;
       std::getline(std::cin, answer);
