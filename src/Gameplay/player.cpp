@@ -48,7 +48,10 @@ bool Player::makePurchase (uint16_t cost) {
     
   // Main part
   if (getStrongHold()->checkTapped() == false)
+  {
+    getStrongHold()->setTapped();
     cost -= getStrongHold()->getHarvestValue();
+  }
 
   for (auto it = holdings->begin() ; cost > 0 && it != holdings->end() ; it++) {
 
