@@ -104,10 +104,10 @@ void Game::equipmentPhase (PlayerPtr player)
 {
   cout << "Equipment Phase Started !" << endl;
 
-  cout << "Printing Army!" << endl;
+  cout << "Printing "<< player->getUserName() <<"'s Army!" << endl;
   player->printArmy();
   
-  cout << "Printing Hand!" << endl;
+  cout << "Printing "<< player->getUserName() <<"'s Hand!" << endl;
   player->printHand();
 
   cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
@@ -132,7 +132,7 @@ appearance if you want to enhance the personality's attributes!" << endl;
         && hasntReachedLimit(pers, card))
       {
         card->print();
-        cout << "Current balance: " << player->getCurrMoney() << endl;
+        cout << player->getUserName() <<"'s Current balance: " << player->getCurrMoney() << endl;
 
         cout << endl <<"Proceed to purchase?\n> Your answer: ";
         std::getline(std::cin , answer);
@@ -155,7 +155,7 @@ appearance if you want to enhance the personality's attributes!" << endl;
         if (answer == "Y")          /* Attempt to upgrade the greencard */
           upgradeGreenCard(player, card);
 
-        cout << "Remaining money: " << player->getCurrMoney() << endl;
+        cout << player->getUserName() <<"'s Remaining money: " << player->getCurrMoney() << endl;
       }
     }
   }

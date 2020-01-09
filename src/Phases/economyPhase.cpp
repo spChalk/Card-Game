@@ -17,7 +17,7 @@ void Game::economyPhase(PlayerPtr pl) {
   cout << "Player : " << pl->getUserName() 
        << " can now buy Provinces!" << endl;
 
-  cout << "Printing Provinces : " << endl;
+  cout << "Printing " << pl->getUserName() << "'s Provinces : " << endl;
   pl->printProvinces();
   
   cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
@@ -34,10 +34,10 @@ appearance, to proceed to purchase. " << endl;
       }
       else if (pl->getCurrMoney() < i->getCard()->getCost()) 
       continue; 
-      else  cout << "Current balance: " << pl->getCurrMoney() << endl;
+      else  cout << pl->getUserName() <<"'s Current balance: " << pl->getCurrMoney() << endl;
 
       i->print();                     /* If it is revealed and not broken */
-      cout << "\nProceed to purchase ?\n> Your answer: " ;
+      cout << endl << pl->getUserName() <<" , do you want to proceed to purchase ?\n> Your answer: " ;
       std::string answer;
       std::getline(std::cin, answer);
       cout << endl;

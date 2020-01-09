@@ -43,7 +43,7 @@ void revealProvinces(PlayerPtr player)
       i->getCard()->setRevealed();
   }
 
-  cout << "Provinces revealed!" << endl;
+  cout << "Revealed "<< player->getUserName() <<"'s Provinces !" << endl;
 }
 
 /* ========================================================================= */
