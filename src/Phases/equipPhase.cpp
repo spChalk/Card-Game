@@ -59,37 +59,37 @@ bool hasEnoughHonor(PersonalityPtr person, GreenCardPtr card)
 bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 {
   uint16_t maxCardPerPers = card->getMaxPerPersonality();
-  enum GreenCardType cardType = card->getGreenCardType();
 
-  if (cardType == FOLLOWER)
+  if (card->getGreenCardType() == FOLLOWER)
   {
     FollowerPtr curr = std::dynamic_pointer_cast<Follower> (card);
 
     FollowerListPtr followers = person->getFollowers();
+
     for (auto i : *followers) /* Find all attachments of the same type */
     {
       if (i->getFollowerType() == curr->getFollowerType())
         --maxCardPerPers;
-      
-      if (maxCardPerPers == 0) break; /* We've reached the limit */
+
+      if (maxCardPerPers == 0) 
+        return false;          /* We've reached the limit */
     }
   }
   else // cardType == ITEM
   {
     ItemPtr curr = std::dynamic_pointer_cast<Item> (card);
-    
+
     ItemListPtr items = person->getItems();
+
     for (auto i : *items)
     {
       if (i->getItemType() == curr->getItemType())
         --maxCardPerPers;
       
-      if (maxCardPerPers == 0) break;
+      if (maxCardPerPers == 0) 
+          return false;
     }
   }
-
-  if (maxCardPerPers == 0)
-    return false;  /* Check failed */
 
   return true;
 }
@@ -128,7 +128,7 @@ appearance if you want to enhance the personality's attributes!" << endl;
     {                      /* Choose a greencard from the hand to equip */
       /* Check if a purchase can be made considering specific limitations */
       if ( hasEnoughMoney(player, card) 
-        && hasEnoughHonor(pers, card) 
+        && hasEnoughHonor(pers, card)
         && hasntReachedLimit(pers, card))
       {
         card->print();

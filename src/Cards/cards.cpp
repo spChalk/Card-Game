@@ -25,8 +25,9 @@ GreenCard::GreenCard(const std::string & name ,  const uint16_t & cost ,
   cardText(cardText), 
   effectBonus(effectBonus), 
   effectCost(effectCost), 
-  attached(false), 
-  type(type) , maxPerPerson(maxPerPerson)
+  attached(false),
+  type(type),
+  maxPerPerson(maxPerPerson)
   {}
 
 
@@ -43,7 +44,7 @@ Follower::Follower(const std::string & name ,     const uint16_t & cost ,
                    const uint16_t & minHonor ,      const std::string & cardText ,
                    const uint16_t & effectBonus ,   const uint16_t & effectCost , 
                    const enum FollowerType type , const uint16_t maxPerPerson ) 
-: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson), 
+: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson, (enum GreenCardType) FOLLOWER), 
   type(type) {}
 
 void Follower::attachToPersonality (PersonalityPtr pers) {
@@ -56,7 +57,7 @@ Item::Item(const uint16_t & dur ,          const std::string & name ,   const ui
            const uint16_t & attackBonus ,  const uint16_t & defenceBonus ,const uint16_t & minHonor ,
            const std::string & cardText ,const uint16_t & effectBonus , const uint16_t & effectCost , 
            const enum ItemType type,     const uint16_t maxPerPerson) 
-: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson) , 
+: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson, (enum GreenCardType) ITEM) , 
   durability(dur), 
   type(type) {}
 
