@@ -62,7 +62,7 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 
   if (card->getGreenCardType() == FOLLOWER)
   {
-    FollowerPtr curr = std::static_pointer_cast<Follower> (card);
+    FollowerPtr curr = std::dynamic_pointer_cast<Follower> (card);
 
     FollowerListPtr followers = person->getFollowers();
 
@@ -77,7 +77,7 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
   }
   else // cardType == ITEM
   {
-    ItemPtr curr = std::static_pointer_cast<Item> (card);
+    ItemPtr curr = std::dynamic_pointer_cast<Item> (card);
 
     ItemListPtr items = person->getItems();
 
@@ -128,7 +128,7 @@ appearance if you want to enhance the personality's attributes!" << endl;
     {                      /* Choose a greencard from the hand to equip */
       /* Check if a purchase can be made considering specific limitations */
       if ( hasEnoughMoney(player, card) 
-        && hasEnoughHonor(pers, card) 
+        && hasEnoughHonor(pers, card)
         && hasntReachedLimit(pers, card))
       {
         card->print();
