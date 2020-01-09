@@ -1,4 +1,5 @@
 /* game.cpp */
+// TODO: set srand on line: 178 with std::time(0)
 #include <algorithm> /* std::random_shuffle */
 #include <cctype>    /* isdigit */
 #include <ctime>     /* std::time */
@@ -125,6 +126,7 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
   }
   
   std::random_shuffle(pl->getFateDeck()->begin(), pl->getFateDeck()->end());
+
   /* Based on map's key values , form player's Dynasty Deck */
   for (uint16_t i = 0; i < maxBlackCards; i++) {
     
@@ -173,7 +175,7 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
   cardtxt = &file;
   cardTxtVecPtr = std::make_shared < std::vector< std::string >>(DECK_SIZE);
 
-  std::srand(std::time(0));
+  std::srand(1); // TODO: Change it before finalisation // set as 1 to recreate bugs
 
   for (uint16_t i = 0 ; i < numPlayers ; i++) {  /* For every player */
 
