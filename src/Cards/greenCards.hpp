@@ -51,7 +51,7 @@ public:
   GreenCard(const std::string &, const uint16_t &, const uint16_t &, 
             const uint16_t &, const uint16_t &, const std::string &, 
             const uint16_t &, const uint16_t &, const uint16_t & , 
-            const enum GreenCardType = FOLLOWER);
+            const enum GreenCardType);
 
   uint16_t getATK() const { return attackBonus;  }
   uint16_t getDEF() const { return defenceBonus; }
