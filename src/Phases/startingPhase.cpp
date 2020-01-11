@@ -28,7 +28,7 @@ void untapEverything(PlayerPtr player)
 
   player->getStrongHold()->setUnTapped();
 
-  cout << "Everything is now untapped!" << endl;
+  printF ("Everything is now untapped!" , 1 , MAG , FILL);
 }
 
 /* ========================================================================= */
@@ -60,13 +60,15 @@ void drawFateCard(PlayerPtr player)
 
     hand->push_back(player->drawFateCard());
 
-    cout << "Player \'" << player->getUserName() 
-              << "\' just drew a fate card!" << endl;
+    printF ("Player \'" , 0 , MAG , FILL); 
+    cout << player->getUserName(); 
+    printF ("\' just drew a fate card!" , 1 , MAG , FILL);
   }
   else
   {
-    cout << "Fate deck is empty! No more Green Cards for player \'" 
-              << player->getUserName() << "\' !" << endl;
+    printF ("Fate deck is empty! No more Green Cards for player \'" , 0 , MAG , FILL); 
+    cout << player->getUserName();
+    printF ("\' !" , 1 , MAG , FILL);
   }
 }
 
