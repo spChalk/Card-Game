@@ -179,7 +179,9 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
 
   for (uint16_t i = 0 ; i < numPlayers ; i++) {  /* For every player */
 
-    cout << "> Give username for player " << i+1 << "!\nUsername: ";
+    printF ("> Give username for player " , 0 , BLU , BOLD);
+    cout << i+1 ;
+    printF ("!\nUsername: " , 0 , BLU , BOLD);
     std::string username;
     std::getline(std::cin, username);
     cout << endl;
@@ -252,7 +254,9 @@ void Game::gameplay(void)
   {
     for (auto i : *players)
     {
-      cout << "Player's \'" << i->getUserName() << "\' turn!" << endl;
+      printF ("Player's \'" , 0 , CYN , BOLD); 
+      cout << i->getUserName();
+      printF ("\' turn!" , 1 , CYN , BOLD);
       /* Play all the phases */
       startingPhase(i);
       equipmentPhase(i);
