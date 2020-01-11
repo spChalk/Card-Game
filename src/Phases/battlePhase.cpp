@@ -360,14 +360,15 @@ void battle(ProvincePtr prov)
 
 void Game::battlePhase(PlayerPtr player)
 {
-  cout << "Battle phase begins!" << endl;
+  printF ("Battle phase begins!" , 1 , RED , FILL);
 
   int action = chooseAction();
 
   if (action == DEFEND)
   {
-    cout << "Player \"" << player->getUserName() 
-         << "\" chose to DEFEND this round!" << endl;
+    printF ("Player \"" , 0 , RED , BOLD);
+    cout << player->getUserName(); 
+    printF ("\" chose to DEFEND this round!" , 1 , RED , BOLD);
     return;
   }
   // action == ATTACK
@@ -382,8 +383,9 @@ void Game::battlePhase(PlayerPtr player)
   attArmy = std::make_shared< std::list <std::shared_ptr< Personality>>>(); //TODO: delete this
   chooseArmy(player, attArmy);
 
-  cout << "Player \'" << *defName 
-       << "\' shall pick their DEFENSE!" << endl;
+  printF ("Player \'" , 0 , RED , BOLD);
+  cout << *defName; 
+  printF ("\' shall pick their DEFENSE!" , 1 , RED , BOLD);
 
   defArmy = std::make_shared< std::list <std::shared_ptr< Personality>>>(); //TODO: delete this
   chooseArmy(enemy, defArmy);

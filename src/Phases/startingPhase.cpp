@@ -28,7 +28,7 @@ void untapEverything(PlayerPtr player)
 
   player->getStrongHold()->setUnTapped();
 
-  printF ("Everything is now untapped!" , 1 , MAG , FILL);
+  printF ("Everything is now untapped!" , 1 , MAG , BOLD);
 }
 
 /* ========================================================================= */
@@ -43,7 +43,9 @@ void revealProvinces(PlayerPtr player)
       i->getCard()->setRevealed();
   }
 
-  cout << "Revealed "<< player->getUserName() <<"'s Provinces !" << endl;
+  printF ("Revealed " , 0 , MAG , BOLD);
+  cout << player->getUserName();
+  printF ("'s Provinces !" , 1 , MAG , BOLD);
 }
 
 /* ========================================================================= */
@@ -60,13 +62,13 @@ void drawFateCard(PlayerPtr player)
 
     hand->push_back(player->drawFateCard());
 
-    printF ("Player \'" , 0 , MAG , FILL); 
+    printF ("Player \'" , 0 , MAG , BOLD); 
     cout << player->getUserName(); 
-    printF ("\' just drew a fate card!" , 1 , MAG , FILL);
+    printF ("\' just drew a fate card!" , 1 , MAG , BOLD);
   }
   else
   {
-    printF ("Fate deck is empty! No more Green Cards for player \'" , 0 , MAG , FILL); 
+    printF ("Fate deck is empty! No more Green Cards for player \'" , 0 , MAG , BOLD); 
     cout << player->getUserName();
     printF ("\' !" , 1 , MAG , FILL);
   }

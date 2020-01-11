@@ -102,16 +102,20 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 
 void Game::equipmentPhase (PlayerPtr player)
 {
-  cout << "Equipment Phase Started !" << endl;
+  printF ("Equipment Phase Started !" , 1 , GRN , FILL);
 
-  cout << "Printing "<< player->getUserName() <<"'s Army!" << endl;
+  printF ("Printing " , 0 , MAG , BOLD); 
+  cout << player->getUserName(); 
+  printF ("'s Army!" , 1 , MAG , BOLD);
   player->printArmy();
   
-  cout << "Printing "<< player->getUserName() <<"'s Hand!" << endl;
+  printF ("Printing " , 0 , MAG , BOLD); 
+  cout << player->getUserName(); 
+  printF ("'s Hand!" , 1 , MAG , BOLD);
   player->printHand();
 
-  cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
-appearance if you want to enhance the personality's attributes!" << endl;
+  printF ("Type 'Y' (YES) or '<any other key>' (NO) after each card's \
+appearance if you want to enhance the personality's attributes!" , 1 , WHT );
 
   for (auto pers : *(player->getArmy()))
   {                        /* Choose a personality from the army to equip */
@@ -159,6 +163,6 @@ appearance if you want to enhance the personality's attributes!" << endl;
       }
     }
   }
-  cout << "Equipment Phase Ended !" << endl;
+  printF ("Equipment Phase Ended !" , 1 , GRN , FILL);
 }
 /* ========================================================================= */
