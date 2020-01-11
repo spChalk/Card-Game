@@ -4,22 +4,6 @@
 
 #include "basicHeader.hpp"
 
-// Colours
-#define BLK  30
-#define RED  31
-#define GRN  32
-#define YEL  33
-#define BLU  34
-#define MAG  35
-#define CYN  36
-#define WHT  37
-
-// Styles
-#define BOLD  1 
-#define ITLC  3
-#define FILL  7
-#define UNDR  4
-
 using std::cout;
 using std::endl;
 
@@ -273,42 +257,49 @@ void Player::printArena() const { this->printArmy(); }
 
 void Player::printStatistics() const
 {
-  cout << "\nPrinting statistics for player: " << getUserName() << endl;
-  cout << "=======   BEGINNING OF STATS  =======" << endl;
-  cout << "\nHonor: " << honor << endl; // might remove this
-  cout << "\nActive provinces: " << activeProvinces << endl;
+  cout << endl;
+  printF("Printing statistics for player: " , 0 , YEL , UNDR); 
+  cout << getUserName() << endl;
+  printF("=======||   BEGINNING OF STATS  ||=======" , 1 , MAG , BOLD);
+  cout << endl; printF("Honor: " , 0 , YEL , UNDR); 
+  cout << honor << endl; // might remove this
+  cout << endl; printF("Active provinces: " , 0 , YEL , UNDR);
+  cout << activeProvinces << endl;
 
   if (activeProvinces == 0)
   {
-    cout << "======= !END OF STATS! =======" << endl;
-    cout << "\nPlayer: " << getUserName() << " is out of the game!" << endl;
+    printF("=======||  END OF STATS  ||=======" , 1 , MAG , BOLD);
+    cout << endl; printF("Player: " , 0 , WHT ,BOLD); 
+    cout << getUserName();
+    printF ( " is out of the game!" , 0 , WHT , BOLD); 
+    cout << endl;
   }
 
-  cout << "\nCards remaining on Fate deck (Greencards): " 
-       << fateDeck->size() << endl;
-  cout << "\nCards remaining on Dynasty deck (Blackcards): " 
-       << dynastyDeck->size() << endl;
-  cout << "\nPrinting hand: " << endl;
+  cout << endl; printF("Cards remaining on Fate deck (Greencards): " , 0 , GRN , BOLD); 
+  cout << fateDeck->size() << endl;
+  cout << endl; printF("Cards remaining on Dynasty deck (Blackcards): " , 0 , RED , BOLD); 
+  cout << dynastyDeck->size() << endl;
+  cout << endl; printF("Printing hand: " , 1 , YEL , UNDR);
   printHand();
-  cout << "\nPrinting provinces: " << endl;
+  cout << endl; printF("Printing provinces: " , 1 , YEL , UNDR); 
   printProvinces();
-  cout << "\nPrinting army: " << endl;
+  cout << endl; printF("Printing army: " , 1 , YEL , UNDR);
   printArmy();
-  cout << "\nPrinting holdings: " << endl;
+  cout << endl; printF("Printing holdings: " , 1 , YEL , UNDR);
   printHoldings();
-  cout << "======= !END OF STATS! =======" << endl;
+  printF("=======||  END OF STATS  ||=======" , 1 , MAG ,BOLD);
 }
 
 /* ========================================================================= */
 
 void Game::printGameStatistics() const
 {
-  cout << " Printing global game statistics!" << endl;
-  cout << "=========  BEGINNING OF GLOBAL STATS  =========" << endl;
+  printF ("Printing global game statistics!" , 1 , MAG , UNDR);
+  printF("=========||  BEGINNING OF GLOBAL STATS  ||=========" , 1 , MAG , FILL);
   // could also print the current round
   for (auto i : *players)
     i->printStatistics();
 
-  cout << "========= !END OF GLOBAL STATS! =========" << endl;
+  printF("=========||  END OF GLOBAL STATS  ||=========" , 1 , MAG , FILL);
 }
 /* ========================================================================= */

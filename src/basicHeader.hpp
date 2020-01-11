@@ -68,6 +68,22 @@ typedef std::shared_ptr < std::list <FollowerPtr> > FollowerListPtr;
  
 #include "templateFunction.hpp"
 
+// Colours
+#define BLK  30
+#define RED  31
+#define GRN  32
+#define YEL  33
+#define BLU  34
+#define MAG  35
+#define CYN  36
+#define WHT  37
+
+// Styles
+#define BOLD  1 
+#define ITLC  3
+#define FILL  7
+#define UNDR  4
+
 void printF (const std::string & s , bool printEndl , const uint16_t & colour = 37, const uint16_t & format = 0 );
 
 #endif
