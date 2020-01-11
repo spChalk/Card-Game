@@ -18,31 +18,31 @@ void printF (const std::string & s , bool printEndl ,const uint16_t & colour , c
 
 void Card::print() const
 {
-  printF("| " , 0 , MAG); cout << "Name: " << name << endl;
-  printF("| " , 0 , MAG); cout << "Cost:   " << cost << endl;
-  printF("| " , 0 , MAG); cout << "Tapped: " << (isTapped ? "YES" : "NO") << endl;  
+  printF("| Name: " , 0 , MAG , BOLD); cout << name << endl;
+  printF("| Cost:   " , 0 , MAG , BOLD); cout << cost << endl;
+  printF("| Tapped: " , 0 , MAG , BOLD); cout << (isTapped ? "YES" : "NO") << endl;  
 }
 /* ========================================================================= */
 
 void GreenCard::print() const
 {
-  printF ("/=======  GREEN CARD  =======\\" , 1 ,GRN);
+  printF ("/=======  GREEN CARD  =======\\" , 1 , GRN );
   // [Harry] added the MAG lines cuz greencards dont care about being tapped
-  printF("| " , 0 , MAG); cout << "Name: " << name << endl;
-  printF("| " , 0 , MAG); cout << "Cost:   " << cost << endl;
-  printF ("| " , 0 , GRN); cout << "ATK Bonus: " << attackBonus << endl;
-  printF ("| " , 0 , GRN); cout << "DEF Bonus: " << defenceBonus << endl;
-  printF ("| " , 0 , GRN); cout << "Min Honor: " << minHonor << endl;
-  printF ("| " , 0 , GRN); cout << "Effect Bonus: " << effectBonus << endl;
-  printF ("| " , 0 , GRN); cout << "Effect Cost : " <<effectCost  << endl;
+  printF("| Name: " , 0 , MAG , BOLD); cout << name << endl;
+  printF("| Cost:   " , 0 , MAG , BOLD); cout << cost << endl;
+  printF ("| ATK Bonus: " , 0 , GRN , BOLD); cout << attackBonus << endl;
+  printF ("| DEF Bonus: " , 0 , GRN , BOLD); cout << defenceBonus << endl;
+  printF ("| Min Honor: " , 0 , GRN , BOLD); cout << minHonor << endl;
+  printF ("| Effect Bonus: " , 0 , GRN , BOLD); cout << effectBonus << endl;
+  printF ("| Effect Cost: " , 0 , GRN , BOLD); cout <<effectCost  << endl;
 }
 /* ========================================================================= */
 
 void Follower::print() const
 {
   this->GreenCard::print();
-  printF ("| " , 0 , GRN); cout << "Card Text: " << cardText << endl;
-  printF ("\\____________________________/" , 1 , GRN);
+  printF ("| Card Text: " , 0 , GRN , BOLD); cout << cardText << endl;
+  printF ("\\____________________________/" , 1 , GRN );
   cout << endl;
 }
 /* ========================================================================= */
@@ -50,9 +50,9 @@ void Follower::print() const
 void Item::print() const
 {
   this->GreenCard::print();
-  printF("| " , 0 , GRN); cout << "Durability: " << durability << endl;
-  printF ("| " , 0 , GRN); cout << "Card Text: " << cardText << endl;
-  printF ("\\____________________________/" , 1 , GRN);
+  printF("| Durability: " , 0 , GRN , BOLD); cout << durability << endl;
+  printF ("| Card Text: " , 0 , GRN , BOLD); cout << cardText << endl;
+  printF ("\\____________________________/" , 1 , GRN );
   cout << endl;
 }
 /* ========================================================================= */
@@ -62,7 +62,7 @@ void BlackCard::print() const // TODO: fix color
   printF ("/=======  BLACK CARD  =======\\" , 1 , RED);
   this->Card::print();
 
-  printF ("| " , 0 , RED); cout << "Revealed: " << (isRevealed ? "YES" : "NO") << endl;
+  printF ("| Revealed: " , 0 , RED , BOLD); cout << (isRevealed ? "YES" : "NO") << endl;
 }
 /* ========================================================================= */
 
@@ -70,21 +70,21 @@ void Personality::print() const
 {
   this->BlackCard::print();
 
-  printF ("| " , 0 , RED); cout << "ATK:   " << attack  << endl;
-  printF ("| " , 0 , RED); cout << "DEF:   " << defence << endl;
-  printF ("| " , 0 , RED); cout << "Honor: " << honor   << endl;
+  printF ("| ATK:   " , 0 , RED , BOLD); cout << attack  << endl;
+  printF ("| DEF:   ", 0 , RED , BOLD); cout << defence << endl;
+  printF ("| Honor: " , 0 , RED , BOLD); cout << honor   << endl;
 
-  printF ("==  FOLLOWERS  == " , 0 , YEL); cout << endl;
+  printF ("|--  FOLLOWERS  -- " , 0 , YEL); cout << endl;
   for (auto i : *followers)
     i->print();
-  printF ("== !FOLLOWERS! == " , 0 , YEL); cout << endl;
+  printF ("|-- !FOLLOWERS! -- " , 0 , YEL); cout << endl;
 
-  printF ("==  ITEMS  == " , 0 , YEL); cout << endl;
+  printF ("|--  ITEMS  -- " , 0 , YEL); cout << endl;
   for (auto i : *items)
     i->print();
-  printF ("== !ITEMS! == " , 0 , YEL); cout << endl;
+  printF ("|-- !ITEMS! -- " , 0 , YEL); cout << endl;
 
-  printF ("\\____________________________/" , 1 ,RED); 
+  printF ("\\____________________________/" , 1 , RED); 
   cout << endl;
 }
 
@@ -94,7 +94,7 @@ void Holding::print() const
 {
   this->BlackCard::print();
 
-  printF("| " , 0 , RED); cout << "Harvest value: " << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
 
   printF ("\\____________________________/" , 1 , RED);
   cout << endl; 
@@ -105,13 +105,13 @@ void Holding::print() const
 void Mine::print() const
 {
   this->BlackCard::print();
-  printF("| " , 0 , RED); cout << "Harvest value: " << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
 
   if (upperHolding)
   {
-    printF ("==  UpperHolding  ==" , 0 , CYN); cout << endl;
+    printF ("|--  UpperHolding  --" , 0 , CYN); cout << endl;
     upperHolding->print();
-    printF ("== !UpperHolding! ==" , 0 , CYN); cout << endl;
+    printF ("|-- !UpperHolding! --" , 0 , CYN); cout << endl;
   }
 
   printF ("\\____________________________/" , 1 , RED);
@@ -123,20 +123,20 @@ void Mine::print() const
 void GoldMine::print() const
 {
   this->BlackCard::print();
-  printF("| " , 0 , RED); cout << "Harvest value: " << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
 
   if (upperHolding)
   {
-    printF ("==  UpperHolding  ==" , 0 , CYN);
+    printF ("|--  UpperHolding  --" , 0 , CYN);
     upperHolding->print();
-    printF ("== !UpperHolding! ==" , 0 , CYN);
+    printF ("|-- !UpperHolding! --" , 0 , CYN);
   }
 
   if (subHolding)
   {
-    printF ("==  subHolding  ==" , 0 , CYN);
+    printF ("|--  subHolding  --" , 0 , CYN);
     subHolding->print();
-    printF ("== !subHolding! ==" , 0 , CYN);
+    printF ("|-- !subHolding! --" , 0 , CYN);
   }
 
   printF ("\\____________________________/" , 1 , RED);
@@ -147,13 +147,13 @@ void GoldMine::print() const
 void CrystalMine::print() const
 {
   this->BlackCard::print();
-  printF("| " , 0 , RED); cout << "Harvest value: " << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
 
   if (subHolding)
   {
-    printF ("==  subHolding  ==" , 0 , CYN);
+    printF ("|--  subHolding  --" , 0 , CYN);
     subHolding->print();
-    printF ("== !subHolding! ==" , 0 , CYN);
+    printF ("|-- !subHolding! --" , 0 , CYN);
   }
 
   printF ("\\____________________________/" , 1 , RED);
@@ -164,10 +164,10 @@ void CrystalMine::print() const
 void StrongHold::print() const
 {
   this->BlackCard::print();
-  printF("| " , 0 , RED); cout << "Harvest value: " << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
 
-  printF("| " , 0 , RED); cout << "Starting Honor: " << initHonor << endl;
-  printF("| " , 0 , RED); cout << "Starting DEF  : " << initDefence << endl;  
+  printF("| Starting Honor: " , 0 , RED , BOLD); cout << initHonor << endl;
+  printF("| Starting DEF  :" , 0 , RED , BOLD); cout << initDefence << endl;  
 
   printF ("\\____________________________/" , 1 , RED);
   cout << endl;
@@ -177,9 +177,9 @@ void StrongHold::print() const
 void Province::print() const
 {
   if (isBroken == true)
-    cout << "!! Broken Province !!" << endl;
+    printF ("!! Broken Province !!" , 1 , RED , BOLD);
   else if (card->checkRevealed() == false)
-    cout << "!! Hidden Province !!" << endl;
+    printF ("!! Hidden Province !!" , 1 , RED); 
   else
     card->print();
 }
@@ -187,21 +187,24 @@ void Province::print() const
 
 void Player::print() const
 {
-  printF ("|=======  PLAYER  =======|" , 1 , BLU);
-  cout << "User : " << userName << endl;
-  cout << "Honor: " << honor << endl;
-  cout << "Active Provinces: " << activeProvinces << endl;
+  printF ("|=======  PLAYER  =======|" , 1 , BLU , UNDR);
+  printF ("| User : " , 0 , BLU , BOLD); 
+  cout << userName << endl;
+  printF ("| Honor: " , 0 , BLU , BOLD); 
+  cout << honor << endl;
+  printF ("| Active Provinces: " , 0 , BLU , BOLD); 
+  cout << activeProvinces << endl;
 
   //probz shouldnt do that here // printHand();
-  printF ("=====  HOLDINGS  =====" , 1 , MAG);
+  printF ("|-----  HOLDINGS  -----" , 1 , MAG);
   printHoldings();
-  printF ("===== !HOLDINGS! =====" , 1 , MAG); cout << endl;
+  printF ("|----- !HOLDINGS! -----" , 1 , MAG); cout << endl;
 
-  printF ("=====  ARMY  =====" , 1 , MAG);
+  printF ("|-----  ARMY  -----" , 1 , MAG);
   printArmy();
-  printF ("===== !ARMY! =====" , 1 , MAG); cout << endl;
+  printF ("|----- !ARMY! -----" , 1 , MAG); cout << endl;
 
-  printF ("======= !PLAYER! =======" , 1 , BLU); cout << endl;
+  printF ("|======= !PLAYER! =======|" , 1 , BLU , UNDR); cout << endl;
 }
 /* ========================================================================= */
 
