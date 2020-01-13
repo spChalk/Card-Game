@@ -25,7 +25,7 @@ namespace {  /* namespace start */
 /* ========================================================================= */
 
 Mine::Mine(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue) 
-: Holding(name , cost , harvestValue , MINE), 
+: Holding(name , cost , harvestValue , HoldingType::MINE), 
   upperHolding(nullptr)
   {} 
 
@@ -33,7 +33,7 @@ void Mine::attachToPlayer(PlayerPtr pl) {
   
   for (auto i : *(pl->getHoldings())) {  /* Search in Player's Holdings */
     
-    if (i->getHoldingType() == GOLD_MINE) {  /* If a Gold Mine is found */
+    if (i->getHoldingType() == HoldingType::GOLD_MINE) {  /* If a Gold Mine is found */
       if ((std::static_pointer_cast<GoldMine>(i))->getSubHolding() == nullptr) {  /* If the Gold Mine is not 
                                                                                     connected to a Mine */
         upperHolding = std::static_pointer_cast<GoldMine>(i);           /* Link this Mine with the Gold Mine */
@@ -59,7 +59,7 @@ void Mine::attachToPlayer(PlayerPtr pl) {
 /* ========================================================================= */
 
 GoldMine::GoldMine(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue)
-: Holding(name , cost , harvestValue , GOLD_MINE), 
+: Holding(name , cost , harvestValue , HoldingType::GOLD_MINE), 
   upperHolding(nullptr),
   subHolding(nullptr)
   {} 
@@ -68,7 +68,7 @@ void GoldMine::attachToPlayer(PlayerPtr pl) {
   
   for (auto i : *(pl->getHoldings())) {  
 
-    if (i->getHoldingType() == MINE) {  /* If a Mine is found */
+    if (i->getHoldingType() == HoldingType::MINE) {  /* If a Mine is found */
       if ((std::static_pointer_cast<Mine>(i))->getUpperHolding() == nullptr) {  /* If the Mine is not 
                                                                                     connected to a Gold Mine */
         subHolding = std::static_pointer_cast<Mine>(i);                 /* Link this Gold Mine with the Mine */
@@ -83,7 +83,7 @@ void GoldMine::attachToPlayer(PlayerPtr pl) {
   }
   for (auto i : *(pl->getHoldings())) {  /* Then , check for Crystal Mines */
 
-    if (i->getHoldingType() == CRYSTAL_MINE) {
+    if (i->getHoldingType() == HoldingType::CRYSTAL_MINE) {
       if ((std::static_pointer_cast<CrystalMine>(i))->getSubHolding() == nullptr) {
 
         upperHolding = std::static_pointer_cast<CrystalMine>(i);
@@ -106,7 +106,7 @@ void GoldMine::attachToPlayer(PlayerPtr pl) {
 /* ========================================================================= */
 
 CrystalMine::CrystalMine(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue) 
-: Holding(name , cost , harvestValue , CRYSTAL_MINE), 
+: Holding(name , cost , harvestValue , HoldingType::CRYSTAL_MINE), 
   subHolding(nullptr)
   {} 
 
@@ -115,7 +115,7 @@ void CrystalMine::attachToPlayer(PlayerPtr pl) {
 
   for (auto i : *(pl->getHoldings())) {
     
-    if (i->getHoldingType() == GOLD_MINE) {
+    if (i->getHoldingType() == HoldingType::GOLD_MINE) {
 
       if ((std::static_pointer_cast<GoldMine>(i))->getUpperHolding() == nullptr) {
         subHolding = std::static_pointer_cast<GoldMine>(i);

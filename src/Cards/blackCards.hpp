@@ -15,17 +15,17 @@ class StrongHold;
 /* ========================================================================== */
 
 /* Types of Black Cards */
-enum BlackCardType
+enum class BlackCardType
 {
   PERSONALITY, HOLDING
 };
 
-enum PersonalityType
+enum class PersonalityType
 {
   ATTACKER, DEFENDER, CHAMPION, CHANCELLOR, SHOGUN
 };
 
-enum HoldingType
+enum class HoldingType
 {
   MINE, GOLD_MINE, CRYSTAL_MINE, PLAIN, FARMLAND, GIFT_N_FAVOUR, STRONGHOLD 
 };
@@ -38,13 +38,13 @@ protected:
 
   bool isRevealed;
 
-  const enum BlackCardType type;
+  const BlackCardType type;
 
 public:
     
-  BlackCard(const std::string & name , const uint16_t & cost , const enum BlackCardType = PERSONALITY); 
+  BlackCard(const std::string & name , const uint16_t & cost , const BlackCardType); 
 
-  enum BlackCardType getBlackCardType() const { return type; }
+  BlackCardType getBlackCardType() const { return type; }
 
   void setRevealed() { isRevealed = true;  }
   void setHidden()   { isRevealed = false; }
@@ -69,18 +69,18 @@ class Personality : public BlackCard
   FollowerListPtr followers;  /* List of Followers */
   ItemListPtr     items;      /* List of Items */
 
-  const enum PersonalityType type;
+  const PersonalityType type;
 
 public:
     
-  Personality(const std::string & name , const uint16_t & cost , const uint16_t & attack ,const uint16_t & defence , const uint16_t & honor , const enum PersonalityType );
+  Personality(const std::string & name , const uint16_t & cost , const uint16_t & attack ,const uint16_t & defence , const uint16_t & honor , const PersonalityType );
 
   uint16_t getATK() const { return attack;  }
   uint16_t getDEF() const { return defence; }
   uint16_t getHonor() const { return honor; }
   FollowerListPtr getFollowers() const { return followers; }
   ItemListPtr     getItems()     const { return items; }
-  enum PersonalityType getPersonalityType() const { return type; }
+  PersonalityType getPersonalityType() const { return type; }
 
   void die() { isDead = true; }  // this is nice [Spiros : Vgalta opote niwseis etoimos :D ]
   
@@ -105,13 +105,13 @@ protected:
 
   uint16_t harvestValue;  
 
-  const enum HoldingType type;
+  const HoldingType type;
 
 public:
     
-  Holding(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue , const enum HoldingType type);
+  Holding(const std::string & name , const uint16_t & cost , const uint16_t & harvestValue , const HoldingType type);
 
-  enum HoldingType getHoldingType() const { return type; }
+  HoldingType getHoldingType() const { return type; }
   uint16_t getHarvestValue() const { return harvestValue; }
 
   void increaseHarvestValueBy (uint16_t points) { harvestValue += points; }

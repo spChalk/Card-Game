@@ -10,17 +10,17 @@ class Item;
 /* ========================================================================= */
 
 /* Types of Green Cards */
-enum GreenCardType
+enum class GreenCardType
 {
   FOLLOWER, ITEM
 };
 
-enum FollowerType 
+enum class FollowerType 
 {
   FOOTSOLDIER, ARCHER, CAVALRY, BUSHIDO, SIEGER, ATAKEBUNE
 };
 
-enum ItemType
+enum class ItemType
 {
   KATANA, SPEAR, BOW, NINJATO, WAKIZASHI
 };
@@ -42,7 +42,7 @@ protected:
 
   bool attached; 
 
-  const enum GreenCardType type;
+  const GreenCardType type;
 
   const uint16_t maxPerPerson;  /* Max Green Cards per Person */
 
@@ -51,13 +51,13 @@ public:
   GreenCard(const std::string &, const uint16_t &, const uint16_t &, 
             const uint16_t &, const uint16_t &, const std::string &, 
             const uint16_t &, const uint16_t &, const uint16_t & , 
-            const enum GreenCardType);
+            const GreenCardType);
 
   uint16_t getATK() const { return attackBonus;  }
   uint16_t getDEF() const { return defenceBonus; }
   uint16_t getMinHonor() const { return minHonor; }
   uint16_t getEffectCost() const { return effectCost; }
-  enum GreenCardType getGreenCardType() const { return type; }
+  GreenCardType getGreenCardType() const { return type; }
   /* Not defined for this class */
   virtual uint16_t getMaxPerPersonality() const = 0;
 
@@ -75,15 +75,15 @@ public:
 
 class Follower : public GreenCard
 {
-  const enum FollowerType type;
+  const FollowerType type;
   
 public:
 
   Follower(const std::string &, const uint16_t &, const uint16_t &, const uint16_t &,
            const uint16_t &, const std::string &, const uint16_t &, const uint16_t &, 
-           const enum FollowerType , const uint16_t);
+           const FollowerType , const uint16_t);
 
-  enum FollowerType getFollowerType() const { return type; }
+  FollowerType getFollowerType() const { return type; }
 
   uint16_t getMaxPerPersonality() const { return maxPerPerson; }
 
@@ -98,17 +98,17 @@ class Item : public GreenCard
 {
   uint16_t durability;  /* Can be decreased till 0 */
 
-  const enum ItemType type;
+  const ItemType type;
 
 public:
     
   Item(const uint16_t &, const std::string &, const uint16_t &, const uint16_t &,
        const uint16_t &, const uint16_t &, const std::string &, const uint16_t &, 
-       const uint16_t &, const enum ItemType , const uint16_t);
+       const uint16_t &, const ItemType , const uint16_t);
 
   uint16_t getDurability()        const { return durability; }
   uint16_t getMaxPerPersonality() const { return maxPerPerson; }
-  enum ItemType getItemType()   const { return type; }
+  ItemType getItemType()   const { return type; }
 
   void decreaseDurability() { --durability; }
   void attachToPersonality(PersonalityPtr);

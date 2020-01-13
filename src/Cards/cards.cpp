@@ -17,7 +17,7 @@ GreenCard::GreenCard(const std::string & name ,  const uint16_t & cost ,
                      const uint16_t & attackBonus ,const uint16_t & defenceBonus ,
                      const uint16_t & minHonor ,   const std::string & cardText ,
                      const uint16_t & effectBonus ,const uint16_t & effectCost ,
-                     const uint16_t & maxPerPerson , const enum GreenCardType type) 
+                     const uint16_t & maxPerPerson , const GreenCardType type) 
 : Card(name , cost) , 
   attackBonus(attackBonus), 
   defenceBonus(defenceBonus), 
@@ -43,8 +43,8 @@ Follower::Follower(const std::string & name ,     const uint16_t & cost ,
                    const uint16_t & attackBonus ,   const uint16_t & defenceBonus ,
                    const uint16_t & minHonor ,      const std::string & cardText ,
                    const uint16_t & effectBonus ,   const uint16_t & effectCost , 
-                   const enum FollowerType type , const uint16_t maxPerPerson ) 
-: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson, (enum GreenCardType) FOLLOWER), 
+                   const FollowerType type , const uint16_t maxPerPerson ) 
+: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson, GreenCardType::FOLLOWER), 
   type(type) {}
 
 void Follower::attachToPersonality (PersonalityPtr pers) {
@@ -56,8 +56,8 @@ void Follower::attachToPersonality (PersonalityPtr pers) {
 Item::Item(const uint16_t & dur ,          const std::string & name ,   const uint16_t & cost , 
            const uint16_t & attackBonus ,  const uint16_t & defenceBonus ,const uint16_t & minHonor ,
            const std::string & cardText ,const uint16_t & effectBonus , const uint16_t & effectCost , 
-           const enum ItemType type,     const uint16_t maxPerPerson) 
-: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson, (enum GreenCardType) ITEM) , 
+           const ItemType type,     const uint16_t maxPerPerson) 
+: GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson, GreenCardType::ITEM) , 
   durability(dur), 
   type(type) {}
 
@@ -67,7 +67,7 @@ void Item::attachToPersonality (PersonalityPtr pers) {
 /* ========================================================================= */
 
 BlackCard::BlackCard(const std::string & name , const uint16_t & cost , 
-                     const enum BlackCardType type)
+                     const BlackCardType type)
 : Card(name , cost), 
   isRevealed(false), 
   type(type)
@@ -76,8 +76,8 @@ BlackCard::BlackCard(const std::string & name , const uint16_t & cost ,
 /* ========================================================================= */
 
 Personality::Personality(const std::string & name , const uint16_t & cost ,  const uint16_t & attack ,
-                         const uint16_t & defence ,   const uint16_t & honor , const enum PersonalityType type)
-: BlackCard(name , cost), 
+                         const uint16_t & defence ,   const uint16_t & honor , const PersonalityType type)
+: BlackCard(name , cost, BlackCardType::PERSONALITY), 
   attack(attack), 
   defence(defence), 
   honor(honor), 
@@ -115,8 +115,8 @@ void Personality::attachToPlayer (PlayerPtr pl) {
 /* ========================================================================= */
 
 Holding::Holding(const std::string & name ,    const uint16_t & cost , 
-                 const uint16_t & harvestValue , const enum HoldingType type)
-: BlackCard(name , cost), 
+                 const uint16_t & harvestValue , const HoldingType type)
+: BlackCard(name , cost, BlackCardType::HOLDING), 
   harvestValue(harvestValue), 
   type(type)
   {}
@@ -129,7 +129,7 @@ void Holding::attachToPlayer (PlayerPtr pl) {
 /* ========================================================================= */
 
 StrongHold::StrongHold(const uint16_t & initHonour , const uint16_t & initDefence , const std::string & name , const uint16_t & harvestValue , const uint16_t & cost ) 
-: Holding(name , cost , harvestValue , STRONGHOLD), 
+: Holding(name , cost , harvestValue , HoldingType::STRONGHOLD), 
   initHonor(initHonour), 
   initDefence(initDefence)
   { 

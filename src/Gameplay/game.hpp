@@ -21,8 +21,7 @@ public:
 
   Game();
 
-  void initGameBoard( PlayerListPtr players , 
-                      uint16_t numPlayers );
+  void initGameBoard( PlayerListPtr players , uint16_t numPlayers );
   
   void printGameStatistics() const;
   void gameplay();

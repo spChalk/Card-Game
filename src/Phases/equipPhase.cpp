@@ -60,7 +60,7 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 {
   uint16_t maxCardPerPers = card->getMaxPerPersonality();
 
-  if (card->getGreenCardType() == FOLLOWER)
+  if (card->getGreenCardType() == GreenCardType::FOLLOWER)
   {
     FollowerPtr curr = std::dynamic_pointer_cast<Follower> (card);
 

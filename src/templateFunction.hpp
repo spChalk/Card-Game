@@ -14,15 +14,15 @@ void pushNtimes(std::shared_ptr < std::deque< std::shared_ptr < D > > > deck ,
   {
     if (j->second.size() == 6) {  // Follower
       deck->push_back (std::dynamic_pointer_cast<D>( std::make_shared< Follower >(j->first , j->second[0] , j->second[1] ,
-      j->second[2] , j->second[3] , cardTexts->at(times) , j->second[4] , j->second[5] , (const enum FollowerType)type , max_per_pers) ) );
+      j->second[2] , j->second[3] , cardTexts->at(times) , j->second[4] , j->second[5] , (const FollowerType) type , max_per_pers) ) );
     }
     else if (j->second.size() == 7) {  // Item
       deck->push_back (std::dynamic_pointer_cast<D>(std::make_shared< Item >(j->second[6] , j->first , j->second[0] , j->second[1] ,
-      j->second[2] , j->second[3] , cardTexts->at(times) , j->second[4] , j->second[5] , (const enum ItemType)type , max_per_pers)));
+      j->second[2] , j->second[3] , cardTexts->at(times) , j->second[4] , j->second[5] , (const ItemType) type , max_per_pers)));
     }
     else if (j->second.size() == 4) {  // Personality
       deck->push_back (std::dynamic_pointer_cast<D>(std::make_shared< Personality >(j->first , j->second[0] , j->second[1] ,
-      j->second[2] , j->second[3] , (const enum PersonalityType)type)));
+      j->second[2] , j->second[3] , (const PersonalityType) type)));
     }
     else if (j->second.size() == 2) {  // Holding
         if (j->first == "MINE")
@@ -32,7 +32,7 @@ void pushNtimes(std::shared_ptr < std::deque< std::shared_ptr < D > > > deck ,
         else if (j->first == "CRYSTAL_MINE")
           deck->push_back (std::dynamic_pointer_cast<D>(std::make_shared < CrystalMine >(j->first , j->second[0] , j->second[1])));    
         else 
-          deck->push_back (std::dynamic_pointer_cast<D>(std::make_shared < Holding >(j->first , j->second[0] , j->second[1] , (const enum HoldingType)type)));
+          deck->push_back (std::dynamic_pointer_cast<D>(std::make_shared < Holding >(j->first , j->second[0] , j->second[1] , (const HoldingType) type)));
     }
     times++;
   }

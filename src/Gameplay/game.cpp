@@ -10,6 +10,8 @@
 #include <vector>
 
 #include "basicHeader.hpp"
+#include "blackCards.hpp"    /* enums */
+#include "greenCards.hpp"    /* enums */
 #include "rules.hpp" /* PERS_HOLD_TXT_PATH , FLLW_ITEM_TXT_PATH */
 
 #define CARD_TXT_PATH "./src/Cards/proverbs.txt"
@@ -100,27 +102,27 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
     for (auto j = gMap->begin() ; j != gMap->end() ; j++ ) {
 
       if (j->first == "FOOTSOLDIER")
-        pushNtimes(pl->getFateDeck() , j , FOOTSOLDIER , NO_FOOTSOLDIER , i, MAX_FOOTSOLDIER_PER_PERS ,cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , FollowerType::FOOTSOLDIER , NO_FOOTSOLDIER , i, MAX_FOOTSOLDIER_PER_PERS ,cardTxtVecPtr);
       else if (j->first == "ARCHER")
-        pushNtimes(pl->getFateDeck() , j , ARCHER , NO_ARCHER , i , MAX_ARCHER_PER_PERS ,cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , FollowerType::ARCHER , NO_ARCHER , i , MAX_ARCHER_PER_PERS ,cardTxtVecPtr);
       else if (j->first == "SIEGER")
-        pushNtimes(pl->getFateDeck() , j , SIEGER , NO_SIEGER , i , MAX_SIEGER_PER_PERS , cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , FollowerType::SIEGER , NO_SIEGER , i , MAX_SIEGER_PER_PERS , cardTxtVecPtr);
       else if (j->first == "CAVALRY")
-        pushNtimes(pl->getFateDeck() , j , CAVALRY , NO_CAVALRY , i , MAX_CAVALRY_PER_PERS , cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , FollowerType::CAVALRY , NO_CAVALRY , i , MAX_CAVALRY_PER_PERS , cardTxtVecPtr);
       else if (j->first == "NAVAL")
-        pushNtimes(pl->getFateDeck() , j , ATAKEBUNE , NO_NAVAL , i , MAX_NAVAL_PER_PERS , cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , FollowerType::ATAKEBUNE , NO_NAVAL , i , MAX_NAVAL_PER_PERS , cardTxtVecPtr);
       else if (j->first == "BUSHIDO")
-        pushNtimes(pl->getFateDeck() , j , BUSHIDO , NO_BUSHIDO , i , MAX_BUSHIDO_PER_PERS , cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , FollowerType::BUSHIDO , NO_BUSHIDO , i , MAX_BUSHIDO_PER_PERS , cardTxtVecPtr);
       else if (j->first == "KATANA")
-        pushNtimes(pl->getFateDeck() , j , KATANA , NO_KATANA , i , MAX_KATANA_PER_PERS , cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , ItemType::KATANA , NO_KATANA , i , MAX_KATANA_PER_PERS , cardTxtVecPtr);
       else if (j->first == "SPEAR")
-        pushNtimes(pl->getFateDeck() , j , SPEAR , NO_SPEAR , i , MAX_SPEAR_PER_PERS , cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , ItemType::SPEAR , NO_SPEAR , i , MAX_SPEAR_PER_PERS , cardTxtVecPtr);
       else if (j->first == "BOW")
-        pushNtimes(pl->getFateDeck() , j , BOW , NO_BOW , i , MAX_BOW_PER_PERS , cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , ItemType::BOW , NO_BOW , i , MAX_BOW_PER_PERS , cardTxtVecPtr);
       else if (j->first == "NINJATO")
-        pushNtimes(pl->getFateDeck() , j , NINJATO , NO_NINJATO , i , MAX_NINJATO_PER_PERS , cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , ItemType::NINJATO , NO_NINJATO , i , MAX_NINJATO_PER_PERS , cardTxtVecPtr);
       else if (j->first == "WAKIZASHI")
-        pushNtimes(pl->getFateDeck() , j , WAKIZASHI , NO_WAKIZASHI , i , MAX_WAKIZASHI_PER_PERS , cardTxtVecPtr);
+        pushNtimes(pl->getFateDeck() , j , ItemType::WAKIZASHI , NO_WAKIZASHI , i , MAX_WAKIZASHI_PER_PERS , cardTxtVecPtr);
   
     }
   }
@@ -133,27 +135,27 @@ void deckBuilder (std::shared_ptr<Player> pl , uint16_t maxGreenCards , uint16_t
     for (auto j = bMap->begin() ; j != bMap->end() ; j++ ) {
 
       if (j->first == "ATTACKER")
-        pushNtimes(pl->getDynastyDeck() , j , ATTACKER , NO_ATTACKING , i );
+        pushNtimes(pl->getDynastyDeck() , j , PersonalityType::ATTACKER , NO_ATTACKING , i );
       else if (j->first == "DEFENDER")
-        pushNtimes(pl->getDynastyDeck() , j , DEFENDER , NO_DEFENSIVE , i );
+        pushNtimes(pl->getDynastyDeck() , j , PersonalityType::DEFENDER , NO_DEFENSIVE , i );
       else if (j->first == "SHOGUN")
-        pushNtimes(pl->getDynastyDeck() , j , SHOGUN , NO_SHOGUN , i );
+        pushNtimes(pl->getDynastyDeck() , j , PersonalityType::SHOGUN , NO_SHOGUN , i );
       else if (j->first == "CHANCELLOR")
-        pushNtimes(pl->getDynastyDeck() , j , CHANCELLOR , NO_CHANCELLOR , i );
+        pushNtimes(pl->getDynastyDeck() , j , PersonalityType::CHANCELLOR , NO_CHANCELLOR , i );
       else if (j->first == "CHAMPION")
-        pushNtimes(pl->getDynastyDeck() , j , CHAMPION , NO_CHAMPION , i );
+        pushNtimes(pl->getDynastyDeck() , j , PersonalityType::CHAMPION , NO_CHAMPION , i );
       else if (j->first == "SOLO")
-        pushNtimes(pl->getDynastyDeck() , j , GIFT_N_FAVOUR , NO_SOLO , i );
+        pushNtimes(pl->getDynastyDeck() , j , HoldingType::GIFT_N_FAVOUR , NO_SOLO , i );
       else if (j->first == "PLAIN")
-        pushNtimes(pl->getDynastyDeck() , j , PLAIN , NO_PLAIN , i );
+        pushNtimes(pl->getDynastyDeck() , j , HoldingType::PLAIN , NO_PLAIN , i );
       else if (j->first == "FARMS")
-        pushNtimes(pl->getDynastyDeck() , j , FARMLAND , NO_FARMS , i );
+        pushNtimes(pl->getDynastyDeck() , j , HoldingType::FARMLAND , NO_FARMS , i );
       else if (j->first == "MINE")
-        pushNtimes(pl->getDynastyDeck() , j , MINE , NO_MINE , i );
+        pushNtimes(pl->getDynastyDeck() , j , HoldingType::MINE , NO_MINE , i );
       else if (j->first == "GOLD_MINE")
-        pushNtimes(pl->getDynastyDeck() , j , GOLD_MINE , NO_GOLD_MINE , i );
+        pushNtimes(pl->getDynastyDeck() , j , HoldingType::GOLD_MINE , NO_GOLD_MINE , i );
       else if (j->first == "CRYSTAL_MINE")
-        pushNtimes(pl->getDynastyDeck() , j , CRYSTAL_MINE , NO_CRYSTAL_MINE , i );
+        pushNtimes(pl->getDynastyDeck() , j , HoldingType::CRYSTAL_MINE , NO_CRYSTAL_MINE , i );
       else if (j->first == "STRONGHOLD") {
         StrongHoldPtr newStrH = std::make_shared<StrongHold>(j->second[0] , j->second[1] , j->first ,j->second[2]);
         pl->setStrongHold(newStrH);
