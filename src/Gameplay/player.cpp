@@ -41,7 +41,7 @@ uint16_t Player::getCurrMoney() const
 
 /* ========================================================================= */
 
-bool Player::makePurchase (uint16_t cost) {
+bool Player::makePurchase (int32_t cost) {
   
   if (cost == 0) return true;
 

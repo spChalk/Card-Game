@@ -86,7 +86,7 @@ public:
   void printProvinces()     const;
   void printStatistics()    const;
 
-  bool makePurchase (uint16_t cost ); // Tap Holdings until you cover the needed cost
+  bool makePurchase (int32_t cost ); // Tap Holdings until you cover the needed cost
     // Returns true if the purchase is successfull
   void cleanup(); // Removes 1) dead personalities from army 2) detached GreenCards
 

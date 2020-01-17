@@ -109,9 +109,12 @@ void Mine::print() const
 
   if (upperHolding)
   {
+    cout << "YES" << endl;
+    #if 0
     printF ("|--  UpperHolding  --" , 0 , CYN); cout << endl;
     upperHolding->print();
     printF ("|-- !UpperHolding! --" , 0 , CYN); cout << endl;
+    #endif
   }
 
   printF ("\\____________________________/" , 1 , RED);
@@ -127,16 +130,22 @@ void GoldMine::print() const
 
   if (upperHolding)
   {
+    cout << "YES" << endl;
+    #if 0
     printF ("|--  UpperHolding  --" , 0 , CYN);
     upperHolding->print();
     printF ("|-- !UpperHolding! --" , 0 , CYN);
+    #endif
   }
 
   if (subHolding)
   {
+    cout << "YES" << endl;
+    #if 0
     printF ("|--  subHolding  --" , 0 , CYN);
     subHolding->print();
     printF ("|-- !subHolding! --" , 0 , CYN);
+    #endif
   }
 
   printF ("\\____________________________/" , 1 , RED);
@@ -151,9 +160,12 @@ void CrystalMine::print() const
 
   if (subHolding)
   {
+    cout << "YES" << endl;
+    #if 0
     printF ("|--  subHolding  --" , 0 , CYN);
     subHolding->print();
     printF ("|-- !subHolding! --" , 0 , CYN);
+    #endif
   }
 
   printF ("\\____________________________/" , 1 , RED);
