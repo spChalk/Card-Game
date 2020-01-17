@@ -11,8 +11,11 @@ using std::endl;
 /* ========================================================================= */
 void Game::economyPhase(PlayerPtr pl) {
 
-  cout << "Economy Phase Started !" << endl;
-  // Reveal Provinces ** if needed **
+  printF ("Economy Phase Started !" , 1 , YEL , FILL);
+  printF ("Press ENTER to continue . . ." , 1);
+  std::cin.clear();
+  std::cin.sync();
+  std::cin.get();
   
   cout << "Player : " << pl->getUserName() 
        << " can now buy Provinces!" << endl;
@@ -42,7 +45,7 @@ appearance, to proceed to purchase. " << endl;
       std::getline(std::cin, answer);
       cout << endl;
 
-      if (answer == "Y")      /* Attempt to make the purchase */
+      if ((answer == "Y")||(answer == "y"))      /* Attempt to make the purchase */
       { 
         if (pl->makePurchase(i->getCard()->getCost()) == true)
         {
@@ -62,6 +65,6 @@ appearance, to proceed to purchase. " << endl;
       }
     }
   }
-  cout << "Economy Phase Ended !" << endl;
+  printF ("Economy Phase Ended !" , 1 , YEL , FILL); 
 }
 /* ========================================================================= */

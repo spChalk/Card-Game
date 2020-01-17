@@ -103,6 +103,10 @@ bool hasntReachedLimit(PersonalityPtr person, GreenCardPtr card)
 void Game::equipmentPhase (PlayerPtr player)
 {
   printF ("Equipment Phase Started !" , 1 , GRN , FILL);
+  printF ("Press ENTER to continue . . ." , 1);
+  std::cin.clear();
+  std::cin.sync();
+  std::cin.get();
 
   printF ("Printing " , 0 , MAG , BOLD); 
   cout << player->getUserName(); 
@@ -125,7 +129,7 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
     std::getline(std::cin, answer);
     cout << endl;
 
-    if (answer != "Y") continue;
+    if ((answer != "Y")||(answer != "y")) continue;
 
     cout << "Printing Cards that are available for purchase in Hand :" << endl;
     for (auto card : *(player->getHand()))
@@ -142,7 +146,7 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
         std::getline(std::cin , answer);
         cout << endl;
 
-        if (answer != "Y") continue;
+        if ((answer != "Y")||(answer != "y")) continue;
 
         player->makePurchase(card->getCost());  /* Make the purchase */
 
@@ -156,7 +160,7 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
         std::getline(std::cin , answer);
         cout << endl;
 
-        if (answer == "Y")          /* Attempt to upgrade the greencard */
+        if ((answer == "Y")||(answer == "y"))          /* Attempt to upgrade the greencard */
           upgradeGreenCard(player, card);
 
         cout << player->getUserName() <<"'s Remaining money: " << player->getCurrMoney() << endl;

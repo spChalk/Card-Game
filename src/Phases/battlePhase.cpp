@@ -103,13 +103,14 @@ int chooseAction(void)
     cout << answer << endl;
 
     if (answer == "ATK" || answer == "DEF") break;
+    if (answer == "atk" || answer == "def") break;
   
     cout << "Wrong input given. Available options are \"ATK\" and \"DEF\". \
 Input given: " << answer << ". Please, try again.\n>Your answer:";
 
   }
 
-  return (answer == "ATK" ? ATTACK : DEFEND);
+  return ((answer == "ATK" || answer == "atk") ? ATTACK : DEFEND);
 }
 /* ========================================================================= */
 
@@ -149,13 +150,17 @@ Your input should be an integer in range [1," << player->getProvincesNum()
 
 void chooseArmy(PlayerPtr player, ArmyPtr battleArmy)
 { // todo: maybe add some better printing if player has no army
-  cout << "Choose Personalities from your army to Battle!" << endl;
+  cout << player->getUserName() << " , time to choose Personalities from your army to Battle!" << endl;
   
   cout << "Printing player's \"" << player->getUserName() << "\" available army!" << endl;
   player->printAvailableArmy();
 
-  cout << "Now, type 'Y' (YES) or '<any other key>' (NO) after each card's \
+  cout << player->getUserName() << " , type 'Y' (YES) or '<any other key>' (NO) after each card's \
 appearance, to recruit the Personality for the Battle!" << endl;
+  printF ("Press ENTER to continue . . ." , 1);
+  std::cin.clear();
+  std::cin.sync();
+  std::cin.get();
 
   for (auto i : *(player->getArmy()))
   {
@@ -167,7 +172,7 @@ appearance, to recruit the Personality for the Battle!" << endl;
     std::getline(std::cin, answer);
     cout << answer << endl;
 
-    if (answer == "Y") battleArmy->push_back(i);
+    if ((answer == "Y") || (answer == "y")) battleArmy->push_back(i);
   }
 }
 
@@ -361,6 +366,10 @@ void battle(ProvincePtr prov)
 void Game::battlePhase(PlayerPtr player)
 {
   printF ("Battle phase begins!" , 1 , RED , FILL);
+  printF ("Press ENTER to continue . . ." , 1);
+  std::cin.clear();
+  std::cin.sync();
+  std::cin.get();
 
   ::player = player;
 

@@ -35,7 +35,7 @@ appearance, to discard it." << endl;
       std::getline(std::cin, answer);
       cout << endl;
 
-      if (answer == "Y")
+      if ((answer == "Y")||(answer == "y"))
       {
         card = pl->getHand()->erase(card);
         cout << "Cards still to discard: " << --numOfCards << endl;
@@ -54,14 +54,18 @@ appearance, to discard it." << endl;
 
 void Game::finalPhase(PlayerPtr pl)
 {
-  cout << "Final Phase Started !" << endl;
+  printF ("Final Phase Started !" , 1 , CYN , FILL);
+  printF ("Press ENTER to continue . . ." , 1);
+  std::cin.clear();
+  std::cin.sync();
+  std::cin.get();
 
   int32_t extraCards = pl->getHand()->size() - MAX_HAND_CARDS;
   
   if (extraCards > 0)
     discardSurplusFateCards(pl , extraCards);
 
-  cout << "Final Phase Ended !" << endl;
+  printF ("Final Phase Ended !" , 1 , CYN , FILL);
 
   printGameStatistics(); /* All Final Phase prints are included here */
 }

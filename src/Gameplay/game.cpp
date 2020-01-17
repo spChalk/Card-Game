@@ -259,6 +259,11 @@ void Game::gameplay(void)
       printF ("Player's \'" , 0 , CYN , BOLD); 
       cout << i->getUserName();
       printF ("\' turn!" , 1 , CYN , BOLD);
+      printF ("Press ENTER to continue . . ." , 1);
+      std::cin.clear();
+      std::cin.sync();
+      std::cin.get();
+
       /* Play all the phases */
       startingPhase(i);
       equipmentPhase(i);
