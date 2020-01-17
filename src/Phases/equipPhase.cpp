@@ -120,7 +120,7 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
   for (auto pers : *(player->getArmy()))
   {                        /* Choose a personality from the army to equip */
     pers->print();
-    cout << "Equip this Personality?\n> Your answer : ";
+    cout << player->getUserName() << " , do you want to equip this Personality?\n> Your answer : ";
     std::string answer;
     std::getline(std::cin, answer);
     cout << endl;

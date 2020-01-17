@@ -92,7 +92,7 @@ PlayerPtr chooseEnemy(PlayerPtr current, PlayerListPtr players)
 
 int chooseAction(void)
 {
-  cout << "Do you want to Attack (ATK) or Defend (DEF)?" << endl;
+  cout << player->getUserName() <<" , do you want to Attack (ATK) or Defend (DEF)?" << endl;
   cout << "> Your answer: " << endl;
 
   std::string answer;
@@ -362,6 +362,8 @@ void Game::battlePhase(PlayerPtr player)
 {
   printF ("Battle phase begins!" , 1 , RED , FILL);
 
+  ::player = player;
+
   int action = chooseAction();
 
   if (action == DEFEND)
@@ -372,7 +374,6 @@ void Game::battlePhase(PlayerPtr player)
     return;
   }
   // action == ATTACK
-  ::player = player;
   enemy = chooseEnemy(player, players);
 
   attName = &player->getUserName();
