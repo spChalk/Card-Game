@@ -13,7 +13,7 @@ OBJS = main.o
 
 include $(MODULES)/make.inc		# Include other Makefiles
 
-$(PROGRAM): clean $(OBJS)
+$(PROGRAM):	 clean $(OBJS)
 	$(CXX) $(OBJS) -o $(PROGRAM)
 
 run: $(PROGRAM)
@@ -23,4 +23,4 @@ check: $(PROGRAM)		# Command to check for memory leaks
 	valgrind --leak-check=full --show-leak-kinds=all ./$(PROGRAM)
 
 clean:
-	rm -f $(PROGRAM) $(OBJS)
+	@rm -f $(PROGRAM) $(OBJS)
