@@ -102,19 +102,24 @@ void Holding::print() const
 
 /* ========================================================================= */
 
+namespace
+{
+  bool printUpper = true;
+  bool printSub = true;
+}
+
 void Mine::print() const
 {
   this->BlackCard::print();
   printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
 
-  if (upperHolding)
+  if (upperHolding && printUpper)
   {
-    cout << "YES" << endl;
-    #if 0
-    printF ("|--  UpperHolding  --" , 0 , CYN); cout << endl;
+    printSub = false;
+    printF ("|--  UpperHolding  --" , 1 , CYN); cout << endl;
     upperHolding->print();
     printF ("|-- !UpperHolding! --" , 0 , CYN); cout << endl;
-    #endif
+    printSub = true;
   }
 
   printF ("\\____________________________/" , 1 , RED);
@@ -128,24 +133,22 @@ void GoldMine::print() const
   this->BlackCard::print();
   printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
 
-  if (upperHolding)
+  if (upperHolding && printUpper)
   {
-    cout << "YES" << endl;
-    #if 0
-    printF ("|--  UpperHolding  --" , 0 , CYN);
+    printSub = false;
+    printF ("|--  UpperHolding  --" , 1 , CYN);
     upperHolding->print();
     printF ("|-- !UpperHolding! --" , 0 , CYN);
-    #endif
+    printSub = true;
   }
 
-  if (subHolding)
+  if (subHolding && printSub)
   {
-    cout << "YES" << endl;
-    #if 0
-    printF ("|--  subHolding  --" , 0 , CYN);
+    printUpper = false;
+    printF ("|--  subHolding  --\n" , 1 , CYN);
     subHolding->print();
-    printF ("|-- !subHolding! --" , 0 , CYN);
-    #endif
+    printF ("|-- !subHolding! --\n" , 0 , CYN);
+    printUpper = true;
   }
 
   printF ("\\____________________________/" , 1 , RED);
@@ -160,12 +163,11 @@ void CrystalMine::print() const
 
   if (subHolding)
   {
-    cout << "YES" << endl;
-    #if 0
-    printF ("|--  subHolding  --" , 0 , CYN);
+    printUpper = false;
+    printF ("|--  subHolding  --" , 1 , CYN);
     subHolding->print();
-    printF ("|-- !subHolding! --" , 0 , CYN);
-    #endif
+    printF ("|-- !subHolding! --" , 1 , CYN);
+    printUpper = true;
   }
 
   printF ("\\____________________________/" , 1 , RED);
