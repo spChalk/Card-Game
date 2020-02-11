@@ -8,7 +8,6 @@
 #include <memory>    /* smart pointers */
 #include <unordered_map>
 #include <vector>
-#include <exception>
 
 #include "basicHeader.hpp"
 #include "blackCards.hpp"    /* enums */
@@ -237,24 +236,24 @@ uint16_t getNumOfPlayers()
 {
   std::string answer;
   int num;
-
   while (true)
   {
     printF("> Give the number of Players about to play the game!" , 1 , MAG , BOLD);
     
     std::getline(std::cin, answer);
     cout << endl;
-
-    try {
-      num = std::stoi(answer);
-    } 
-    catch (std::invalid_argument& ivg) {
-      cout << "> Invalid argument given! (" << num 
-           << "). Please, give a positive integer greater than 1!" 
-           << endl;
-           continue;
+  
+    num = 0;
+    for (auto c : answer)
+    {
+      if (c > '9' || c < '0') {
+        cout << "> Invalid argument given ! \n> Please, give a positive integer greater than 1!" 
+             << endl;
+        num = -1;
+        break;
+      } 
     }
-
+    if (num == 0) num = stoi(answer);
     if (num > 1) break;
   }
 
