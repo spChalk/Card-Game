@@ -16,11 +16,48 @@ void printF (const std::string & s , bool printEndl ,const uint16_t & colour , c
 
 /* ========================================================================= */
 
+namespace
+{
+  /* Booleans for Mine Printing */
+  bool printUpper = true;
+  bool printSub = true;
+
+  /* Function for space printing */
+  void printSpaces (uint16_t spaces) {
+    for (uint16_t i = 0 ; i < spaces ; i++)
+      cout << " ";
+  }
+
+  /* Function for printing card's text */
+  void printCardText (const std::string & ct) {
+    uint32_t counter = 0;
+    for (auto c : ct) {
+      cout << c;
+      counter++;
+      if (counter == 15) { 
+        cout <<" ";
+        printF ("|" , 1 , GRN , BOLD); 
+        printF ("|            " , 0 , GRN , BOLD); 
+        counter = 0;
+      }
+    }
+    printSpaces(16 - counter);
+    printF ("|" , 1 , GRN , BOLD); 
+  }
+}
+
 void Card::print() const
 {
-  printF("| Name: " , 0 , MAG , BOLD); cout << name << endl;
-  printF("| Cost:   " , 0 , MAG , BOLD); cout << cost << endl;
-  printF("| Tapped: " , 0 , MAG , BOLD); cout << (isTapped ? "YES" : "NO") << endl;  
+  printF("| Name: " , 0 , MAG , BOLD); cout << name ;
+  printSpaces(21 - name.length()); /* Print CardSize - NameSize spaces */
+  printF("|" , 1 , MAG , BOLD);
+  printF("| Cost:   " , 0 , MAG , BOLD); cout << cost;
+  if (cost < 10) cout << "                  ";
+  else cout << "                 ";
+  printF("|" , 1 , MAG , BOLD);
+  printF("| Tapped: " , 0 , MAG , BOLD); 
+  cout << (isTapped ? "YES                " : "NO                 ");
+  printF ("|" , 1 , MAG , BOLD);   
 }
 /* ========================================================================= */
 
@@ -28,20 +65,37 @@ void GreenCard::print() const
 {
   printF ("/=======  GREEN CARD  =======\\" , 1 , GRN );
   // [Harry] added the MAG lines cuz greencards dont care about being tapped
-  printF("| Name: " , 0 , MAG , BOLD); cout << name << endl;
-  printF("| Cost:   " , 0 , MAG , BOLD); cout << cost << endl;
-  printF ("| ATK Bonus: " , 0 , GRN , BOLD); cout << attackBonus << endl;
-  printF ("| DEF Bonus: " , 0 , GRN , BOLD); cout << defenceBonus << endl;
-  printF ("| Min Honor: " , 0 , GRN , BOLD); cout << minHonor << endl;
-  printF ("| Effect Bonus: " , 0 , GRN , BOLD); cout << effectBonus << endl;
-  printF ("| Effect Cost: " , 0 , GRN , BOLD); cout <<effectCost  << endl;
+  printF("| Name: " , 0 , MAG , BOLD); cout << name ;
+  printSpaces(21 - name.length()); /* Print CardSize - NameSize spaces */
+  printF("|" , 1 , MAG , BOLD);
+  printF("| Cost:   " , 0 , MAG , BOLD); cout << cost ;
+  printSpaces(18);
+  printF("|" , 1 , MAG , BOLD);
+  printF ("| ATK Bonus: " , 0 , GRN , BOLD); cout << attackBonus;
+  printSpaces(15);
+  printF("|" , 1 , GRN , BOLD);
+  printF ("| DEF Bonus: " , 0 , GRN , BOLD); cout << defenceBonus;
+  printSpaces(15);
+  printF("|" , 1 , GRN , BOLD);
+  printF ("| Min Honor: " , 0 , GRN , BOLD); cout << minHonor;
+  printSpaces(15);
+  printF("|" , 1 , GRN , BOLD);
+  printF ("| Effect Bonus: " , 0 , GRN , BOLD); cout << effectBonus;
+  printSpaces(12);
+  printF("|" , 1 , GRN , BOLD);
+  printF ("| Effect Cost: " , 0 , GRN , BOLD); cout <<effectCost;
+  printSpaces(13);
+  printF("|" , 1 , GRN , BOLD);
 }
 /* ========================================================================= */
 
 void Follower::print() const
 {
   this->GreenCard::print();
-  printF ("| Card Text: " , 0 , GRN , BOLD); cout << cardText << endl;
+  printF ("| Card Text: " , 0 , GRN , BOLD); 
+  
+  printCardText(cardText);
+  
   printF ("\\____________________________/" , 1 , GRN );
   cout << endl;
 }
@@ -50,8 +104,13 @@ void Follower::print() const
 void Item::print() const
 {
   this->GreenCard::print();
-  printF("| Durability: " , 0 , GRN , BOLD); cout << durability << endl;
-  printF ("| Card Text: " , 0 , GRN , BOLD); cout << cardText << endl;
+  printF("| Durability: " , 0 , GRN , BOLD); cout << durability;
+  printSpaces(14);
+  printF("|" , 1 , GRN , BOLD);
+  printF ("| Card Text: " , 0 , GRN , BOLD); 
+  
+  printCardText(cardText);
+  
   printF ("\\____________________________/" , 1 , GRN );
   cout << endl;
 }
@@ -62,7 +121,9 @@ void BlackCard::print() const // TODO: fix color
   printF ("/=======  BLACK CARD  =======\\" , 1 , RED);
   this->Card::print();
 
-  printF ("| Revealed: " , 0 , RED , BOLD); cout << (isRevealed ? "YES" : "NO") << endl;
+  printF ("| Revealed: " , 0 , RED , BOLD); 
+  cout << (isRevealed ? "YES              " : "NO             ");
+  printF ("|" , 1 , RED , BOLD); 
 }
 /* ========================================================================= */
 
@@ -70,20 +131,33 @@ void Personality::print() const
 {
   this->BlackCard::print();
 
-  printF ("| ATK:   " , 0 , RED , BOLD); cout << attack  << endl;
-  printF ("| DEF:   ", 0 , RED , BOLD); cout << defence << endl;
-  printF ("| Honor: " , 0 , RED , BOLD); cout << honor   << endl;
+  printF ("| ATK:   " , 0 , RED , BOLD); cout << attack;
+  printSpaces(19);
+  printF ("|" , 1 , RED , BOLD);
+  printF ("| DEF:   ", 0 , RED , BOLD); cout << defence;
+  if (defence < 10) printSpaces(19); 
+  else printSpaces(18);
+  printF ("|", 1 , RED , BOLD);
+  printF ("| Honor: " , 0 , RED , BOLD); cout << honor;
+  printSpaces(19); 
+  printF ("|" , 1 , RED , BOLD);
 
-  printF ("|--  FOLLOWERS  -- " , 0 , YEL); cout << endl;
+  printF ("|" , 0 , RED , BOLD);
+  printF ("-------  FOLLOWERS  --------" , 0 , YEL);
+  printF ("|" , 1 , RED , BOLD);
   for (auto i : *followers)
     i->print();
-  printF ("|-- !FOLLOWERS! -- " , 0 , YEL); cout << endl;
-
-  printF ("|--  ITEMS  -- " , 0 , YEL); cout << endl;
+  printF ("|" , 0 , RED , BOLD);
+  printF ("------- !FOLLOWERS! --------" , 0 , YEL);
+  printF ("|" , 1 , RED , BOLD);
+  printF ("|" , 0 , RED , BOLD);
+  printF ("---------  ITEMS  ----------" , 0 , YEL);
+  printF ("|" , 1 , RED , BOLD);
   for (auto i : *items)
     i->print();
-  printF ("|-- !ITEMS! -- " , 0 , YEL); cout << endl;
-
+  printF ("|" , 0 , RED , BOLD);
+  printF ("--------- !ITEMS! ----------" , 0 , YEL);
+  printF ("|" , 1 , RED , BOLD);
   printF ("\\____________________________/" , 1 , RED); 
   cout << endl;
 }
@@ -94,7 +168,8 @@ void Holding::print() const
 {
   this->BlackCard::print();
 
-  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue <<"           ";
+  printF("|" , 1 , RED , BOLD);
 
   printF ("\\____________________________/" , 1 , RED);
   cout << endl; 
@@ -102,16 +177,12 @@ void Holding::print() const
 
 /* ========================================================================= */
 
-namespace
-{
-  bool printUpper = true;
-  bool printSub = true;
-}
-
 void Mine::print() const
 {
   this->BlackCard::print();
-  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue;
+  printSpaces(11);
+  printF("|" , 1 , RED , BOLD);
 
   if (upperHolding && printUpper)
   {
@@ -131,7 +202,9 @@ void Mine::print() const
 void GoldMine::print() const
 {
   this->BlackCard::print();
-  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue;
+  printSpaces(11);
+  printF("|" , 1 , RED , BOLD);
 
   if (upperHolding && printUpper)
   {
@@ -159,7 +232,9 @@ void GoldMine::print() const
 void CrystalMine::print() const
 {
   this->BlackCard::print();
-  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue;
+  printSpaces(11);
+  printF("|" , 1 , RED , BOLD);
 
   if (subHolding)
   {
@@ -178,10 +253,16 @@ void CrystalMine::print() const
 void StrongHold::print() const
 {
   this->BlackCard::print();
-  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue << endl;
+  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue;
+  printSpaces(11);
+  printF("|" , 1 , RED , BOLD);
 
-  printF("| Starting Honor: " , 0 , RED , BOLD); cout << initHonor << endl;
-  printF("| Starting DEF  :" , 0 , RED , BOLD); cout << initDefence << endl;  
+  printF("| Starting Honor: " , 0 , RED , BOLD); cout << initHonor;
+  printSpaces(10);
+  printF("|" , 1 , RED , BOLD);
+  printF("| Starting DEF  : " , 0 , RED , BOLD); cout << initDefence;
+  printSpaces(10);  
+  printF("|" , 1 , RED , BOLD);
 
   printF ("\\____________________________/" , 1 , RED);
   cout << endl;
