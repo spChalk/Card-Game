@@ -1,4 +1,3 @@
-// TODO: make it clean [Poso pio clean :p]
 #ifndef CARDS_0
 #define CARDS_0
 

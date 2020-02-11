@@ -9,7 +9,7 @@ class Province;
 /* ================================================================= */
 class Province
 {
-  bool isBroken; // init as false
+  bool isBroken; /* Initialize as false */
 
   BlackCardPtr card;
 
@@ -86,9 +86,10 @@ public:
   void printProvinces()     const;
   void printStatistics()    const;
 
-  bool makePurchase (int32_t cost ); // Tap Holdings until you cover the needed cost
-    // Returns true if the purchase is successfull
-  void cleanup(); // Removes 1) dead personalities from army 2) detached GreenCards
+  bool makePurchase (int32_t cost ); /* Tap Holdings until you cover the required cost */
+    /* Returns true if the purchase is successfull */
+  void cleanup(); /* Removes 1) Dead personalities from army 
+                             2) Detached GreenCards */
 
   BlackCardPtr drawBlackCard (void);
   GreenCardPtr drawFateCard (void);

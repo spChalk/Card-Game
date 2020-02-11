@@ -26,14 +26,14 @@ Player::Player(const std::string & userName )
 /* ========================================================================= */
 uint16_t Player::getCurrMoney() const
 {
-  HoldingListPtr holdings = this->getHoldings();
+  HoldingListPtr holdings = this->getHoldings();  /* Check player's holdings */
 
   uint16_t total = 0;
 
-  if (this->getStrongHold()->checkTapped() == false)
+  if (this->getStrongHold()->checkTapped() == false)  /* Get StrongHold's Value */
     total += this->getStrongHold()->getHarvestValue();
 
-  for (auto i : *holdings)
+  for (auto i : *holdings)                            /* Gather the money from all the untapped holdings */    
     if (i->checkTapped() == false) total += i->getHarvestValue();
 
   return total;
@@ -46,7 +46,7 @@ bool Player::makePurchase (int32_t cost) {
   if (cost == 0) return true;
 
   if (getCurrMoney() < cost)
-    return false;     // If the required cost is more than player's budget , exit 
+    return false;      /* If the required cost is more than player's budget , exit */
     
   // Main part
   if (getStrongHold()->checkTapped() == false)
@@ -75,7 +75,7 @@ void Player::cleanup()
       it = army->erase(it);
     else
     {
-      (*it)->cleanup(); // erase detached greenCards
+      (*it)->cleanup(); /* Erase detached greenCards */
       ++it;
     }
   }
@@ -83,7 +83,7 @@ void Player::cleanup()
 
 /* ========================================================================= */
 
-BlackCardPtr Player::drawBlackCard(void) { // TODO : assert if empty
+BlackCardPtr Player::drawBlackCard(void) {
   BlackCardPtr tmp = dynastyDeck->front();
   dynastyDeck->pop_front();
   return tmp;
@@ -91,7 +91,7 @@ BlackCardPtr Player::drawBlackCard(void) { // TODO : assert if empty
 
 /* ========================================================================= */
 
-GreenCardPtr Player::drawFateCard(void) { // TODO : assert if empty
+GreenCardPtr Player::drawFateCard(void) {
   GreenCardPtr tmp = fateDeck->front();
   fateDeck->pop_front();
   return tmp;
