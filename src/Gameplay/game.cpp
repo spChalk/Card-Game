@@ -8,6 +8,7 @@
 #include <memory>    /* smart pointers */
 #include <unordered_map>
 #include <vector>
+#include <exception>
 
 #include "basicHeader.hpp"
 #include "blackCards.hpp"    /* enums */
@@ -180,12 +181,27 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
   std::srand(1); // TODO: Change it before finalisation // set as 1 to recreate bugs
 
   for (uint16_t i = 0 ; i < numPlayers ; i++) {  /* For every player */
-
+    
+    std::string username;
+    while (1) {
+    bool retry = false;
     printF ("> Give username for player " , 0 , BLU , BOLD);
     cout << i+1 ;
     printF ("!\nUsername: " , 0 , BLU , BOLD);
-    std::string username;
     std::getline(std::cin, username);
+
+    for (auto i : *players) {
+      if (i->getUserName() == username) {
+          cout << "UserName : " << username 
+          << " already exists. Please insert a different one."
+          << endl;
+          retry = true;
+          break;
+        }
+      }
+      if (retry == true) continue; else break;
+    }
+
     cout << endl;
           /* Make player */
     PlayerPtr newPl = std::make_shared< Player >(username);
@@ -224,17 +240,21 @@ uint16_t getNumOfPlayers()
 
   while (true)
   {
-    cout << "> Give the number of Players about to play the game!" << endl;
+    printF("> Give the number of Players about to play the game!" , 1 , MAG , BOLD);
     
     std::getline(std::cin, answer);
     cout << endl;
 
-    num = std::stoi(answer);
+    try {
+      num = std::stoi(answer);
+    } 
+    catch (std::invalid_argument& ivg) {
+      cout << "> Invalid argument given! (" << num 
+           << "). Please, give a positive integer greater than 1!" 
+           << endl;
+    }
 
     if (num > 1) break;
-  
-    cout << "> Invalid number given! (" << num 
-         << "). Please, give a positive integer greater than 1!" << endl;
   }
 
   return num;
