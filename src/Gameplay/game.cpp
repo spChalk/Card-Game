@@ -252,6 +252,7 @@ uint16_t getNumOfPlayers()
       cout << "> Invalid argument given! (" << num 
            << "). Please, give a positive integer greater than 1!" 
            << endl;
+           continue;
     }
 
     if (num > 1) break;
