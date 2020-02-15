@@ -18,19 +18,22 @@ void discardSurplusFateCards (PlayerPtr pl , uint16_t numOfCards)
 {
   while (numOfCards > 0)
   {
-    cout << "Player : " << pl->getUserName() << " has to discard "
-         << numOfCards << " Fate Cards from their hand!" << endl;
+    printF ("Player : " , 0 , MAG , BOLD);
+    cout << pl->getUserName();
+    printF (" has to discard " , 0 , MAG , BOLD);
+    cout << numOfCards;
+    printF (" Fate Cards from their hand!" , 1 , MAG , BOLD);
 
-    cout << "\nPrinting hand!" << endl;
+    printF ("\nPrinting hand!" , 1 , MAG);
     pl->printHand();
   
-    cout << "\nType 'Y' (YES) or '<any other key>' (NO) after each card's \
-appearance, to discard it." << endl;
+    printF ("\nType 'Y' (YES) or '<any other key>' (NO) after each card's \
+appearance, to discard it." , 1 , MAG , BOLD);
 
     for (auto card = pl->getHand()->begin(); card != pl->getHand()->end(); )
     {
       (*card)->print();
-      cout << "\nDiscard?\n> Your answer: ";
+      printF ("\nDiscard?\n> Your answer: " , 0 , MAG , BOLD);
       std::string answer;
       std::getline(std::cin, answer);
       cout << endl;
@@ -38,7 +41,8 @@ appearance, to discard it." << endl;
       if ((answer == "Y")||(answer == "y"))
       {
         card = pl->getHand()->erase(card);
-        cout << "Cards still to discard: " << --numOfCards << endl;
+        printF ("Cards still to discard: " , 0 , MAG , BOLD);
+        cout << --numOfCards << endl;
       }
       else
         ++card;
