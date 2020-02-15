@@ -186,7 +186,7 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
     bool retry = false;
     printF ("> Give username for player " , 0 , MAG , BOLD);
     cout << i+1 ;
-    printF ("!\nUsername: " , 0 , BLU , BOLD);
+    printF ("!\nUsername: " , 0 , MAG , BOLD);
     std::getline(std::cin, username);
 
     for (auto i : *players) {
