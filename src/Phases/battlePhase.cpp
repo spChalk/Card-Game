@@ -110,6 +110,7 @@ int chooseAction(void)
     printF ("Wrong input given. Available options are \"ATK\" and \"DEF\".\n  Input given: " , 0 , MAG , BOLD);
     cout << answer;
     printF (". Please, try again.\n> Your answer:" , 0 , BLU , BOLD);
+    
   }
 
   return ((answer == "ATK" || answer == "atk") ? ATTACK : DEFEND);
