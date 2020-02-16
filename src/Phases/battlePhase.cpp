@@ -50,7 +50,7 @@ void provincesCleanup(PlayerPtr);
 
 PlayerPtr chooseEnemy(PlayerPtr current, PlayerListPtr players)
 {
-  cout << "Choose an enemy! Available enemies are:" << endl;
+  printF("Choose an enemy! Available enemies are:" , 1 , RED , BOLD);
 
   PlayerPtr enemy;
   for (int status = WRONG_INPUT; status != CORRECT_INPUT; )
@@ -62,7 +62,7 @@ PlayerPtr chooseEnemy(PlayerPtr current, PlayerListPtr players)
       if (i->getProvincesNum() != 0)    //if player still in the game
         cout << i->getUserName() << endl;
     }
-    cout << "> Your pick: ";
+    printF("> Your pick: " , 0 , RED , BOLD);
 
     std::string enemyName;
     std::getline(std::cin, enemyName);
@@ -80,9 +80,10 @@ PlayerPtr chooseEnemy(PlayerPtr current, PlayerListPtr players)
       }
     }
 
-    if (status == WRONG_INPUT)
-      cout << "Wrong enemy chosen. Please, try again. (Your choice: \'" 
-           << enemyName << "\' )" << endl; 
+    if (status == WRONG_INPUT) {
+      printF("Wrong enemy chosen. Please, try again. (Your choice: \'" , 0 , MAG , BOLD); 
+      cout << enemyName << "\' )" << endl;
+    } 
   }
 
   return enemy;
@@ -92,8 +93,9 @@ PlayerPtr chooseEnemy(PlayerPtr current, PlayerListPtr players)
 
 int chooseAction(void)
 {
-  cout << player->getUserName() << " , do you want to Attack (ATK) or \
-Defend (DEF)?\n> Your answer: " << endl;
+  cout << player->getUserName();
+  printF(" , do you want to Attack (ATK) or Defend (DEF)?" , 1 , RED , BOLD);
+  printF("> Your answer: " , 1 , BLU , BOLD);
 
   std::string answer;
 
@@ -102,12 +104,12 @@ Defend (DEF)?\n> Your answer: " << endl;
     std::getline(std::cin, answer);
     cout << answer << endl;
 
-    if (answer == "ATK" || answer == "DEF" || answer == "atk" || answer == "def")
-      break;
-
-    cout << "Wrong input given. Available options are \"ATK\" and \"DEF\". \
-Input given: " << answer << ". Please, try again.\n>Your answer:";
-
+    if (answer == "ATK" || answer == "DEF") break;
+    if (answer == "atk" || answer == "def") break;
+  
+    printF ("Wrong input given. Available options are \"ATK\" and \"DEF\".\n  Input given: " , 0 , MAG , BOLD);
+    cout << answer;
+    printF (". Please, try again.\n> Your answer:" , 0 , BLU , BOLD);
   }
 
   return ((answer == "ATK" || answer == "atk") ? ATTACK : DEFEND);
