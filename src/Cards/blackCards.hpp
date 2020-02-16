@@ -82,9 +82,9 @@ public:
   ItemListPtr     getItems()     const { return items; }
   PersonalityType getPersonalityType() const { return type; }
 
-  void die() { isDead = true; }  // this is nice [Spiros : Vgalta opote niwseis etoimos :D ]
+  void die() { isDead = true; }
   
-  void kys() { isDead = true; }  // this is nicer
+  void kys() { isDead = true; }  /* Kill YourSelf, Personality commits suicide */
   
   void decreaseHonor() { --honor; }
 

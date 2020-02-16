@@ -3,7 +3,7 @@
 #define BASIC_HEADER_0
 
 /* Standard headers */
-#include <cstdint> // uint16_t
+#include <cstdint> // int types
 #include <deque>
 #include <list>
 #include <memory>  // smart pointers
@@ -68,7 +68,7 @@ typedef std::shared_ptr < std::list <FollowerPtr> > FollowerListPtr;
  
 #include "templateFunction.hpp"
 
-// Colours
+/* Colours */
 #define BLK  30
 #define RED  31
 #define GRN  32
@@ -78,7 +78,7 @@ typedef std::shared_ptr < std::list <FollowerPtr> > FollowerListPtr;
 #define CYN  36
 #define WHT  37
 
-// Styles
+/* Styles */
 #define BOLD  1 
 #define ITLC  3
 #define FILL  7

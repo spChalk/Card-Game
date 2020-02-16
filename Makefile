@@ -19,7 +19,7 @@ $(PROGRAM):	 clean $(OBJS)
 run: $(PROGRAM)
 	./$(PROGRAM)
 
-check: $(PROGRAM)		# Command to check for memory leaks
+check: $(PROGRAM)		# Check for memory leaks
 	valgrind --leak-check=full --show-leak-kinds=all ./$(PROGRAM)
 
 clean:

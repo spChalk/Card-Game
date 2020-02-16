@@ -4,7 +4,7 @@
 
 int main()
 {
-  Game cardGame;   /* Start and play new game */
+  Game cardGame;   /* Start and play a new game */
   
   return 0;
 }

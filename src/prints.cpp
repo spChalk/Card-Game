@@ -9,7 +9,7 @@ using std::endl;
 
 /* ========================================================================= */
 
-//  Write formatted output to stdout (args : colour & style)
+/*  Write formatted output to stdout (args : colour & style) */
 void printF (const std::string & s , bool printEndl ,const uint16_t & colour , const uint16_t & format ) {
   std::cout << "\x1B[" << format << ";" << colour << "m" << s << "\x1B[0m" << (printEndl ? "\n" : "");
 }
@@ -64,7 +64,6 @@ void Card::print() const
 void GreenCard::print() const
 {
   printF ("/=======  GREEN CARD  =======\\" , 1 , GRN );
-  // [Harry] added the MAG lines cuz greencards dont care about being tapped
   printF("| Name: " , 0 , MAG , BOLD); cout << name ;
   printSpaces(21 - name.length()); /* Print CardSize - NameSize spaces */
   printF("|" , 1 , MAG , BOLD);
@@ -116,7 +115,7 @@ void Item::print() const
 }
 /* ========================================================================= */
 
-void BlackCard::print() const // TODO: fix color
+void BlackCard::print() const
 {
   printF ("/=======  BLACK CARD  =======\\" , 1 , RED);
   this->Card::print();
@@ -290,7 +289,6 @@ void Player::print() const
   printF ("| Active Provinces: " , 0 , BLU , BOLD); 
   cout << activeProvinces << endl;
 
-  //probz shouldnt do that here // printHand();
   printF ("|-----  HOLDINGS  -----" , 1 , MAG);
   printHoldings();
   printF ("|----- !HOLDINGS! -----" , 1 , MAG); cout << endl;
@@ -360,7 +358,7 @@ void Player::printStatistics() const
   cout << getUserName() << endl << endl;
   printF("/=======||   BEGINNING OF STATS   ||=======\\" , 1 , MAG , BOLD);
   cout << endl; printF("Honor: " , 0 , YEL , UNDR); 
-  cout << honor << endl; // might remove this
+  cout << honor << endl;
   cout << endl; printF("Active provinces: " , 0 , YEL , UNDR);
   cout << activeProvinces << endl;
 
@@ -392,9 +390,13 @@ void Player::printStatistics() const
 
 void Game::printGameStatistics() const
 {
+  static uint32_t roundCnt = 0;
+
   printF ("Printing global game statistics!" , 1 , MAG , UNDR);
   printF("=========||  BEGINNING OF GLOBAL STATS  ||=========" , 1 , MAG , FILL);
-  // could also print the current round
+  printF("Current round: " , 0 , YEL );
+  cout << ++roundCnt << endl;
+
   for (auto i : *players)
     i->printStatistics();
 

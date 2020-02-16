@@ -1,5 +1,5 @@
 /* game.cpp */
-// TODO: set srand on line: 178 with std::time(0)
+// TODO : set srand on line: 178 with std::time(0)
 #include <algorithm> /* std::random_shuffle */
 #include <cctype>    /* isdigit */
 #include <ctime>     /* std::time */
@@ -280,7 +280,6 @@ uint16_t getNumOfPlayers()
 /* Plays the game. Terminates only when there's a winner */
 void Game::gameplay(void)
 {
-  //std::sort(players->begin(), players->end(), playerCompare); // sort by honor // too lazy to PQ it
   players->sort(playerCompare);
 
   uint16_t win = 0;
@@ -308,7 +307,7 @@ void Game::gameplay(void)
       economyPhase(i);
       finalPhase(i);
 
-      // TODO:(maybe) Remove that when ready!
+      // TODO :(maybe) Remove that when ready!
       std::string answer;
       cout << "Do you want to quit the game? Type 'Q' if YES or \
 <any other key> if NO\n> Your answer: ";
@@ -329,7 +328,7 @@ void Game::gameplay(void)
       break;
     }
   }
-  //PlayerPtr winner = players->at(win-1);
+
   cout << "Player \'" << winner->getUserName() 
             << "\' just won the game!" << endl;
 }

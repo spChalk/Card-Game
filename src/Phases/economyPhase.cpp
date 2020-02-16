@@ -1,4 +1,4 @@
-/* economyPhase.cpp */ //COMMENTS = OK
+/* economyPhase.cpp */
 
 #include <iostream>
 #include <string>

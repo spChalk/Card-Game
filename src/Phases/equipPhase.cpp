@@ -1,4 +1,4 @@
-/* equipPhase.cpp */ // COMMENTS = OK
+/* equipPhase.cpp */
 #include <iostream>
 #include <string>
 

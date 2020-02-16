@@ -1,4 +1,4 @@
-/* finalPhase.cpp */ // COMMENTS = OK
+/* finalPhase.cpp */
 #include <iostream>
 #include <string>
 
