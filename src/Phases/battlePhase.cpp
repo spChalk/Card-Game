@@ -104,17 +104,17 @@ int chooseAction(void)
     std::getline(std::cin, answer);
     cout << answer << endl;
 
-    if (answer == "ATK" || answer == "DEF") break;
-    if (answer == "atk" || answer == "def") break;
+    if (answer == "ATK" || answer == "DEF" || answer == "atk" || answer == "def")
+      break;
   
     printF ("Wrong input given. Available options are \"ATK\" and \"DEF\".\n  Input given: " , 0 , MAG , BOLD);
     cout << answer;
     printF (". Please, try again.\n> Your answer:" , 0 , BLU , BOLD);
-
   }
 
   return ((answer == "ATK" || answer == "atk") ? ATTACK : DEFEND);
 }
+
 /* ========================================================================= */
 
 ProvincePtr chooseProvince(PlayerPtr player)
@@ -123,7 +123,7 @@ ProvincePtr chooseProvince(PlayerPtr player)
   player->printProvinces();
 
   std::string answer;
-  uint16_t prov;
+  int32_t prov;
 
   while (true)
   {
@@ -136,6 +136,11 @@ ProvincePtr chooseProvince(PlayerPtr player)
     cout << answer << endl;
 
     prov = std::stoi(answer);
+
+    for (auto c : answer)     /* Validate the input given by the user */
+      if (c > '9' || c < '0')
+        prov = -1;
+
     if (prov > 0 && prov <= player->getProvincesNum()) 
       break;
   

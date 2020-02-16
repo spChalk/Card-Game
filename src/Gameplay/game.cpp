@@ -183,22 +183,25 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
     
     std::string username;
     while (1) {
-    bool retry = false;
-    printF ("> Give username for player " , 0 , MAG , BOLD);
-    cout << i+1 ;
-    printF ("!\nUsername: " , 0 , MAG , BOLD);
-    std::getline(std::cin, username);
+      bool retry = false;
+      printF ("> Give username for player " , 0 , MAG , BOLD);
+      cout << i+1 ;
+      printF ("!\nUsername: " , 0 , MAG , BOLD);
+      std::getline(std::cin, username);
 
-    for (auto i : *players) {
-      if (i->getUserName() == username) {
+      for (auto i : *players) {
+        if (i->getUserName() == username) {
           cout << "UserName : " << username 
-          << " already exists. Please insert a different one."
-          << endl;
+               << " already exists. Please insert a different one."
+               << endl;
           retry = true;
           break;
         }
       }
-      if (retry == true) continue; else break;
+
+      if (retry) 
+        continue;
+      break;
     }
 
     cout << endl;
@@ -253,7 +256,7 @@ uint16_t getNumOfPlayers()
         break;
       } 
     }
-    if (num == 0) num = stoi(answer);
+    if (num == 0) num = std::stoi(answer);
     if (num > 1) break;
   }
 
