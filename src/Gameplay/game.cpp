@@ -240,22 +240,21 @@ int32_t stoiWrapper(const std::string& str, int32_t* p_value, std::size_t* pos =
 {
   try {
     *p_value = std::stoi(str, pos, base);
+
+    for (auto c : str)
+      if (c < '0' || c > '9')
+        throw -666;
+
     return 0;
   }
-  catch (const std::invalid_argument& ia){
+  catch (...) {
     return -1;
-  }
-  catch (const std::out_of_range& oor){
-    return -2;
-  }
-  catch (const std::exception& e){
-    return -3;
   }
 }
 
 uint16_t getNumOfPlayers()
 {
-  int32_t *res = nullptr;
+  int32_t *res = new int32_t;
   std::string answer;
 
   do {
@@ -265,10 +264,13 @@ uint16_t getNumOfPlayers()
     std::getline(std::cin, answer);
     cout << endl;
   
-  } while (stoiWrapper(answer, res) < 0 
+  } while ((stoiWrapper(answer, res) != 0 || *res < 2)
         && printf("> Invalid argument given! Please, give a positive integer greater than 1!\n"));
 
-  return *res;
+  uint16_t num = *res;
+  delete res;
+
+  return num;
 }
 
 }; // namespace_end
