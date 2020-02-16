@@ -1,8 +1,8 @@
 /* battlePhase.cpp */
 
 #include <iostream>
-#include <string>
 #include <list>
+#include <string>
 
 #include "basicHeader.hpp"
 
@@ -92,8 +92,8 @@ PlayerPtr chooseEnemy(PlayerPtr current, PlayerListPtr players)
 
 int chooseAction(void)
 {
-  cout << player->getUserName() <<" , do you want to Attack (ATK) or Defend (DEF)?" << endl;
-  cout << "> Your answer: " << endl;
+  cout << player->getUserName() << " , do you want to Attack (ATK) or \
+Defend (DEF)?\n> Your answer: " << endl;
 
   std::string answer;
 
@@ -102,9 +102,9 @@ int chooseAction(void)
     std::getline(std::cin, answer);
     cout << answer << endl;
 
-    if (answer == "ATK" || answer == "DEF") break;
-    if (answer == "atk" || answer == "def") break;
-  
+    if (answer == "ATK" || answer == "DEF" || answer == "atk" || answer == "def")
+      break;
+
     cout << "Wrong input given. Available options are \"ATK\" and \"DEF\". \
 Input given: " << answer << ". Please, try again.\n>Your answer:";
 
@@ -132,7 +132,8 @@ Your input should be an integer in range [1," << player->getProvincesNum()
     cout << answer << endl;
 
     prov = std::stoi(answer);
-    if (prov > 0 && prov <= player->getProvincesNum()) break;
+    if (prov > 0 && prov <= player->getProvincesNum()) 
+      break;
   
     cout << "Wrong input given. Please, try again." << endl;
   }
@@ -172,7 +173,8 @@ appearance, to recruit the Personality for the Battle!" << endl;
     std::getline(std::cin, answer);
     cout << answer << endl;
 
-    if ((answer == "Y") || (answer == "y")) battleArmy->push_back(i);
+    if ((answer == "Y") || (answer == "y")) 
+      battleArmy->push_back(i);
   }
 }
 
