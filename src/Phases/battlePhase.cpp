@@ -122,6 +122,24 @@ int chooseAction(void)      /* Choose whether to Attack of Defend */
 
 /* ========================================================================= */
 
+/* Wrap std::stoi because it may throw an exception */
+int32_t stoiWrapper(const std::string& str, int32_t* p_value, std::size_t* pos = 0, int base = 10)
+{
+  try {
+    *p_value = std::stoi(str, pos, base);
+    return 0;
+  }
+  catch (const std::invalid_argument& ia){
+    return -1;
+  }
+  catch (const std::out_of_range& oor){
+    return -2;
+  }
+  catch (const std::exception& e){
+    return -3;
+  }
+}
+
 /* Pick a province to Attack */
 ProvincePtr chooseProvince(PlayerPtr player)
 {
@@ -138,21 +156,22 @@ ProvincePtr chooseProvince(PlayerPtr player)
     cout << "[1," << player->getProvincesNum() << "]."; 
     printF ("\n> Choose province number: " , 0 , MAG , BOLD );
     
-    std::getline(std::cin, answer);
-    cout << answer << endl;
+    int32_t *res = nullptr;
+    do {        /* stoi exception handling */
 
-    prov = std::stoi(answer);
+      std::getline(std::cin, answer);
+      cout << endl;
+  
+    } while (stoiWrapper(answer, res) < 0 
+          && printf("> Invalid argument given! Please, give an integer!\n"));
 
-    for (auto c : answer)     /* Validate the input given by the user */
-      if (c > '9' || c < '0')
-        prov = -1;
-
+    prov = *res;
     if (prov > 0 && prov <= player->getProvincesNum()) 
       break;
   
-    printF ("Wrong input given. Please, try again." , 1 , MAG , BOLD);
+    printF ("> Wrong input given. Please, try again." , 1 , MAG , BOLD);
   }
-  
+
   uint16_t counter = 0;
   for (auto i : *(player->getProvinces()))
   {
@@ -160,7 +179,7 @@ ProvincePtr chooseProvince(PlayerPtr player)
       continue;
     
     if (++counter == prov) 
-      return i;    /* Found the province to attack */
+      return i;     /* Found the province to attack */
   }
 
   return nullptr;   /* Control will not reach here */

@@ -235,32 +235,40 @@ bool playerCompare(PlayerPtr p1, PlayerPtr p2) {  /* Make sure this is descendin
 
 /* ========================================================================= */
 
+/* Wrap std::stoi because it may throw an exception */
+int32_t stoiWrapper(const std::string& str, int32_t* p_value, std::size_t* pos = 0, int base = 10)
+{
+  try {
+    *p_value = std::stoi(str, pos, base);
+    return 0;
+  }
+  catch (const std::invalid_argument& ia){
+    return -1;
+  }
+  catch (const std::out_of_range& oor){
+    return -2;
+  }
+  catch (const std::exception& e){
+    return -3;
+  }
+}
+
 uint16_t getNumOfPlayers()
 {
+  int32_t *res = nullptr;
   std::string answer;
-  int num;
-  while (true)
-  {
+
+  do {
+
     printF("> Give the number of Players who are about to play the game!" , 1 , MAG , BOLD);
-    
+
     std::getline(std::cin, answer);
     cout << endl;
   
-    num = 0;
-    for (auto c : answer)
-    {
-      if (c > '9' || c < '0') {
-        cout << "> Invalid argument given ! \n> Please, give a positive integer greater than 1!" 
-             << endl;
-        num = -1;
-        break;
-      } 
-    }
-    if (num == 0) num = std::stoi(answer);
-    if (num > 1) break;
-  }
+  } while (stoiWrapper(answer, res) < 0 
+        && printf("> Invalid argument given! Please, give a positive integer greater than 1!\n"));
 
-  return num;
+  return *res;
 }
 
 }; // namespace_end
