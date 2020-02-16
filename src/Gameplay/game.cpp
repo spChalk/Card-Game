@@ -1,5 +1,5 @@
 /* game.cpp */
-// TODO : set srand on line: 178 with std::time(0)
+
 #include <algorithm> /* std::random_shuffle */
 #include <cctype>    /* isdigit */
 #include <ctime>     /* std::time */
@@ -177,7 +177,7 @@ void Game::initGameBoard(PlayerListPtr players , uint16_t numPlayers ) {
   cardtxt = &file;
   cardTxtVecPtr = std::make_shared < std::vector< std::string >>(DECK_SIZE);
 
-  std::srand(1); // TODO: Change it before finalisation // set as 1 to recreate bugs
+  std::srand(time(0));
 
   for (uint16_t i = 0 ; i < numPlayers ; i++) {  /* For every player */
     
@@ -277,14 +277,16 @@ uint16_t getNumOfPlayers()
 
 /* ========================================================================= */
 
-/* Plays the game. Terminates only when there's a winner */
+/* Plays the game. Terminates normally if there's a winner or *
+ * if the user decides so, before the actual end of the game. *
+ */
 void Game::gameplay(void)
 {
   players->sort(playerCompare);
 
   uint16_t win = 0;
 
-  while(win == 0) /* While no winner is found */
+  while(win == 0)       /* While no winner is found */
   {
     for (auto i : *players)
     {
@@ -301,25 +303,25 @@ void Game::gameplay(void)
       equipmentPhase(i);
       battlePhase(i);
 
-      if ((win = checkWinningCondition()) != 0) /* We have a winner */
+      if ((win = checkWinningCondition()) != 0)   /* We have a winner */
         break;
 
       economyPhase(i);
       finalPhase(i);
 
-      // TODO :(maybe) Remove that when ready!
       std::string answer;
       cout << "Do you want to quit the game? Type 'Q' if YES or \
 <any other key> if NO\n> Your answer: ";
       std::getline(std::cin , answer);
-      cout << answer << endl;
+      cout << answer << endl;     /* Normal termination of the game */
 
-      if ((answer == "Q")||(answer == "q")) return;
+      if (answer == "Q" || answer == "q")
+        return;
     }
   }
-  /* Get Winner */
+
   PlayerPtr winner;
-  for (auto i : *players)
+  for (auto i : *players)   /* Get Winner */
   {
     --win;
     if (win == 0)
