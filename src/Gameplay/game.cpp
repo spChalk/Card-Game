@@ -314,7 +314,7 @@ void Game::gameplay(void)
       std::getline(std::cin , answer);
       cout << answer << endl;
 
-      if (answer == "Q") return;
+      if ((answer == "Q")||(answer == "q")) return;
     }
   }
   /* Get Winner */
