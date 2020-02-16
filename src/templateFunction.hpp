@@ -3,7 +3,7 @@
 // D stands for Deck's Cards. D can be GreenCard or BlackCard
 // E stands for Enum. 
 template <class D , typename E>
-// Pushes <total> times , <D type> objects in the given <deck>
+// Pushes <total> times , <E type> objects in the given <deck>
 void pushNtimes(std::shared_ptr < std::deque< std::shared_ptr < D > > > deck , 
   std::unordered_map<std::string , std::vector<uint16_t> >::iterator j ,const E type ,
   const uint16_t & total , uint16_t & times  , const uint16_t & max_per_pers = 0,

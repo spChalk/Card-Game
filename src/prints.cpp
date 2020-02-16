@@ -357,8 +357,8 @@ void Player::printStatistics() const
 {
   cout << endl;
   printF("Printing statistics for player: " , 0 , YEL , UNDR); 
-  cout << getUserName() << endl;
-  printF("=======||   BEGINNING OF STATS  ||=======" , 1 , MAG , BOLD);
+  cout << getUserName() << endl << endl;
+  printF("/=======||   BEGINNING OF STATS   ||=======\\" , 1 , MAG , BOLD);
   cout << endl; printF("Honor: " , 0 , YEL , UNDR); 
   cout << honor << endl; // might remove this
   cout << endl; printF("Active provinces: " , 0 , YEL , UNDR);
@@ -366,7 +366,7 @@ void Player::printStatistics() const
 
   if (activeProvinces == 0)
   {
-    printF("=======||  END OF STATS  ||=======" , 1 , MAG , BOLD);
+    printF("\\=======||  END OF STATS  ||=======/" , 1 , MAG , BOLD);
     cout << endl; printF("Player: " , 0 , WHT ,BOLD); 
     cout << getUserName();
     printF ( " is out of the game!" , 0 , WHT , BOLD); 
@@ -385,7 +385,7 @@ void Player::printStatistics() const
   printArmy();
   cout << endl; printF("Printing holdings: " , 1 , YEL , UNDR);
   printHoldings();
-  printF("=======||  END OF STATS  ||=======" , 1 , MAG ,BOLD);
+  printF("\\=======||  END OF STATS  ||=======/" , 1 , MAG ,BOLD);
 }
 
 /* ========================================================================= */

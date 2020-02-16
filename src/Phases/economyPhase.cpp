@@ -17,14 +17,17 @@ void Game::economyPhase(PlayerPtr pl) {
   std::cin.sync();
   std::cin.get();
   
-  cout << "Player : " << pl->getUserName() 
-       << " can now buy Provinces!" << endl;
+  printF ("Player : "  , 0 , MAG , BOLD);
+  cout << pl->getUserName(); 
+  printF (" can now buy Provinces!" , 1 , MAG , BOLD);
 
-  cout << "Printing " << pl->getUserName() << "'s Provinces : " << endl;
+  printF ("Printing " , 0 , MAG);
+  cout << pl->getUserName();
+  printF ("'s Provinces : " , 1 , MAG);
   pl->printProvinces();
   
-  cout << "Type 'Y' (YES) or '<any other key>' (NO) after each card's \
-appearance, to proceed to purchase. " << endl;
+  printF ("Type 'Y' (YES) or '<any other key>' (NO) after each card's \
+appearance, to proceed to purchase. " , 1 , MAG , BOLD);
 
   /* Buy provinces */
   for (auto i : *(pl->getProvinces()))     /* For every province */
@@ -37,10 +40,15 @@ appearance, to proceed to purchase. " << endl;
       }
       else if (pl->getCurrMoney() < i->getCard()->getCost()) 
       continue; 
-      else  cout << pl->getUserName() <<"'s Current balance: " << pl->getCurrMoney() << endl;
+      else  {
+        cout << pl->getUserName();
+        printF ("'s Current balance: " , 0 , YEL , BOLD);
+        cout << pl->getCurrMoney() << endl;
+      }
 
       i->print();                     /* If it is revealed and not broken */
-      cout << endl << pl->getUserName() <<" , do you want to proceed to purchase ?\n> Your answer: " ;
+      cout << endl << pl->getUserName();
+      printF (" , do you want to proceed to purchase ?\n> Your answer: " , 0 , YEL , BOLD);
       std::string answer;
       std::getline(std::cin, answer);
       cout << endl;
@@ -49,19 +57,21 @@ appearance, to proceed to purchase. " << endl;
       { 
         if (pl->makePurchase(i->getCard()->getCost()) == true)
         {
-          cout << "Purchase Completed ! " << endl;
+          printF ("Purchase Completed ! " , 1 , YEL , BOLD);
          
           i->getCard()->setTapped();      /* Can't be used for this round */
           i->getCard()->attachToPlayer(pl);
 
           if (pl->getDynastyDeck()->empty() == false)
             i->setCard( pl->drawBlackCard() );  /* Replace the card bought */
-          else
-            cout << "Dynasty deck is empty! No more Black Cards for player \'"
-                 << pl->getUserName() << "\' !" << endl;
+          else {
+            printF ("Dynasty deck is empty! No more Black Cards for player \'" , 0 , MAG , BOLD);
+            cout << pl->getUserName();
+            printF ("\' !" , 1 , MAG , BOLD);
+          }
         } 
         else 
-          cout << "You don't have enough money to buy this province!" << endl;
+          printF ("You don't have enough money to buy this province!" , 1 , MAG , BOLD);
       }
     }
   }

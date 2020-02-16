@@ -119,7 +119,7 @@ int chooseAction(void)
 
 ProvincePtr chooseProvince(PlayerPtr player)
 {
-  cout << "Choose a province to attack! Available provinces are:" << endl;
+  printF ("Choose a province to attack! Available provinces are:" , 1 , RED , BOLD);
   player->printProvinces();
 
   std::string answer;
@@ -127,9 +127,10 @@ ProvincePtr chooseProvince(PlayerPtr player)
 
   while (true)
   {
-    cout << "Make your selection based in the order of appearance. \
-Your input should be an integer in range [1," << player->getProvincesNum() 
-         << "].\n> Choose province number: ";
+    printF ("Make your selection based in the order of appearance. \n \
+    Your input should be an integer in range " , 0 , MAG , BOLD);
+    cout << "[1," << player->getProvincesNum() << "]."; 
+    printF ("\n> Choose province number: " , 0 , MAG , BOLD );
     
     std::getline(std::cin, answer);
     cout << answer << endl;
@@ -138,7 +139,7 @@ Your input should be an integer in range [1," << player->getProvincesNum()
     if (prov > 0 && prov <= player->getProvincesNum()) 
       break;
   
-    cout << "Wrong input given. Please, try again." << endl;
+    printF ("Wrong input given. Please, try again." , 1 , MAG , BOLD);
   }
   
   uint16_t counter = 0;
@@ -154,13 +155,17 @@ Your input should be an integer in range [1," << player->getProvincesNum()
 
 void chooseArmy(PlayerPtr player, ArmyPtr battleArmy)
 { // todo: maybe add some better printing if player has no army
-  cout << player->getUserName() << " , time to choose Personalities from your army to Battle!" << endl;
+  cout << player->getUserName();
+  printF (" , time to choose Personalities from your army to Battle!" , 1 , RED , BOLD);
   
-  cout << "Printing player's \"" << player->getUserName() << "\" available army!" << endl;
+  printF ("Printing player's \"" , 0 , MAG , BOLD);
+  cout << player->getUserName();
+  printF ("\" available army!" , 1 , MAG , BOLD);
   player->printAvailableArmy();
 
-  cout << player->getUserName() << " , type 'Y' (YES) or '<any other key>' (NO) after each card's \
-appearance, to recruit the Personality for the Battle!" << endl;
+  cout << player->getUserName();
+  printF (" , type 'Y' (YES) or '<any other key>' (NO) after each card's \
+appearance, to recruit the Personality for the Battle!" , 1 , MAG , BOLD);
   printF ("Press ENTER to continue . . ." , 1);
   std::cin.clear();
   std::cin.sync();
@@ -171,7 +176,8 @@ appearance, to recruit the Personality for the Battle!" << endl;
     if (i->checkTapped() == true) continue;
 
     i->print();
-    cout << "\nRecruit?\n >Your answer: ";
+    printF ("\nRecruit? ", 1 , RED , BOLD);
+    printF ("> Your answer: " , 0 , BLU , BOLD);
     std::string answer;
     std::getline(std::cin, answer);
     cout << answer << endl;
@@ -225,23 +231,29 @@ int32_t calcTotalDEF(ArmyPtr battleArmy)
 
 void provinceDestroyed(ProvincePtr prov)
 {
-  cout << "Attacker " << *attName << " demolishes " << *defName 
-       << " \'s defence!" << endl;
+  printF ("Attacker " , 0 , RED , BOLD);
+  cout << *attName;
+  printF (" demolishes " , 0 , RED , BOLD);
+  cout << *defName; 
+  printF (" \'s defence!" , 1 , RED , BOLD);
 
   for (auto i : *defArmy) i->die(); // todo: cleanup dead from their lists
-  cout << "Defender's army is destroyed." << endl;
+  printF ("Defender's army is destroyed." , 1 , RED , BOLD);
 
   prov->setBroken();
   enemy->decreaseProvinceNum();
-  cout << "Province destroyed. Remaining provinces for player \'" 
-       << *defName << "\' : " << enemy->getProvincesNum() << endl;
+  printF ("Province destroyed. Remaining provinces for player \'" , 0 , RED , BOLD); 
+  cout << *defName ;
+  printF ("\' : " , 0 , RED , BOLD) ;
+  cout << enemy->getProvincesNum() << endl;
 
   provincesCleanup(enemy);
 
   if (enemy->getProvincesNum() == 0)
   {
-    cout << ">Player \'" << *defName 
-         << "\' is out of the game! Better luck next time. =) " << endl;
+    printF (">Player \'" , 0 , MAG , BOLD);
+    cout << *defName; 
+    printF ("\' is out of the game! Better luck next time. =)" , 1 , MAG , BOLD);
   }
 
   for (auto i : *attArmy) i->setTapped(); // Tap attackers so they can't be used again for the round
@@ -265,8 +277,11 @@ void provincesCleanup(PlayerPtr player)
 
 void draw()
 {
-  cout << "Battle between \'" << *attName << "\' and \'" 
-       << *defName << " ends as a draw! Both armies are destroyed!" << endl;
+  printF ("Battle between \'" , 0 , RED , BOLD);
+  cout << *attName;
+  printF ("\' and \'" , 0 , RED , BOLD); 
+  cout << *defName;
+  printF (" ends as a draw! Both armies are destroyed!" , 1 , RED , BOLD);
 
   for (auto i : *attArmy) i->die();
   for (auto i : *defArmy) i->die();  
@@ -314,26 +329,32 @@ void verifyCasualties(ArmyPtr battleArmy, int side)
 
 void attackerWins()
 {
-  cout << "Attacker " << *attName << " destroys " << *defName 
-       << " \'s army, but is unable to break the province!" << endl;
+  printF ("Attacker " , 0 , RED , BOLD);
+  cout << *attName;
+  printF (" destroys " , 0 , RED , BOLD);
+  cout << *defName; 
+  printF (" \'s army, but is unable to break the province!" , 1 , RED , BOLD);
 
   for (auto i : *defArmy) i->die(); // todo: cleanup dead from their lists
-  cout << "Defender's army is destroyed." << endl;
+  printF ("Defender's army is destroyed." , 1 , RED , BOLD);
 
-  cout << "Attacker's army has experienced heavy casualties." << endl; 
+  printF ("Attacker's army has experienced heavy casualties." , 1 , RED , BOLD); 
   verifyCasualties(attArmy, ATTACK);
 }
 /* ========================================================================= */
 
 void defenderWins()
 {
-  cout << "Defender " << *defName << "holds his ground against " << *attName 
-       << " \'s army!" << endl;
+  printF ("Defender " , 0 , RED , BOLD);
+  cout << *defName;
+  printF ("holds his ground against " , 1 , RED , BOLD);
+  cout << *attName; 
+  printF (" \'s army!" , 1 , RED , BOLD);
 
   for (auto i : *attArmy) i->die(); // todo: cleanup dead from their lists
-  cout << "Attacker's army is destroyed." << endl;
+  printF ("Attacker's army is destroyed." , 1 , RED , BOLD);
 
-  cout << "Defender's army has experienced heavy casualties." << endl; 
+  printF ("Defender's army has experienced heavy casualties." , 1 , RED , BOLD); 
   verifyCasualties(attArmy, DEFEND);
 }
 /* ========================================================================= */
@@ -343,8 +364,10 @@ void battle(ProvincePtr prov)
   int32_t attPoints = calcTotalATK(attArmy);
   int32_t defPoints = calcTotalDEF(defArmy);// + enemy->getStrongHold()->getInitDEF(); // todo: verify @lists
 
-  cout << "Attacker's ARMY strength is: " << attPoints << endl;
-  cout << "Defender's ARMY strength is: " << defPoints << endl;
+  printF ("Attacker's ARMY strength is: " , 1 , MAG , BOLD);
+  cout << attPoints << endl;
+  printF ("Defender's ARMY strength is: " , 1 , MAG , BOLD);
+  cout << defPoints << endl;
 
   ptsDiff = attPoints - defPoints;
 
