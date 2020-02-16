@@ -1,4 +1,4 @@
-/* startingPhase.cpp */ // COMMENTS = OK
+/* startingPhase.cpp */
 #include <iostream>
 
 #include "basicHeader.hpp"
