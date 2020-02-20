@@ -131,14 +131,16 @@ void Personality::print() const
   this->BlackCard::print();
 
   printF ("| ATK:   " , 0 , RED , BOLD); cout << attack;
-  printSpaces(19);
+  if (attack < 10) printSpaces(19); 
+  else printSpaces(18);
   printF ("|" , 1 , RED , BOLD);
   printF ("| DEF:   ", 0 , RED , BOLD); cout << defence;
   if (defence < 10) printSpaces(19); 
   else printSpaces(18);
   printF ("|", 1 , RED , BOLD);
   printF ("| Honor: " , 0 , RED , BOLD); cout << honor;
-  printSpaces(19); 
+  if (honor < 10) printSpaces(19); 
+  else printSpaces(18);
   printF ("|" , 1 , RED , BOLD);
 
   printF ("|" , 0 , RED , BOLD);

@@ -129,7 +129,7 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
     std::getline(std::cin, answer);
     cout << endl;
 
-    if ((answer != "Y")||(answer != "y")) continue;
+    if ((answer != "Y")&&(answer != "y")) continue;
 
     cout << "Printing Cards that are available for purchase in Hand :" << endl;
     for (auto card : *(player->getHand()))
@@ -146,11 +146,12 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
         std::getline(std::cin , answer);
         cout << endl;
 
-        if ((answer != "Y")||(answer != "y")) continue;
+        if ((answer != "Y")&&(answer != "y")) continue;
 
         player->makePurchase(card->getCost());  /* Make the purchase */
 
         card->attachToPersonality(pers);
+        // TODO : Remove entry from player's hand
         cout << "Purchase Completed ! " << endl;
     
         if (player->getCurrMoney() < card->getEffectCost()) continue;
