@@ -22,14 +22,18 @@ void upgradeGreenCard(PlayerPtr player, GreenCardPtr card)
   if (player->makePurchase(card->getEffectCost()) == true)  // Successful 
   {                                                         // Purchase
     card->upgrade();
-    cout << "The selected GreenCard has been upgraded!\nNew stats:" << endl;
+    printF ("The selected GreenCard has been upgraded!\nNew stats:" , 1 , GRN , BOLD);
     card->print();
-    cout << "Current amount of money: " << player->getCurrMoney() << endl;
+    printF ("Current amount of money: " , 0 , YEL , BOLD);
+    cout << player->getCurrMoney() << endl;
   }
-  else
-    cout << "Not enough money to make the purchase.\nCurrent money: "
-         << player->getCurrMoney() << "\nEffect cost: " 
-         << card->getEffectCost()  << endl;
+  else {
+    printF ("Not enough money to make the purchase." , 1 , GRN , BOLD);
+    printF ("Current money: " , 0 , YEL , BOLD);
+    cout << player->getCurrMoney();
+    printF ("\nEffect cost: " , 0 ,GRN , BOLD); 
+    cout << card->getEffectCost()  << endl;
+  }
 }
 /* ========================================================================= */
 /* Check whether a player has enough money to cover a greencard's cost */
@@ -119,19 +123,21 @@ void Game::equipmentPhase (PlayerPtr player)
   player->printHand();
 
   printF ("Type 'Y' (YES) or '<any other key>' (NO) after each card's \
-appearance if you want to enhance the personality's attributes!" , 1 , WHT );
+appearance if you want to enhance the personality's attributes!" , 1 , MAG , BOLD);
 
   for (auto pers : *(player->getArmy()))
   {                        /* Choose a personality from the army to equip */
     pers->print();
-    cout << player->getUserName() << " , do you want to equip this Personality?\n> Your answer : ";
+    cout << player->getUserName();
+    printF (" , do you want to equip this Personality?" , 1 , GRN , BOLD);
+    printF ("> Your answer : " , 0 , MAG , BOLD);
     std::string answer;
     std::getline(std::cin, answer);
     cout << endl;
 
     if ((answer != "Y")&&(answer != "y")) continue;
 
-    cout << "Printing Cards that are available for purchase in Hand :" << endl;
+    printF ("Printing Cards that are available for purchase in Hand :" , 1 , MAG , BOLD);
     
     for (auto it = player->getHand()->begin() ; it != player->getHand()->end() ; )
     {                      /* Choose a greencard from the hand to equip */
@@ -143,9 +149,13 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
         && hasntReachedLimit(pers, card))
       {
         card->print();
-        cout << player->getUserName() <<"'s Current balance: " << player->getCurrMoney() << endl;
+        cout << player->getUserName();
+        printF ("'s Current balance: " , 0 ,YEL , BOLD);
+        cout << player->getCurrMoney() << endl;
 
-        cout << endl <<"Proceed to purchase?\n> Your answer: ";
+        cout << endl;
+        printF ("Proceed to purchase?", 1 , YEL , BOLD);
+        printF ("> Your answer : " , 0 , MAG , BOLD);
         std::getline(std::cin , answer);
         cout << endl;
 
@@ -155,19 +165,23 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
 
         card->attachToPersonality(pers);
         
-        cout << "Purchase Completed ! " << endl;
+        printF ("Purchase Completed ! " , 1 , YEL , BOLD);
     
         if (player->getCurrMoney() < card->getEffectCost()) { it++; continue; }
         
-        cout << "Current balance: " << player->getCurrMoney() << endl;
-        cout << "Do you also want to upgrade this card ?\n> Your answer: ";
+        printF ("Current balance: " , 0 , YEL , BOLD);
+        cout << player->getCurrMoney() << endl;
+        printF ("Do you also want to upgrade this card ?" , 1 , GRN , BOLD);
+        printF ("> Your answer : " , 0 , MAG , BOLD);
         std::getline(std::cin , answer);
         cout << endl;
 
         if ((answer == "Y")||(answer == "y"))          /* Attempt to upgrade the greencard */
           upgradeGreenCard(player, card);
 
-        cout << player->getUserName() <<"'s Remaining money: " << player->getCurrMoney() << endl;
+        cout << player->getUserName();
+        printF ("'s Remaining money: " , 0 , YEL , BOLD);
+        cout << player->getCurrMoney() << endl;
 
         cout << player->getHand()->size() << endl << endl << endl;
         /* Remove Card from player's hand */
