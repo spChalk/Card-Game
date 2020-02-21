@@ -132,9 +132,12 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
     if ((answer != "Y")&&(answer != "y")) continue;
 
     cout << "Printing Cards that are available for purchase in Hand :" << endl;
-    for (auto card : *(player->getHand()))
+    
+    for (auto it = player->getHand()->begin() ; it != player->getHand()->end() ; )
     {                      /* Choose a greencard from the hand to equip */
       /* Check if a purchase can be made considering specific limitations */
+      GreenCardPtr & card  = *it;
+      cout << "Yut";
       if ( hasEnoughMoney(player, card) 
         && hasEnoughHonor(pers, card)
         && hasntReachedLimit(pers, card))
@@ -146,15 +149,15 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
         std::getline(std::cin , answer);
         cout << endl;
 
-        if ((answer != "Y")&&(answer != "y")) continue;
+        if ((answer != "Y")&&(answer != "y")) { it++; continue; }
 
         player->makePurchase(card->getCost());  /* Make the purchase */
 
         card->attachToPersonality(pers);
-        // TODO : Remove entry from player's hand
+        
         cout << "Purchase Completed ! " << endl;
     
-        if (player->getCurrMoney() < card->getEffectCost()) continue;
+        if (player->getCurrMoney() < card->getEffectCost()) { it++; continue; }
         
         cout << "Current balance: " << player->getCurrMoney() << endl;
         cout << "Do you also want to upgrade this card ?\n> Your answer: ";
@@ -165,7 +168,14 @@ appearance if you want to enhance the personality's attributes!" , 1 , WHT );
           upgradeGreenCard(player, card);
 
         cout << player->getUserName() <<"'s Remaining money: " << player->getCurrMoney() << endl;
+
+        cout << player->getHand()->size() << endl << endl << endl;
+        /* Remove Card from player's hand */
+        it = player->getHand()->erase(it);
+        cout << player->getHand()->size() << endl << endl << endl;
+        continue;
       }
+      it++;
     }
   }
   printF ("Equipment Phase Ended !" , 1 , GRN , FILL);
