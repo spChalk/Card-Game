@@ -47,6 +47,7 @@ Follower::Follower(const std::string & name ,     const uint16_t & cost ,
 : GreenCard(name , cost , attackBonus , defenceBonus , minHonor , cardText , effectBonus , effectCost , maxPerPerson, GreenCardType::FOLLOWER), 
   type(type) {}
 
+
 void Follower::attachToPersonality (PersonalityPtr pers) {
   pers->getFollowers()->push_back(std::make_shared<Follower>(*this));
 }

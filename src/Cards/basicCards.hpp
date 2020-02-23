@@ -2,8 +2,6 @@
 #define CARDS_0
 
 class Card;
-class GreenCard;
-class BlackCard;
 
 #include "basicHeader.hpp"
 

@@ -2,6 +2,7 @@
 #ifndef GREENCARDS_0
 #define GREENCARDS_0
 
+class GreenCard;
 class Follower;
 class Item;
 

@@ -34,13 +34,15 @@ appearance, to proceed to purchase. " , 1 , MAG , BOLD);
   {
     if (i->checkBroken() == false && i->getCard()->checkRevealed() == true)
     {
-      if (pl->getCurrMoney() == 0) {
+      if (pl->getCurrMoney() == 0)
+      {
         cout << "No money left !" << endl;
         return;
       }
       else if (pl->getCurrMoney() < i->getCard()->getCost()) 
-      continue; 
-      else  {
+        continue; 
+      else 
+      {
         cout << pl->getUserName();
         printF ("'s Current balance: " , 0 , YEL , BOLD);
         cout << pl->getCurrMoney() << endl;
@@ -64,7 +66,8 @@ appearance, to proceed to purchase. " , 1 , MAG , BOLD);
 
           if (pl->getDynastyDeck()->empty() == false)
             i->setCard( pl->drawBlackCard() );  /* Replace the card bought */
-          else {
+          else
+          {
             printF ("Dynasty deck is empty! No more Black Cards for player \'" , 0 , MAG , BOLD);
             cout << pl->getUserName();
             printF ("\' !" , 1 , MAG , BOLD);

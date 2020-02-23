@@ -143,7 +143,6 @@ appearance if you want to enhance the personality's attributes!" , 1 , MAG , BOL
     {                      /* Choose a greencard from the hand to equip */
       /* Check if a purchase can be made considering specific limitations */
       GreenCardPtr & card  = *it;
-      cout << "Yut";
       if ( hasEnoughMoney(player, card) 
         && hasEnoughHonor(pers, card)
         && hasntReachedLimit(pers, card))
@@ -183,10 +182,8 @@ appearance if you want to enhance the personality's attributes!" , 1 , MAG , BOL
         printF ("'s Remaining money: " , 0 , YEL , BOLD);
         cout << player->getCurrMoney() << endl;
 
-        cout << player->getHand()->size() << endl << endl << endl;
         /* Remove Card from player's hand */
         it = player->getHand()->erase(it);
-        cout << player->getHand()->size() << endl << endl << endl;
         continue;
       }
       it++;

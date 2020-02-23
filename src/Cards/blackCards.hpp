@@ -2,6 +2,7 @@
 #ifndef BLACKCARDS_0
 #define BLACKCARDS_0
 
+class BlackCard;
 class Personality;
 class Holding;
 class Mine;
