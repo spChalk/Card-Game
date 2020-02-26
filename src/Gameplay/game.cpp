@@ -331,8 +331,9 @@ void Game::gameplay(void)
     }
   }
 
-  cout << "Player \'" << winner->getUserName() 
-            << "\' just won the game!" << endl;
+  printF("Player \'" , 0 , YEL , BOLD);
+  cout << winner->getUserName(); 
+  printF("\' just won the game!" , 1 , YEL , BOLD);
 }
 
 /* ========================================================================= */

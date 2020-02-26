@@ -169,7 +169,11 @@ void Holding::print() const
 {
   this->BlackCard::print();
 
-  printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue <<"           ";
+  if (harvestValue < 10)
+    printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue <<"           ";
+  else
+    printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue <<"          ";    
+
   printF("|" , 1 , RED , BOLD);
 
   printF ("\\____________________________/" , 1 , RED);
@@ -190,7 +194,7 @@ void Mine::print() const
     printSub = false;
     printF ("|--  UpperHolding  --" , 1 , CYN); cout << endl;
     upperHolding->print();
-    printF ("|-- !UpperHolding! --" , 0 , CYN); cout << endl;
+    printF ("|-- !UpperHolding! --" , 1 , CYN); cout << endl;
     printSub = true;
   }
 
@@ -212,7 +216,7 @@ void GoldMine::print() const
     printSub = false;
     printF ("|--  UpperHolding  --" , 1 , CYN);
     upperHolding->print();
-    printF ("|-- !UpperHolding! --" , 0 , CYN);
+    printF ("|-- !UpperHolding! --" , 1 , CYN);
     printSub = true;
   }
 
@@ -221,7 +225,7 @@ void GoldMine::print() const
     printUpper = false;
     printF ("|--  subHolding  --\n" , 1 , CYN);
     subHolding->print();
-    printF ("|-- !subHolding! --\n" , 0 , CYN);
+    printF ("|-- !subHolding! --\n" , 1 , CYN);
     printUpper = true;
   }
 
