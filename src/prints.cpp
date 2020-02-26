@@ -170,9 +170,15 @@ void Holding::print() const
   this->BlackCard::print();
 
   if (harvestValue < 10)
-    printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue <<"           ";
+  {
+    printF("| Harvest value: " , 0 , RED , BOLD);
+    cout << harvestValue <<"           ";
+  }
   else
-    printF("| Harvest value: " , 0 , RED , BOLD); cout << harvestValue <<"          ";    
+  {
+    printF("| Harvest value: " , 0 , RED , BOLD);
+    cout << harvestValue <<"          ";    
+  }
 
   printF("|" , 1 , RED , BOLD);
 
