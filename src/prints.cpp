@@ -59,6 +59,7 @@ void Card::print() const
   cout << (isTapped ? "YES                " : "NO                 ");
   printF ("|" , 1 , MAG , BOLD);   
 }
+
 /* ========================================================================= */
 
 void GreenCard::print() const
@@ -86,6 +87,7 @@ void GreenCard::print() const
   printSpaces(13);
   printF("|" , 1 , GRN , BOLD);
 }
+
 /* ========================================================================= */
 
 void Follower::print() const
@@ -98,6 +100,7 @@ void Follower::print() const
   printF ("\\____________________________/" , 1 , GRN );
   cout << endl;
 }
+
 /* ========================================================================= */
 
 void Item::print() const
@@ -113,6 +116,7 @@ void Item::print() const
   printF ("\\____________________________/" , 1 , GRN );
   cout << endl;
 }
+
 /* ========================================================================= */
 
 void BlackCard::print() const
@@ -124,6 +128,7 @@ void BlackCard::print() const
   cout << (isRevealed ? "YES              " : "NO             ");
   printF ("|" , 1 , RED , BOLD); 
 }
+
 /* ========================================================================= */
 
 void Personality::print() const
